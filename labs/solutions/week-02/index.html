@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Submit a student event to Campus Hub.">
+    <title>Campus Hub - Submit an event</title>
+  </head>
+  <body>
+    <a href="#main-content">Skip to event form</a>
+    <header>
+      <p><a href="/">Campus Hub</a></p>
+      <nav aria-label="Primary navigation">
+        <ul>
+          <li><a href="/events" aria-current="page">Events</a></li>
+          <li><a href="/communities">Communities</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <h1>Submit a campus event</h1>
+      <p>Required fields are marked in their labels.</p>
+
+      <form action="/events" method="post">
+        <p>
+          <label for="event-title">Event title (required)</label>
+          <input id="event-title" name="title" type="text" maxlength="120" required>
+        </p>
+
+        <p>
+          <label for="organizer-email">Organizer email (required)</label>
+          <input id="organizer-email" name="organizerEmail" type="email" autocomplete="email" required>
+        </p>
+
+        <p>
+          <label for="event-date">Event date (required)</label>
+          <input id="event-date" name="date" type="date" required>
+        </p>
+
+        <p>
+          <label for="start-time">Start time (required)</label>
+          <input id="start-time" name="startTime" type="time" required>
+        </p>
+
+        <p>
+          <label for="capacity">Capacity (required)</label>
+          <input id="capacity" name="capacity" type="number" min="1" max="300" required>
+        </p>
+
+        <fieldset>
+          <legend>Event format (required)</legend>
+          <label><input type="radio" name="format" value="campus" required> On campus</label>
+          <label><input type="radio" name="format" value="online"> Online</label>
+          <label><input type="radio" name="format" value="hybrid"> Hybrid</label>
+        </fieldset>
+
+        <p>
+          <label for="description">Description</label>
+          <textarea id="description" name="description" rows="6" maxlength="1000" aria-describedby="description-help"></textarea>
+          <span id="description-help">Describe the audience, location, and accessibility arrangements. Do not include private student data.</span>
+        </p>
+
+        <button type="submit">Submit event</button>
+      </form>
+    </main>
+
+    <footer>
+      <p>Campus Hub is a fictional student learning project.</p>
+    </footer>
+  </body>
+</html>
