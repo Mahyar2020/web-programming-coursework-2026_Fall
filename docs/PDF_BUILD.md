@@ -30,7 +30,7 @@ npm run pdf:verify
 The final artifact is written to:
 
 ```text
-output/pdf/web-programming-from-platform-to-production-foundations-edition-revised-v10.pdf
+output/pdf/web-programming-from-platform-to-production-foundations-edition-revised-v13.pdf
 ```
 
 Intermediate rendered pages used for visual review belong in `tmp/pdfs/` and are

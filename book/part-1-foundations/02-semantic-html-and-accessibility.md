@@ -14,7 +14,7 @@ evidence for this session.
 | Item | Plan |
 |---|---|
 | Audience | Students who completed Session 1; no prior accessibility experience is assumed |
-| Preparation | Review elements, attributes, nesting, Uniform Resource Locators (URLs), and the Document Object Model (DOM) |
+| Preparation | Complete the workstation orientation; this session repeats the edit-save-serve-reload workflow before introducing HTML concepts |
 | Contact time | Approximately 3 hours lecture/workshop plus a 2-hour laboratory |
 | Independent work | Approximately 3 hours |
 | Main artifact | An accessible event-submission page for Campus Hub |
@@ -24,26 +24,199 @@ evidence for this session.
 
 After this session, you should be able to:
 
-1. distinguish an element, tag, attribute, content, void element, Boolean
+1. locate the Campus Hub HTML source, edit and save it in a code editor, serve
+   the correct directory, and verify the rendered output in a browser;
+2. distinguish an element, tag, attribute, content, void element, Boolean
    attribute, and character reference in conforming HTML syntax;
-2. explain why HTML communicates meaning rather than merely arranging boxes;
-3. establish document language, direction, title, encoding, description, and
+3. explain why HTML communicates meaning rather than merely arranging boxes;
+4. establish document language, direction, title, encoding, description, and
    viewport metadata;
-4. choose headings and landmark elements from the document's information
+5. choose headings and landmark elements from the document's information
    structure;
-5. write useful text, links, images, lists, tables, dates, and media alternatives;
-6. construct a form whose controls have names, labels, descriptions, groups, and
+6. write useful text, links, images, lists, tables, dates, and media alternatives;
+7. construct a form whose controls have names, labels, descriptions, groups, and
    appropriate native types;
-7. predict which controls and values a form will submit with `get` or `post`,
+8. predict which controls and values a form will submit with `get` or `post`,
    including the encoding required for a file upload;
-8. distinguish native browser constraint validation from complete application
+9. distinguish native browser constraint validation from complete application
    validation;
-9. design labels, instructions, error summaries, and field-level errors that
+10. design labels, instructions, error summaries, and field-level errors that
    support recovery;
-10. describe how source HTML contributes to the DOM and accessibility tree;
-11. operate and inspect a page using only a keyboard; and
-12. combine conformance, automated, keyboard, zoom, assistive-technology, and
+11. describe how source HTML contributes to the DOM and accessibility tree;
+12. operate and inspect a page using only a keyboard; and
+13. combine conformance, automated, keyboard, zoom, assistive-technology, and
     user evidence when evaluating accessibility.
+
+## Before the concepts: find, edit, and view Campus Hub
+
+HTML does not require a special visual design program. An HTML document is a
+plain-text file whose name normally ends in `.html`. You write the source in a
+text editor, save the file, and ask a browser to load it. The browser reads the
+markup and produces the visible page. The editor and browser therefore show two
+views of the same work: the editor shows instructions; the browser shows the
+result of interpreting those instructions.
+
+### Find the correct Campus Hub file
+
+The repository contains several Campus Hub files because each has a different
+teaching purpose:
+
+- `labs/solutions/week-01/index.html` is the completed, unstyled page used in the
+  workstation orientation. It proves that the local server and browser work.
+- `labs/starters/week-02/index.html` is the file students edit during Session 2.
+  It already contains the outer document and the heading **Submit a campus
+  event**, but its comments mark work that has not yet been completed.
+- `labs/solutions/week-02/index.html` is the completed reference answer. Read it
+  after attempting the laboratory or when an instructor asks you to compare a
+  particular decision. Do not accidentally edit it while believing that you are
+  changing the starter.
+
+The repeated filename `index.html` is intentional. Web servers commonly treat
+`index.html` as the default document for a directory. The folders distinguish
+the files. A tab that says only `index.html` is not enough evidence; read its
+folder path in the Explorer panel or editor breadcrumb.
+
+The PDF you are reading is not the website source. Editing the PDF cannot change
+the Campus Hub page. The source to edit in this session is:
+
+```text
+web-programming-course-book
+  labs
+    starters
+      week-02
+        index.html       <- edit this file
+```
+
+### Use a plain-text code editor
+
+Any plain-text editor can write HTML, including Notepad, but this course uses
+Visual Studio Code (VS Code) because it shows folders, line numbers, syntax
+coloring, an integrated terminal, and useful error indicators. Do not use a word
+processor such as Microsoft Word: a word processor can add formatting data that
+is not HTML source.
+
+The tools have distinct jobs:
+
+- **VS Code Explorer** shows the repository's folders and files.
+- **VS Code editor** is where you type and save HTML source.
+- **Terminal** runs the local server and other development commands.
+- **Browser** requests the saved file and renders the page.
+- **Browser developer tools** reveal the request, parsed Document Object Model
+  (DOM), accessibility information, and other evidence.
+
+Open the project and the correct file step by step:
+
+1. Start VS Code.
+2. Choose **File > Open Folder**.
+3. Select the outer `web-programming-course-book` folder, the one containing
+   `package.json`, `book`, `labs`, and `scripts`.
+4. In the Explorer panel, expand `labs`, then `starters`, then `week-02`.
+5. Select `index.html`. Confirm that the breadcrumb or path includes
+   `labs > starters > week-02 > index.html`.
+6. If the editor shows a preview rather than editable text, right-click the file,
+   choose **Open With**, and select **Text Editor**.
+
+### Make one visible change and save it
+
+Find this heading in the starter:
+
+```html
+<h1>Submit a campus event</h1>
+```
+
+On the next line, add a paragraph:
+
+```html
+<p>This page is being edited in Visual Studio Code.</p>
+```
+
+The opening tag `<p>` begins a paragraph, the sentence is its text content, and
+the closing tag `</p>` ends it. Indent the paragraph to the same level as the
+nearby heading because both are children of `main`. Indentation helps people read
+the source; the tags establish the actual structure.
+
+Press `Ctrl+S` on Windows or Linux, or `Command+S` on macOS. The small unsaved
+indicator on the editor tab should disappear. Saving writes the change to disk;
+it does not automatically reload every browser.
+
+### Start the local server and open the browser output
+
+Open **Terminal > New Terminal** in VS Code. The prompt must be at the repository
+root. On Windows Command Prompt, verify the location with:
+
+```text
+dir package.json
+npm run serve:week02:starter
+```
+
+On PowerShell, `Get-Item package.json` provides the same proof. On macOS or Linux,
+use `ls -l package.json` before the npm command. A successful server prints lines
+with this meaning:
+
+```text
+Serving ...\labs\starters\week-02
+Open http://localhost:8000/
+Press Ctrl+C to stop.
+```
+
+Leave that terminal running. It is now the server terminal and will not display
+a new prompt until the server stops. Open a browser, put the following plain
+address in the address bar, and press Enter:
+
+```text
+http://localhost:8000/
+```
+
+Do not type the address into the terminal. In the browser, the starter should
+show **Submit a campus event** and the paragraph you added. The page looks plain
+because Session 2 intentionally uses no Cascading Style Sheets (CSS). Plain
+presentation is not a failure; it lets you inspect the HTML structure before
+styling is introduced.
+
+Each time you change the source, repeat this short cycle:
+
+1. edit `labs/starters/week-02/index.html` in VS Code;
+2. save the file;
+3. return to the browser; and
+4. reload with `Ctrl+R`, `F5`, or the browser's reload button.
+
+Figure 2.1 shows the complete path. The arrows represent steps used together,
+not alternative programs: VS Code saves the file, the Node.js server reads it
+when the browser sends an HTTP request, and the browser parses and renders the
+response.
+
+<!-- figure:html-edit-preview-workflow -->
+
+The supplied server does not provide automatic live reload. If the old page
+remains visible, first confirm that the editor tab is saved, then reload the
+browser. Also confirm that the server's `Serving` line ends in
+`labs\starters\week-02`. If you edit a different copy of `index.html`, reloading
+this address cannot display that other file.
+
+A real browser screenshot later in this session shows the completed Week 2
+solution. Your starter will contain fewer controls until you build them during
+the laboratory, so do not expect it to match that completed page immediately.
+
+### Read the evidence when the result differs
+
+A browser page and an error message are different kinds of evidence:
+
+- If **Submit a campus event** appears, the browser reached the correct starter.
+- If the page loads with status `200 OK` but your new paragraph is absent, the
+  likely causes are an unsaved editor tab, a missing reload, or editing a
+  different `index.html`.
+- If the browser shows an almost empty page, open developer tools, inspect the
+  `body`, and read the server's `Serving` path. You may be serving an intentionally
+  incomplete starter from another week.
+- If the browser says **This site can't be reached**, no server is responding at
+  that address and port. Return to the server terminal.
+- If the browser receives `404 Not Found`, the server responded, but the requested
+  path did not identify an available file.
+
+The browser's **Elements** or **Inspector** panel shows the parsed DOM, not an
+editable replacement for the saved source file. Temporary edits made there are
+useful experiments, but they disappear on reload. Make durable corrections in
+the VS Code file and save them.
 
 ## 1. Begin with the user task
 
@@ -113,7 +286,7 @@ Together with the text between them, they form the **element**. `class` and
 quoted value. “Robotics event” is the element's text content. A tag is markup at
 an element boundary; it is not a synonym for the complete element.
 
-Figure 2.1 labels these parts and shows their contribution to the parsed element.
+Figure 2.4 labels these parts and shows their contribution to the parsed element.
 The browser does not display the tags as prose. It parses them into a Document
 Object Model (DOM) node with properties, content, and relationships.
 
@@ -476,13 +649,13 @@ The label's `for` value matches the control's `id`. Activating the label focuses
 the input. Assistive technology can announce “Event title, edit text, required.”
 The control's `name="title"` determines the submitted field name. The form's
 `action` identifies the submission destination, while `method` selects the HTTP
-method used by the browser's form-submission algorithm. Figure 2.4 follows these
+method used by the browser's form-submission algorithm. Figure 2.5 follows these
 relationships from the visible label to the submitted value and then to
 server-side validation.
 
 <!-- figure:form-data-flow -->
 
-Figure 2.5 shows the browser output of the complete Week 2 form. It deliberately
+Figure 2.6 shows the browser output of the complete Week 2 form. It deliberately
 uses native browser presentation so students can see what correct HTML provides
 before custom CSS is introduced.
 
@@ -727,7 +900,7 @@ The browser maintains several related models:
 3. The accessibility tree is a platform-oriented representation containing
    relevant roles, names, states, values, and relationships for assistive tools.
 
-Figure 2.6 locates the accessibility tree between the live Document Object Model
+Figure 2.7 locates the accessibility tree between the live Document Object Model
 (DOM) and the assistive technology that consumes the platform representation.
 
 <!-- figure:accessibility-tree -->
@@ -828,7 +1001,7 @@ burden on a user. Combine:
 
 Passing an automated scan is evidence, not proof of accessibility.
 
-Figure 2.7 shows these evidence sources operating in parallel. Automated checks
+Figure 2.8 shows these evidence sources operating in parallel. Automated checks
 find some programmatically detectable failures. Keyboard and zoom testing reveal
 interaction and reflow problems. Accessibility-tree inspection and a screen
 reader expose names, roles, states, and reading behavior. Representative users
@@ -867,9 +1040,19 @@ Your result must contain:
 
 ## Step 1 - Read before editing
 
-Open the starter and identify every TODO. Sketch the intended heading outline and
+From the repository root, open
+`labs/starters/week-02/index.html` in the VS Code text editor. Verify the full
+folder path rather than trusting an `index.html` tab name. In the SERVER terminal,
+run `dir package.json` on Windows or `ls -l package.json` on macOS/Linux, followed
+by `npm run serve:week02:starter`. Leave that process running, open
+`http://localhost:8000/`, and confirm that the baseline page displays **Submit a
+campus event**. Keep a second terminal available for Git and tests.
+
+Now identify every TODO in the source. Sketch the intended heading outline and
 form data names on paper. Decide which information is instruction, which is a
-label, and which is a constraint.
+label, and which is a constraint. Save each meaningful edit and reload the
+browser; the local server displays saved files, not unsaved editor contents. Do
+not edit `labs/solutions/week-02/index.html` as your submission.
 
 ## Step 2 - Establish landmarks and navigation
 
@@ -912,11 +1095,23 @@ Record one thing a validator can establish and one meaning it cannot judge.
 
 ## Step 8 - Verify, explain, and commit
 
-Run the Week 2 automated check. Then write a five-sentence rationale explaining
-one native semantic choice, one keyboard observation, one limitation of browser
-validation, one privacy decision, and one improvement you would test with users.
-Review the staged diff and create the final laboratory commit only after the
-evidence agrees with the intended source.
+Keep the server terminal running and open a second terminal with **Terminal > New
+Terminal**. This second terminal is the commands terminal: it displays a prompt
+and accepts new commands while the first terminal remains occupied by the
+server. From the repository root, run:
+
+```text
+npm run test:foundations
+```
+
+The final output should report that the foundations verification passed. If it
+does not, read the first failing check, correct the source, save it, and run the
+command again. Then write a five-sentence rationale explaining one native
+semantic choice, one keyboard observation, one limitation of browser validation,
+one privacy decision, and one improvement you would test with users. Review the
+staged diff and create the final laboratory commit only after the browser,
+accessibility inspection, validator, and automated check agree with the intended
+source.
 
 ## Laboratory observation record
 
@@ -1356,6 +1551,10 @@ avoid correcting the visible markup.
 
 # Session summary
 
+- The Session 2 working source is `labs/starters/week-02/index.html`; VS Code
+  edits it, the local Node.js server serves it, and the browser renders it.
+- The basic feedback cycle is edit, save, reload, and inspect. An unsaved file or
+  a different `index.html` cannot change the page currently being served.
 - HTML describes structure, relationships, controls, and meaning.
 - Conforming syntax distinguishes tags, elements, attributes, Boolean presence,
   void elements, nesting, and character references.
@@ -1430,7 +1629,7 @@ and that students can revisit while explaining their laboratory evidence.
 
 HTML's central semantics and WCAG 2.2 requirements are stable. Browser validation
 messages, accessibility-tree inspection panels, and assistive-technology details
-vary by platform and version. Technical review date: **1 September 2026**.
+vary by platform and version. Technical review date: **22 September 2026**.
 
 ## Session reflection
 

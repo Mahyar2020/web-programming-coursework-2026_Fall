@@ -97,6 +97,10 @@ for (const [week, chapter] of [[2, "book/part-1-foundations/02-semantic-html-and
 
 const chapter2 = await load("book/part-1-foundations/02-semantic-html-and-accessibility.md");
 requirePatterns(chapter2, "book/part-1-foundations/02-semantic-html-and-accessibility.md", [
+  [/find, edit, and view Campus Hub/i, "zero-start HTML editing and preview lesson"],
+  [/labs\/starters\/week-02\/index\.html[\s\S]+Visual Studio Code[\s\S]+npm run serve:week02:starter[\s\S]+http:\/\/localhost:8000\//i, "complete Week 2 edit-save-serve-browser path"],
+  [/figure:html-edit-preview-workflow/i, "HTML edit-to-browser workflow figure"],
+  [/unsaved editor contents/i, "saved-file versus editor-buffer distinction"],
   [/Document-wide meaning begins in `html` and `head`/i, "document metadata lesson"],
   [/Choose the submission method from the operation/i, "GET and POST lesson"],
   [/Successful-control submission rules/i, "successful-control rules"],

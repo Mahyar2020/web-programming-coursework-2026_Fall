@@ -245,32 +245,34 @@ there. In this book, the **repository root** is the outer
 `web-programming-course-book` folder containing `package.json`, `book`, `labs`,
 and `scripts`.
 
-Suppose Command Prompt begins like this:
+For a hypothetical example, suppose Command Prompt begins like this:
 
 ```text
-C:\Users\Mahyar>
+C:\Users\Student>
 ```
 
-The path before `>` says that the current folder is `C:\Users\Mahyar`. It is not
-the course repository. If npm reports
-`C:\Users\Mahyar\package.json`, the error is also telling you exactly where npm
-looked. Figure 0.3 contrasts that failed location with the correct repository
-root.
+The path before `>` says that the current folder is `C:\Users\Student`. It is not
+the course repository. If npm were run there, it would search that directory for
+`package.json` and could report a path such as
+`C:\Users\Student\package.json`. This is a troubleshooting example, not output
+that should appear during the successful orientation procedure. Figure 0.3
+contrasts the hypothetical wrong location with the correct repository root.
 
 <!-- figure:terminal-directory-rescue -->
 
 Use this four-part check before every project command:
 
 **Step 1 - Locate the project folder.** In File Explorer, browse to the folder
-that visibly contains `package.json`. For this repository on the author's
-machine, the folder is
-`C:\Users\Mahyar\Documents\GitHub\web-programming-course-book`.
+that visibly contains `package.json`. If a student named `Student` cloned the
+repository into the usual GitHub folder, an example location would be
+`C:\Users\Student\Documents\GitHub\web-programming-course-book`. Your Windows
+account name and chosen clone location may be different.
 
 **Step 2 - Enter that folder.** In Command Prompt, type the following command
 exactly. `/d` allows `cd` to change the drive as well as the folder:
 
 ```text
-cd /d "C:\Users\Mahyar\Documents\GitHub\web-programming-course-book"
+cd /d "C:\Users\Student\Documents\GitHub\web-programming-course-book"
 ```
 
 **Step 3 - Prove the location.** Run `cd`, followed by `dir package.json`. The
@@ -279,7 +281,7 @@ first command should print the repository path; the second should list
 npm yet.
 
 **Step 4 - Run the project command only after the proof succeeds.** For example,
-run `npm test` or `npm run serve:week01:starter`.
+run `npm test` or `npm run serve:week01:solution`.
 
 There is also a convenient visual route. Open the correct project folder in File
 Explorer, click its address bar, type `cmd`, and press Enter. Windows opens
@@ -568,11 +570,11 @@ student or require a personal fork.
 ### 8.3 If you already have the repository on this computer
 
 Do not clone a second copy merely because the terminal opened elsewhere. Find the
-existing outer project folder in File Explorer. For the path reported in the
-question that motivated this revision, the correct Command Prompt sequence is:
+existing outer project folder in File Explorer. For the hypothetical Windows
+location used in this orientation, the Command Prompt sequence is:
 
 ```text
-cd /d "C:\Users\Mahyar\Documents\GitHub\web-programming-course-book"
+cd /d "C:\Users\Student\Documents\GitHub\web-programming-course-book"
 dir package.json
 git status
 ```
@@ -707,24 +709,30 @@ directory.
 ### 10.2 Start the server and read its output
 
 In the terminal designated **SERVER**, prove that `package.json` is present and
-then start the server:
+then start the server with the completed Week 1 page:
 
 ```text
 dir package.json
-npm run serve:week01:starter
+npm run serve:week01:solution
 ```
+
+This orientation exercise uses the **solution** deliberately. At this point you
+are checking whether Node.js, the local server, and the browser cooperate; you
+are not yet expected to write the Campus Hub document. The **starter** file is a
+later laboratory scaffold. Its body initially contains only invisible HTML
+comments, so serving it correctly produces an almost completely white page.
 
 On macOS or Linux, replace `dir package.json` with `ls -l package.json`. The
 expected final three server lines are:
 
 ```text
-Serving ...\labs\starters\week-01
+Serving ...\labs\solutions\week-01
 Open http://localhost:8000/
 Press Ctrl+C to stop.
 ```
 
 The beginning of the first path depends on your computer. The important ending
-is `labs\starters\week-01` on Windows or `labs/starters/week-01` on macOS and
+is `labs\solutions\week-01` on Windows or `labs/solutions/week-01` on macOS and
 Linux. Leave this terminal running. Figure 0.7 pairs the expected terminal state
 with the expected browser result.
 
@@ -740,9 +748,16 @@ plain address.
 
 `localhost` is a special host name for the current computer. `8000` is the port
 on which this course server is listening. This step does not publish anything to
-the Internet. The page should show the unstyled Campus Hub starter. If the browser
-says **This site can't be reached**, return to the SERVER terminal. The page
-cannot open unless that terminal still shows a running server.
+the Internet. The page should show the unstyled Campus Hub reference page, with
+the heading **Campus Hub**, navigation links, an upcoming event, and a student
+communities section.
+
+If the address loads but the page is white, first read the `Serving ...` line in
+the SERVER terminal. An ending of `labs\starters\week-01` means that the server is
+working but is serving the intentionally empty starter scaffold. Press `Ctrl+C`
+once, run `npm run serve:week01:solution`, wait for the new `Open` line, and then
+reload the browser. This is different from **This site can't be reached**, which
+means the browser could not connect to a listening server.
 
 ### 10.4 Find Network in developer tools
 
@@ -795,27 +810,33 @@ prompt returns. Reload the browser: it should now report that the site cannot be
 reached. This controlled failure proves that the page depended on the server
 process rather than on a previously opened local file.
 
-### 10.6 Diagnose the reported ENOENT failure
+### 10.6 Optional troubleshooting: npm cannot find `package.json`
 
-`ENOENT` means that a required file or folder was not found. In the reported
-message, npm wrote:
+Skip this subsection when the server starts and the terminal prints the
+`Serving`, `Open`, and `Press Ctrl+C` lines. It describes a different failure
+that a learner may encounter later; it does not explain a white page.
+
+`ENOENT` is an operating-system error name meaning that a required file or folder
+was not found. For example, if a learner runs npm from the Windows profile folder
+instead of the repository root, npm may print a line like this:
 
 ```text
-npm error path C:\Users\Mahyar\package.json
+npm error path C:\Users\Student\package.json
 ```
 
-That line is the decisive clue. npm was functioning, but the terminal was in
-`C:\Users\Mahyar`, not in the repository. Reinstalling npm would not move the
-terminal. Use the sequence in Figure 0.9.
+This line is illustrative, not expected output from the orientation. If it does
+appear with your own account path, npm is functioning but the terminal is outside
+the repository. Reinstalling npm would not move the terminal. Figure 0.9 shows
+the diagnostic sequence for that hypothetical case.
 
 <!-- figure:enoent-diagnosis -->
 
-For this computer, the complete repair is:
+For the example path used in this chapter, the repair would be:
 
 ```text
-cd /d "C:\Users\Mahyar\Documents\GitHub\web-programming-course-book"
+cd /d "C:\Users\Student\Documents\GitHub\web-programming-course-book"
 dir package.json
-npm run serve:week01:starter
+npm run serve:week01:solution
 ```
 
 Do not open the browser until the terminal prints `Open
@@ -1003,17 +1024,18 @@ with `Get-ChildItem` or `ls` and look for `package.json`. Move with `Set-Locatio
 or `cd` into the repository folder, list again, and rerun `npm test`. These checks
 do not change files. Reinstalling Node.js would not correct the current directory.
 
-For the reported Windows path, the complete non-destructive recovery begins with
-`cd`, then `dir`, then
-`cd /d "C:\Users\Mahyar\Documents\GitHub\web-programming-course-book"`, and
-finally `dir package.json`. Only after the last command displays the file should
-the student rerun npm. The path printed in the ENOENT message is evidence of the
-folder npm searched, not merely incidental log text.
+For the hypothetical Windows path used in the chapter, the complete
+non-destructive recovery begins with `cd`, then `dir`, then
+`cd /d "C:\Users\Student\Documents\GitHub\web-programming-course-book"`, and
+finally `dir package.json`. A learner must substitute the actual repository path.
+Only after the last command displays the file should the student rerun npm. If an
+ENOENT message exists, its path is evidence of the folder npm searched; when no
+such message exists, this diagnosis does not apply.
 
 ## Answer 3
 
 A `file:` URL lets the browser read a local file without an HTTP server. Start
-`npm run serve:week01:starter`, visit `http://localhost:8000/`, open the Network
+`npm run serve:week01:solution`, visit `http://localhost:8000/`, open the Network
 panel, reload, and select the document request. A recorded HTTP method, status,
 and response `Content-Type`, together with the running server process, demonstrate
 the exchange. Stop the server and observe that the URL no longer responds to

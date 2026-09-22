@@ -42,7 +42,7 @@ from reportlab.platypus.tableofcontents import TableOfContents
 
 
 ROOT = Path(__file__).resolve().parent.parent
-OUTPUT = ROOT / "output" / "pdf" / "web-programming-from-platform-to-production-foundations-edition-revised-v10.pdf"
+OUTPUT = ROOT / "output" / "pdf" / "web-programming-from-platform-to-production-foundations-edition-revised-v13.pdf"
 CHAPTERS = sorted((ROOT / "book").glob("part-*/*.md"))
 SOLUTION_FILES = sorted(path for path in (ROOT / "labs" / "solutions").glob("week-*/*") if path.is_file())
 COVER_ART = ROOT / "assets" / "images" / "cover-web-programming.png"
@@ -99,11 +99,11 @@ MEDIA_FIGURES = {
     ),
     "week-02-form-output": (
         ROOT / "assets" / "images" / "week-02-form-output.png",
-        "Figure 2.5. The browser output of the complete semantic form example shows visible labels, native controls, grouped choices, help text, and a submit button.",
+        "Figure 2.6. The browser output of the complete semantic form example shows visible labels, native controls, grouped choices, help text, and a submit button.",
     ),
     "accessibility-combined-evidence": (
         ROOT / "assets" / "images" / "accessibility-combined-evidence-v1.png",
-        "Figure 2.7. Accessibility judgments combine automated, keyboard, zoom and reflow, accessibility-tree, assistive-technology, and user-task evidence; no single test proves accessibility.",
+        "Figure 2.8. Accessibility judgments combine automated, keyboard, zoom and reflow, accessibility-tree, assistive-technology, and user-task evidence; no single test proves accessibility.",
     ),
     "responsive-layout": (
         ROOT / "assets" / "images" / "responsive-layout-illustration.png",
@@ -501,7 +501,7 @@ class ConceptFigure(Flowable):
         "two-terminal-model": "Figure 0.6. The server and command terminals are ordinary terminals with different current jobs.",
         "server-browser-evidence": "Figure 0.7. Terminal output and a browser page together prove that localhost is responding.",
         "network-panel": "Figure 0.8. Network records requests; select the document row to inspect HTTP evidence.",
-        "enoent-diagnosis": "Figure 0.9. The ENOENT path shows where npm looked for package.json.",
+        "enoent-diagnosis": "Figure 0.9. A hypothetical ENOENT path can reveal where npm looked for package.json.",
         "web-layers": "Figure 1.1. The Web is one application built on Internet infrastructure.",
         "url-anatomy": "Figure 1.6. A URL is a structured identifier whose components have distinct roles.",
         "protocol-stack": "Figure 1.9. Two common HTTPS stacks. Read each column from the web content down to the network link.",
@@ -511,10 +511,11 @@ class ConceptFigure(Flowable):
         "debugging-loop": "Figure 1.15. Evidence-driven debugging is a repeatable scientific loop.",
         "html-tree": "Figure 1.16. Nested HTML elements become a document tree.",
         "git-workflow": "Figure 1.18. Git moves selected changes from the working tree into durable history.",
-        "html-anatomy": "Figure 2.1. An HTML element combines tags, attributes, content, and a parsed DOM representation.",
+        "html-edit-preview-workflow": "Figure 2.1. Editing, saving, serving, requesting, and rendering are distinct steps in the Campus Hub feedback loop.",
+        "html-anatomy": "Figure 2.4. An HTML element combines tags, attributes, content, and a parsed DOM representation.",
         "semantic-landmarks": "Figure 2.2. Semantic landmarks divide a page into named, navigable regions.",
-        "form-data-flow": "Figure 2.4. Labels identify controls; names carry values across the request boundary.",
-        "accessibility-tree": "Figure 2.6. HTML and browser state contribute to a platform accessibility representation.",
+        "form-data-flow": "Figure 2.5. Labels identify controls; names carry values across the request boundary.",
+        "accessibility-tree": "Figure 2.7. HTML and browser state contribute to a platform accessibility representation.",
         "css-rule-anatomy": "Figure 3.1. A CSS rule connects a selector to a declaration block containing property-and-value proposals.",
         "selector-matching": "Figure 3.2. Selectors express different relationships and produce different sets of matched elements.",
         "css-cascade": "Figure 3.3. The cascade resolves relevant declarations through an ordered decision process.",
@@ -538,6 +539,7 @@ class ConceptFigure(Flowable):
             "network-panel": 86,
             "enoent-diagnosis": 78,
             "javascript-runtime-map": 76,
+            "html-edit-preview-workflow": 76,
             "css-rule-anatomy": 70,
             "selector-matching": 72,
             "logical-axes": 72,
@@ -617,11 +619,11 @@ class ConceptFigure(Flowable):
     def _draw_terminal_directory_rescue(self, c):
         panel_w = (self.width - 18 * mm) / 2
         self._terminal_window(
-            c, 5 * mm, 20 * mm, panel_w, 47 * mm, "WRONG DIRECTORY - npm FAILS",
+            c, 5 * mm, 20 * mm, panel_w, 47 * mm, "EXAMPLE WRONG DIRECTORY - npm FAILS",
             [
-                r"C:\Users\Mahyar>npm run serve:week01:starter",
+                r"C:\Users\Student>npm run serve:week01:starter",
                 "npm error code ENOENT",
-                r"npm error path C:\Users\Mahyar\package.json",
+                r"npm error path C:\Users\Student\package.json",
                 "Meaning: npm looked here; package.json is absent.",
             ],
             accent=HexColor("#B85C4A"),
@@ -630,7 +632,7 @@ class ConceptFigure(Flowable):
         self._terminal_window(
             c, right_x, 20 * mm, panel_w, 47 * mm, "CORRECT ROOT - VERIFY BEFORE RUNNING",
             [
-                "> cd /d C:\\Users\\Mahyar\\Documents\\GitHub\\",
+                "> cd /d C:\\Users\\Student\\Documents\\GitHub\\",
                 r"  web-programming-course-book",
                 r"> dir package.json",
                 "  package.json",
@@ -679,8 +681,8 @@ class ConceptFigure(Flowable):
         self._terminal_window(
             c, 5 * mm, 22 * mm, panel_w, 49 * mm, "TERMINAL A - SERVER (LEAVE RUNNING)",
             [
-                "> npm run serve:week01:starter",
-                "Serving ...\\labs\\starters\\week-01",
+                "> npm run serve:week01:solution",
+                "Serving ...\\labs\\solutions\\week-01",
                 "Open http://localhost:8000/",
                 "Press Ctrl+C to stop.",
                 "[No prompt: the server owns this terminal]",
@@ -707,8 +709,8 @@ class ConceptFigure(Flowable):
         self._terminal_window(
             c, 5 * mm, 19 * mm, terminal_w, 48 * mm, "SERVER TERMINAL - EXPECTED OUTPUT",
             [
-                "> npm run serve:week01:starter",
-                "Serving C:\\...\\labs\\starters\\week-01",
+                "> npm run serve:week01:solution",
+                "Serving C:\\...\\labs\\solutions\\week-01",
                 "Open http://localhost:8000/",
                 "Press Ctrl+C to stop.",
             ],
@@ -763,8 +765,8 @@ class ConceptFigure(Flowable):
         c.setFillColor(HexColor("#FFF0EC")); c.setStrokeColor(HexColor("#B85C4A")); c.roundRect(5 * mm, 40 * mm, 55 * mm, 25 * mm, 2 * mm, fill=1, stroke=1)
         c.setFillColor(INK); c.setFont("BookMono", 5.4)
         c.drawString(8 * mm, 57 * mm, "npm error code ENOENT")
-        c.drawString(8 * mm, 50 * mm, r"path C:\Users\Mahyar\package.json")
-        c.setFont("BookSans-Bold", 6.2); c.drawString(8 * mm, 44 * mm, "npm looked in C:\\Users\\Mahyar")
+        c.drawString(8 * mm, 50 * mm, r"example: C:\Users\Student\package.json")
+        c.setFont("BookSans-Bold", 6.2); c.drawString(8 * mm, 44 * mm, "Hypothetical: npm looked in the profile folder")
         steps = [("1 Show location", "cd"), ("2 Find project", "dir"), ("3 Enter root", "cd /d ..."), ("4 Prove file", "dir package.json"), ("5 Run script", "npm run ...")]
         positions, widths = self._horizontal_layout([27, 27, 28, 31, 29], left_mm=5, right_mm=5)
         for index, ((label, command), px, pw) in enumerate(zip(steps, positions, widths)):
@@ -921,6 +923,45 @@ class ConceptFigure(Flowable):
             fill=PALE_TEAL,
             stroke=TEAL,
             size=6.4,
+        )
+
+    def _draw_html_edit_preview_workflow(self, c):
+        labels = ["VS Code editor", "Saved HTML file", "Node.js server", "Browser page"]
+        details = [
+            "type markup",
+            "week-02/index.html",
+            "localhost:8000",
+            "rendered output",
+        ]
+        fills = [PALE_BLUE, PALE_TEAL, PALE_GOLD, WHITE]
+        strokes = [BLUE, TEAL, HexColor("#B06A2F"), NAVY]
+        positions, widths = self._horizontal_layout([31, 38, 33, 35], left_mm=6, right_mm=6)
+        for index, (label, detail, fill, stroke, x, width) in enumerate(
+            zip(labels, details, fills, strokes, positions, widths)
+        ):
+            self._box(c, x, 34 * mm, width, 13 * mm, label, fill=fill, stroke=stroke, size=5.9)
+            c.setFillColor(INK)
+            c.setFont("BookMono" if index in {1, 2} else "BookSans", 5.2)
+            c.drawCentredString(x + width / 2, 28 * mm, detail)
+            if index < len(labels) - 1:
+                self._arrow(c, x + width, 40.5 * mm, positions[index + 1], 40.5 * mm, color=stroke)
+
+        arrow_labels = ["Ctrl+S / save", "HTTP server reads", "GET / and render"]
+        c.setFillColor(MUTED)
+        c.setFont("BookSans", 5.0)
+        for index, label in enumerate(arrow_labels):
+            midpoint = (positions[index] + widths[index] + positions[index + 1]) / 2
+            c.drawCentredString(midpoint, 49.5 * mm, label)
+
+        c.setFillColor(PALE_TEAL)
+        c.setStrokeColor(TEAL)
+        c.roundRect(25 * mm, 13 * mm, self.width - 50 * mm, 8 * mm, 1.4 * mm, fill=1, stroke=1)
+        c.setFillColor(INK)
+        c.setFont("BookSans-Bold", 5.8)
+        c.drawCentredString(
+            self.width / 2,
+            16 * mm,
+            "After another edit: save in VS Code, then reload the browser to request the new file.",
         )
 
     def _draw_semantic_landmarks(self, c):

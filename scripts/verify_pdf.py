@@ -9,7 +9,7 @@ from pypdf import PdfReader
 
 
 ROOT = Path(__file__).resolve().parent.parent
-PDF = ROOT / "output" / "pdf" / "web-programming-from-platform-to-production-foundations-edition-revised-v10.pdf"
+PDF = ROOT / "output" / "pdf" / "web-programming-from-platform-to-production-foundations-edition-revised-v13.pdf"
 
 
 def main() -> None:
@@ -57,13 +57,17 @@ def main() -> None:
         "Figure 0.5. A repository-first workflow",
         "Figure 0.6. The server and command terminals",
         "Figure 0.8. Network records requests",
-        "Figure 0.9. The ENOENT path",
+        "Figure 0.9. A hypothetical ENOENT path",
+        "serving it correctly produces an almost completely white page",
         "Figure 1.3. Client and server are roles within an exchange",
         "Figure 1.7. A page navigation coordinates naming",
         "Figure 1.14. Local development keeps the browser and development server",
-        "Figure 2.1. An HTML element combines tags",
-        "Figure 2.5. The browser output of the complete semantic form example",
-        "Figure 2.7. Accessibility judgments combine automated",
+        "Figure 2.1. Editing, saving, serving, requesting, and rendering",
+        "Figure 2.4. An HTML element combines tags",
+        "Figure 2.6. The browser output of the complete semantic form example",
+        "Figure 2.8. Accessibility judgments combine automated",
+        "labs/starters/week-02/index.html",
+        "This page is being edited in Visual Studio Code.",
         "Figure 3.1. A CSS rule connects a selector",
         "Figure 3.5. Logical inline and block axes",
         "Figure 3.10. At a narrow viewport",
