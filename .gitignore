@@ -1,0 +1,18 @@
+# Dependencies and generated test output
+node_modules/
+coverage/
+reports/
+
+# Local secrets and configuration
+.env
+.env.*
+!.env.example
+
+# Operating-system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Temporary files
+tmp/
+*.log

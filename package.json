@@ -1,0 +1,15 @@
+{
+  "name": "web-programming-coursework-2026-fall",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node scripts/check-setup.mjs",
+    "serve:week01": "node scripts/serve-static.mjs labs/week-01 8000",
+    "serve:week02": "node scripts/serve-static.mjs labs/week-02 8000",
+    "serve:week03": "node scripts/serve-static.mjs labs/week-03 8000"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  }
+}

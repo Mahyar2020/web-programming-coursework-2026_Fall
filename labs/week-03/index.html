@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Campus Hub - Responsive events</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to events</a>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="/">Campus Hub</a>
+        <nav class="site-navigation" aria-label="Primary navigation">
+          <ul><li><a href="#events">Events</a></li><li><a href="#communities">Communities</a></li></ul>
+        </nav>
+      </header>
+      <main id="main-content">
+        <h1>Explore campus events</h1>
+        <form class="event-filter" action="/" method="get">
+          <div class="event-filter__field">
+            <label for="event-type">Event type</label>
+            <select id="event-type" name="type">
+              <option value="all">All events</option>
+              <option value="workshop">Workshops</option>
+              <option value="seminar">Seminars</option>
+              <option value="community">Community events</option>
+            </select>
+          </div>
+          <button type="submit">Apply filter</button>
+        </form>
+        <section id="events" aria-labelledby="events-heading">
+          <h2 id="events-heading">Upcoming events</h2>
+          <div class="event-grid">
+            <article class="event-card">
+              <div class="event-card__content">
+                <h3 class="event-card__title">Robotics laboratory open evening</h3>
+                <p>Meet the robotics team and test current student projects.</p>
+                <a class="event-card__action" href="/events/robotics">Event details</a>
+              </div>
+            </article>
+            <article class="event-card">
+              <div class="event-card__content">
+                <h3 class="event-card__title">Accessible interfaces workshop with an intentionally long title</h3>
+                <p>Practice inclusive design and keyboard testing.</p>
+                <a class="event-card__action" href="/events/accessibility">Event details</a>
+              </div>
+            </article>
+            <article class="event-card">
+              <div class="event-card__content">
+                <h3 class="event-card__title">Sustainable systems seminar</h3>
+                <p>Discuss measurement, energy, and responsible engineering.</p>
+                <a class="event-card__action" href="/events/systems">Event details</a>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section id="communities"><h2>Student communities</h2><p>Find groups for engineering, research, design, and volunteering.</p></section>
+      </main>
+      <footer><p>Campus Hub is a fictional student learning project.</p></footer>
+    </div>
+  </body>
+</html>
