@@ -500,64 +500,230 @@ boundaries, available APIs, lifetime, and responsibilities are not.
 ## 8. Create or obtain your remote repository before developing
 
 The safest course workflow begins with a **private remote repository** assigned
-to the student. A repository is the project plus its recorded history. Git manages
-the history on your computer. A hosting service such as GitHub stores a remote
-copy so that you can submit work, synchronize another computer, and recover after
-device loss. Saving a file does not update Git history, committing does not
-upload it, and pushing does not automatically include uncommitted changes.
+to the student. A repository is a project folder together with the history of
+changes recorded by Git. A **Git hosting service** is a website that stores Git
+repositories on an Internet-connected server and controls who may read or change
+them. GitHub, GitLab, and Bitbucket are examples. This course uses **GitHub**, at
+`https://github.com/`. Git is the version-control program on your computer;
+GitHub is the online service. They cooperate, but they are not the same product.
+
+The word **local** means “on this computer.” The word **remote** means “stored at
+another location and reached through a network.” After cloning, the same project
+therefore exists in two places: a local project folder that you edit and a remote
+repository on GitHub that receives commits when you push. Saving a file does not
+update Git history, committing does not upload it, and pushing does not
+automatically include uncommitted changes.
 
 Figure 0.5 shows the full relationship. The remote repository and local project
 folder are two related locations, not one magical shared folder.
 
 <!-- media:repository-first-workflow -->
 
-### 8.1 Preferred course method: create from the instructor's template
+### 8.1 Preferred course method: create from the instructor's GitHub template
 
-The instructor should publish one authorized template link. Then each student
-performs these steps.
+This subsection describes one specific route: the instructor prepares a GitHub
+**template repository**, and each student creates a separate private repository
+from it. A template is a starting project whose folders and files can be copied
+through a button on GitHub. It is not a document template in Microsoft Word, and
+students do not edit the instructor's original repository.
 
-**Step 1 - Sign in securely.** Sign in to the approved Git hosting service.
-Enable multi-factor authentication (MFA) before storing coursework.
+#### Information that must come from the instructor
 
-**Step 2 - Open the authorized template.** Use the exact link supplied through
-the learning system. Confirm the owner and repository name before continuing.
-
-**Step 3 - Create your repository.** On GitHub, choose **Use this template**,
-followed by **Create a new repository**. This copies the course files without
-giving you write access to the instructor's original repository.
-
-**Step 4 - Name and protect it.** Choose your own account as the owner. Use the
-course naming policy, for example `web-programming-coursework`. Select **Private**
-unless the university explicitly approves public coursework. Do not add another
-README, `.gitignore`, or license when the template already contains them.
-
-**Step 5 - Copy its clone address.** Choose **Create repository**. On the new
-repository page, select **Code**, keep **HTTPS** selected unless the class has
-already configured Secure Shell (SSH), and copy the displayed clone URL.
-
-**Step 6 - Open the parent folder.** In File Explorer, create or open a parent
-folder such as `C:\Users\YourName\Documents\GitHub`. This parent is not itself
-the project.
-
-**Step 7 - Clone.** Open Command Prompt in the parent folder and run `git clone`,
-followed by the copied URL. A representative command has this form:
+The Fall 2026 class uses this private GitHub template repository:
 
 ```text
-git clone https://github.com/your-account/web-programming-coursework.git
+https://github.com/Mahyar2020/web-programming-coursework-2026_Fall
 ```
 
-**Step 8 - Enter and verify the new local project.** Run:
+The instructor must also publish that exact clickable address in the course's
+**learning management system (LMS)**, such as Moodle, Canvas, or Blackboard.
+Students should use the LMS copy rather than an address received from an
+unverified account. In this address, `Mahyar2020` is the owner and
+`web-programming-coursework-2026_Fall` is the repository name.
+
+Do not confuse it with the repository containing this book. The address
+`https://github.com/Mahyar2020/web-programming-course-book` identifies the book's
+source repository rather than the student-coursework template.
+
+If the LMS contains no assignment link, or the link opens a `404` page, stop and
+ask the instructor for the semester's GitHub template or invitation. Do not guess
+the address, create an unrelated empty repository, use a repository found through
+a web search, or substitute **Fork** or **Download ZIP** unless the instructor
+chooses one of those workflows. A private repository can also appear as `404`
+when the signed-in account has not been granted access.
+
+#### Step 1 - Create or sign in to the correct GitHub account
+
+Open `https://github.com/` in a browser. Choose **Sign up** if you do not have an
+account, or **Sign in** if you do. Use the account approved by the university. If
+the university created a managed account, follow its sign-in instructions rather
+than creating a second account. Confirm the signed-in username by selecting the
+profile picture in the upper-right corner; GitHub displays the username in that
+menu.
+
+The browser is being used here to manage the online account. The terminal and
+the `git` command will be used later to create the local copy.
+
+#### Step 2 - Protect the account with multi-factor authentication
+
+**Multi-factor authentication (MFA)** requires more than one kind of evidence
+when signing in. GitHub calls its implementation **two-factor authentication
+(2FA)**. A password is one factor; a changing code from an authenticator
+application, a passkey, or a physical security key supplies another. This limits
+the damage if somebody learns the password.
+
+GitHub currently recommends a time-based one-time password (TOTP) authenticator
+application rather than a text message. Prepare an authenticator application on
+a phone or computer, then follow these steps in GitHub:
+
+1. Select the profile picture in the upper-right corner and choose **Settings**.
+2. In the left sidebar under **Access**, choose **Password and authentication**.
+3. Find **Two-factor authentication** and choose **Enable two-factor
+   authentication**.
+4. Use the authenticator application to scan the displayed Quick Response (QR)
+   code. If the device cannot scan it, GitHub can display a setup key for manual
+   entry.
+5. Enter the six-digit code produced by the authenticator application. The code
+   changes periodically, so use the current one.
+6. Download the recovery codes when GitHub displays them. Store them in a secure
+   password manager or another protected location separate from the laptop.
+7. Confirm that the recovery codes have been saved. Add a passkey or security key
+   as a backup method when one is available.
+
+Recovery codes can restore access if the authenticator device is lost. Never put
+the QR image, setup key, password, authenticator code, or recovery codes in the
+course repository, a screenshot submitted for grading, email, or a shared chat.
+The detailed and update-sensitive procedure is maintained in GitHub's official
+[two-factor authentication instructions](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication).
+
+#### Step 3 - Open and verify the instructor's exact link
+
+First accept the private-repository invitation sent by GitHub. Open the
+notification while signed in to the GitHub account registered for this course,
+confirm that the invitation names `Mahyar2020` and
+`web-programming-coursework-2026_Fall`, and choose **Accept invitation**. If no
+invitation is visible, check the GitHub notification inbox and the email address
+registered with GitHub, then contact the instructor. Do not ask another student
+to forward an invitation because repository invitations are account-specific.
+
+Return to the LMS and select the template link posted for this semester. Do not
+retype it when the clickable link is available. The browser address must be:
 
 ```text
-cd /d "C:\Users\YourName\Documents\GitHub\web-programming-coursework"
+https://github.com/Mahyar2020/web-programming-coursework-2026_Fall
+```
+
+The page should display course files and a **Use this template** button above the
+file list. If the button is absent, one of three things is likely true: the link
+is not a template, the wrong account is signed in, or the account lacks access.
+Record the page address and ask the instructor which condition applies. Do not
+choose a different button merely to continue.
+
+#### Step 4 - Create your own remote repository from the template
+
+Select **Use this template**, then **Create a new repository**. On the creation
+page:
+
+1. Set **Owner** to the personal account or university organization specified by
+   the instructor.
+2. Name the repository
+   `web-programming-coursework-2026_Fall-STUDENT_NUMBER`, replacing
+   `STUDENT_NUMBER` with your university student number. Do not include spaces.
+3. Enter an optional description such as `Coursework for Web Programming`.
+4. Choose **Private** unless the university explicitly requires another
+   visibility. Private means only authorized accounts can read the repository;
+   it does not mean security practices are unnecessary.
+5. Leave the **Include all branches** checkbox **unchecked**. Unchecked means
+   off: GitHub will copy only the default `main` branch. Select it only if the
+   instructor explicitly announces that additional template branches are needed.
+6. Do not add another README, `.gitignore`, or license. Those files already come
+   from the template.
+7. Choose **Create repository from template** and wait for the new page to load.
+
+Confirm that the page now shows your chosen owner and repository name at the top.
+This new page is your remote repository. Creating it did not yet place a project
+folder on the computer.
+
+#### Step 5 - Grant the instructor access to your private repository
+
+The new repository belongs to the student, so access to the template does not
+automatically give the instructor access to the student's copy. On the new
+repository page, choose **Settings**, then **Collaborators** or **Collaborators
+and teams**. Choose **Add people**, enter `Mahyar2020`, verify the account name,
+and send the invitation. The instructor must accept it before private coursework
+can be reviewed.
+
+Return to the repository's **Code** page after sending the invitation. Never add
+an unfamiliar account merely because its display name resembles the instructor's
+name.
+
+#### Step 6 - Copy the HTTPS clone address
+
+On your new repository page, choose the green **Code** button. Select **Local**,
+then **HTTPS**, and use the copy button beside the displayed address. It should
+resemble the following example, with your real owner and repository name:
+
+```text
+https://github.com/your-account/web-programming-coursework-2026_Fall-STUDENT_NUMBER.git
+```
+
+Secure Shell (SSH) is another valid connection method, but use it only after the
+course has taught SSH keys. Copying an address does not clone anything; it places
+text on the clipboard for the next command.
+
+#### Step 7 - Choose the parent folder on the computer
+
+In Windows File Explorer, create or open a parent folder such as
+`C:\Users\YourName\Documents\GitHub`. The parent folder will contain the project,
+but it is not the project itself. Click the File Explorer address bar, type
+`cmd`, and press Enter to open Command Prompt in that parent folder. The prompt
+should end with `Documents\GitHub>`.
+
+On macOS or Linux, open a terminal and use `cd` to enter the chosen parent folder.
+Use `pwd` to print and verify its location.
+
+#### Step 8 - Clone the remote repository to create the local project
+
+At the terminal prompt, type `git clone`, add one space, paste the HTTPS address
+copied in Step 6, and press Enter. A representative command is:
+
+```text
+git clone https://github.com/your-account/web-programming-coursework-2026_Fall-STUDENT_NUMBER.git
+```
+
+Replace the entire example URL with the copied address. Do not type the words
+`your-account`. Git creates a new subfolder, downloads the project files and Git
+history, and normally names the remote connection `origin`. During the first
+private-repository operation, Git Credential Manager may open a browser and ask
+you to authorize Git. Complete that browser sign-in; do not put the GitHub
+password into the command itself.
+
+#### Step 9 - Enter the project and prove that the two locations are connected
+
+In Windows Command Prompt, use the actual folder name created by `git clone`:
+
+```text
+cd /d "C:\Users\YourName\Documents\GitHub\web-programming-coursework-2026_Fall-STUDENT_NUMBER"
 dir package.json
 git status
 git remote -v
 ```
 
-`dir package.json` must display the file. `git status` should identify a branch.
-`git remote -v` should display your own authorized repository as `origin`. Never
-paste the example account name literally; use the URL copied from your repository.
+On macOS or Linux, use `cd` with the corresponding path and replace
+`dir package.json` with `ls -l package.json`. Read the evidence rather than
+assuming success:
+
+- `dir package.json` or `ls -l package.json` must display the project file;
+- `git status` must name the current branch and report the working-tree state;
+- `git remote -v` must show the HTTPS address of **your** remote repository next
+  to `origin` for fetch and push; and
+- the owner and repository in that address must match the new GitHub page created
+  in Step 4, not merely the instructor's template.
+
+If `git clone` reports `Repository not found`, first confirm the copied address
+and signed-in GitHub account. For a private repository, the message often means
+that authentication failed or that the account lacks permission; it does not
+necessarily mean that the repository has been deleted.
 
 ### 8.2 If the instructor supplies a clone URL instead of a template
 
@@ -1183,12 +1349,14 @@ name is built into JavaScript itself.
 8. GitHub Docs, [Creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
 9. GitHub Docs, [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
 10. GitHub Docs, [Pushing commits to a remote repository](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository).
-11. W3C, [Nu HTML Checker](https://validator.w3.org/nu/).
-12. W3C Web Accessibility Initiative, [Evaluating Web Accessibility](https://www.w3.org/WAI/test-evaluate/).
+11. GitHub Docs, [About repositories](https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories).
+12. GitHub Docs, [Configuring two-factor authentication](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication).
+13. W3C, [Nu HTML Checker](https://validator.w3.org/nu/).
+14. W3C Web Accessibility Initiative, [Evaluating Web Accessibility](https://www.w3.org/WAI/test-evaluate/).
 
 ## What changes often?
 
 Installer screens, package versions, operating-system permission prompts, and
 browser panel layouts change frequently. The responsibility of each tool and the
-evidence-led workflow are more stable. Technical review date: **1 September
+evidence-led workflow are more stable. Technical review date: **22 September
 2026**.

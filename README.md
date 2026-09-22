@@ -25,7 +25,7 @@ Run `npm test` with Node.js 24 LTS to verify the current book assets.
 
 ## PDF edition
 
-- [Download the revised Foundations Edition (v13, latest)](output/pdf/web-programming-from-platform-to-production-foundations-edition-revised-v13.pdf)
+- [Download the revised Foundations Edition (v15, latest)](output/pdf/web-programming-from-platform-to-production-foundations-edition-revised-v15.pdf)
 
 Author: **Dr. Mahyar Teymournezhad**
 

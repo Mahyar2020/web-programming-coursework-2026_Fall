@@ -42,7 +42,7 @@ from reportlab.platypus.tableofcontents import TableOfContents
 
 
 ROOT = Path(__file__).resolve().parent.parent
-OUTPUT = ROOT / "output" / "pdf" / "web-programming-from-platform-to-production-foundations-edition-revised-v13.pdf"
+OUTPUT = ROOT / "output" / "pdf" / "web-programming-from-platform-to-production-foundations-edition-revised-v15.pdf"
 CHAPTERS = sorted((ROOT / "book").glob("part-*/*.md"))
 SOLUTION_FILES = sorted(path for path in (ROOT / "labs" / "solutions").glob("week-*/*") if path.is_file())
 COVER_ART = ROOT / "assets" / "images" / "cover-web-programming.png"

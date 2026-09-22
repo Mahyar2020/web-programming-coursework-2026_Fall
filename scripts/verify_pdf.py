@@ -9,7 +9,7 @@ from pypdf import PdfReader
 
 
 ROOT = Path(__file__).resolve().parent.parent
-PDF = ROOT / "output" / "pdf" / "web-programming-from-platform-to-production-foundations-edition-revised-v13.pdf"
+PDF = ROOT / "output" / "pdf" / "web-programming-from-platform-to-production-foundations-edition-revised-v15.pdf"
 
 
 def main() -> None:
@@ -43,6 +43,9 @@ def main() -> None:
         "How the Web Works",
         "Prepare Your Web-Programming Workstation",
         "Table 0.6 - Student workstation readiness record",
+        "web-programming-coursework-2026_Fall",
+        "Include all branches checkbox unchecked",
+        "enter Mahyar2020",
         "Preface",
         "About the author",
         "Internet Protocol version 6",
