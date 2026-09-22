@@ -9,11 +9,32 @@ answer keys, instructor notes, and book-production files are intentionally absen
 
 ## Before you begin
 
-Students should not develop directly in this template repository. Use the
-instructor's official link and select **Use this template**, followed by **Create
-a new repository**. Create a private repository using the naming convention
-announced in the learning management system, and grant the instructor the
-required access.
+Students should not develop directly in this template repository. The official
+Fall 2026 template address is:
+
+```text
+https://github.com/Mahyar2020/web-programming-coursework-2026_Fall
+```
+
+Because the template is private, first accept the invitation sent by GitHub while
+signed in to the account registered for this course. Then open the exact address
+above and select **Use this template**, followed by **Create a new repository**.
+
+On the creation page:
+
+1. Choose your own GitHub account as **Owner**.
+2. Name the repository
+   `web-programming-coursework-2026_Fall-STUDENT_NUMBER`, replacing
+   `STUDENT_NUMBER` with your university student number.
+3. Choose **Private**.
+4. Leave the **Include all branches** checkbox **unchecked**. Unchecked means
+   off; only the default `main` branch will be copied.
+5. Choose **Create repository from template**.
+
+On the new private repository, open **Settings**, then **Collaborators** or
+**Collaborators and teams**. Choose **Add people**, enter the instructor's exact
+GitHub username `Mahyar2020`, and send the invitation. Template access does not
+automatically give the instructor access to the student's new repository.
 
 The repository page in the browser is the remote copy. After creating your own
 remote repository, select **Code**, select **HTTPS**, and copy its address. In a
