@@ -55,4 +55,4 @@ chapter descriptions and dependencies.
 
 Each chapter includes learning outcomes, explanations, a guided laboratory,
 exercises, complete worked answers, a quiz with explanations, a summary, and
-primary references.
+primary references..
