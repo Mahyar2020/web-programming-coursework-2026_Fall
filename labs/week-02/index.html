@@ -10,7 +10,52 @@
     <!-- TODO: Add a skip link, page header, and labeled navigation. -->
     <main id="main-content">
       <h1>Submit a campus event</h1>
-      <!-- TODO: Build the semantic event form described in Session 2. -->
+      <form action="/events" method="post">
+        <fieldset>
+          <legend>Event details</legend>
+
+          <div>
+            <label for="event-title">Event title</label>
+            <input id="event-title" name="title" type="text" required>
+          </div>
+
+          <div>
+            <label for="event-date">Event date</label>
+            <input id="event-date" name="date" type="date" required>
+          </div>
+
+          <div>
+            <label for="event-type">Event type</label>
+            <select id="event-type" name="type" required>
+              <option value="">Choose an event type</option>
+              <option value="workshop">Workshop</option>
+              <option value="seminar">Seminar</option>
+              <option value="community">Community event</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="event-description">Event description</label>
+            <textarea id="event-description" name="description" rows="6" required></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Organizer details</legend>
+
+          <div>
+            <label for="organizer-name">Organizer name</label>
+            <input id="organizer-name" name="organizer-name" type="text" autocomplete="name" required>
+          </div>
+
+          <div>
+            <label for="organizer-email">Organizer email</label>
+            <input id="organizer-email" name="organizer-email" type="email" autocomplete="email" required>
+          </div>
+        </fieldset>
+
+        <button type="submit">Submit event</button>
+      </form>
     </main>
     <!-- TODO: Add a project footer. -->
   </body>

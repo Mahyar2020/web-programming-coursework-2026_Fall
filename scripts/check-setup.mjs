@@ -57,6 +57,9 @@ for (const week of ["week-01", "week-02", "week-03"]) {
     if (!/<title>[^<]+<\/title>/i.test(source)) {
       failures.push(`${relativePath} must contain a non-empty title.`);
     }
+    if (week === "week-01" && !/<h1>Campus Hub setup check<\/h1>/i.test(source)) {
+      failures.push(`${relativePath} must display the orientation setup-check heading.`);
+    }
   } catch {
     // A missing file has already been reported above.
   }

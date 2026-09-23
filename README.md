@@ -10,7 +10,10 @@ answer keys, instructor notes, and book-production files are intentionally absen
 ## Before you begin
 
 Students should not develop directly in this template repository. The official
-Fall 2026 template address is:
+address is the
+[Fall 2026 coursework template](https://github.com/Mahyar2020/web-programming-coursework-2026_Fall).
+The same address is shown below so that it can be compared with the browser's
+address bar:
 
 ```text
 https://github.com/Mahyar2020/web-programming-coursework-2026_Fall
