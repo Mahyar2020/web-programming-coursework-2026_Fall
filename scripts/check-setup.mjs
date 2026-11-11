@@ -18,6 +18,12 @@ const requiredFiles = [
   "labs/week-02/index.html",
   "labs/week-03/index.html",
   "labs/week-03/styles.css",
+  "labs/week-04/index.html",
+  "labs/week-04/styles.css",
+  "labs/week-04/events.js",
+  "labs/week-04/hello.js",
+  "labs/week-04/hello-browser.html",
+  "labs/week-04/hello-browser.js",
   "scripts/serve-static.mjs",
 ];
 
@@ -44,7 +50,7 @@ if (majorVersion !== 24) {
   failures.push(`Node.js 24 is required; this terminal is using ${process.version}.`);
 }
 
-for (const week of ["week-01", "week-02", "week-03"]) {
+for (const week of ["week-01", "week-02", "week-03", "week-04"]) {
   const relativePath = `labs/${week}/index.html`;
   try {
     const source = await readFile(path.join(root, relativePath), "utf8");
@@ -90,7 +96,7 @@ async function verifyServer(week) {
   }
 }
 
-for (const week of ["week-01", "week-02", "week-03"]) {
+for (const week of ["week-01", "week-02", "week-03", "week-04"]) {
   await verifyServer(week);
 }
 
@@ -100,5 +106,5 @@ if (failures.length > 0) {
   process.exitCode = 1;
 } else {
   console.log("Coursework setup verification passed.");
-  console.log("Checked required files, starter HTML, and Week 1-3 HTTP responses.");
+  console.log("Checked required files, starter HTML, and Week 1-4 HTTP responses.");
 }
