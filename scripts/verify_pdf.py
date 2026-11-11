@@ -9,7 +9,7 @@ from pypdf import PdfReader
 
 
 ROOT = Path(__file__).resolve().parent.parent
-PDF = ROOT / "output" / "pdf" / "web-programming-from-platform-to-production-foundations-edition-revised-v15.pdf"
+PDF = ROOT / "output" / "pdf" / "web-programming-from-platform-to-production-foundations-edition-revised-v21.pdf"
 
 
 def main() -> None:
@@ -49,11 +49,32 @@ def main() -> None:
         "Preface",
         "About the author",
         "Internet Protocol version 6",
+        "A mechanical way to compare two origins",
+        "This is a fictional address, not a website to open.",
+        "DNS_PROBE_FINISHED_NXDOMAIN",
+        "hub.campus.example",
+        "Cross-Origin Resource Sharing (CORS)",
         "Reading 2001:db8::40 as an IPv6 address",
         "Exercise 13 - Expand, compress, and interpret IPv6",
         "Table 1.4 - Common DNS resource record types",
         "Table 2.7 - Session 2 glossary",
         "Table 3.8 - Session 3 glossary",
+        "JavaScript from First Principles",
+        "Table 4.2 - JavaScript workstation tools and verification evidence",
+        "Table 4.4 - First-run symptoms, meanings, and next checks",
+        "Table 4.7 - Session 4 glossary",
+        "Figure 4.1. A first program moves through an observable",
+        "Figure 4.3. The browser requests HTML",
+        "Figure 4.4. The ECMAScript language runs inside a host",
+        "Figure 4.8. Primitive assignment copies a value",
+        "Figure 4.10. The tested JavaScript module transforms three event objects",
+        "Model Campus Hub event availability",
+        "npm run serve:week04",
+        "node labs/week-04/hello.js",
+        "Hello from Web Programming!",
+        "Week 04 - events.js",
+        "Week 04 - hello.js",
+        "Answer 12",
         "Figure 0.2. The course workstation keeps editing",
         "Figure 0.3. npm searches for package.json",
         "Figure 0.4. JavaScript runs in browsers and Node.js",
@@ -61,7 +82,7 @@ def main() -> None:
         "Figure 0.6. The server and command terminals",
         "Figure 0.8. Network records requests",
         "Figure 0.9. A hypothetical ENOENT path",
-        "serving it correctly produces an almost completely white page",
+        "produce an unexplained white page",
         "Figure 1.3. Client and server are roles within an exchange",
         "Figure 1.7. A page navigation coordinates naming",
         "Figure 1.14. Local development keeps the browser and development server",
@@ -69,13 +90,19 @@ def main() -> None:
         "Figure 2.4. An HTML element combines tags",
         "Figure 2.6. The browser output of the complete semantic form example",
         "Figure 2.8. Accessibility judgments combine automated",
-        "labs/starters/week-02/index.html",
+        "labs/week-02/index.html",
+        "npm run serve:week01",
+        "npm run serve:week02",
+        "npm run serve:week03",
         "This page is being edited in Visual Studio Code.",
         "Figure 3.1. A CSS rule connects a selector",
         "Figure 3.5. Logical inline and block axes",
-        "Figure 3.10. At a narrow viewport",
-        "Figure 3.11. One component can adapt",
-        "Figure 3.12. CSS debugging traces evidence",
+        "Figure 3.6. Every rem length uses one root reference",
+        "Figure 3.11. At a narrow viewport",
+        "Figure 3.12. One component can adapt",
+        "Figure 3.13. CSS debugging traces evidence",
+        "The name rem is short for root em",
+        "1rem must equal 16 pixels",
         "What DNS actually is",
         "The smallest useful HTML document",
         "Semantic HTML and Accessible Forms",
@@ -108,13 +135,23 @@ def main() -> None:
             failures.append(f"page {number} appears blank or nearly blank")
 
     link_annotations = 0
+    misleading_example_links: list[str] = []
     for page in reader.pages:
         for annotation_ref in page.get("/Annots", []):
             annotation = annotation_ref.get_object()
             if annotation.get("/Subtype") == "/Link":
                 link_annotations += 1
+                action = annotation.get("/A")
+                uri = str(action.get("/URI", "")) if action else ""
+                if ".example" in uri or "YOUR_GITHUB_USERNAME" in uri:
+                    misleading_example_links.append(uri)
     if link_annotations < 5:
         failures.append(f"too few hyperlink annotations: {link_annotations}")
+    if misleading_example_links:
+        failures.append(
+            "fictional or placeholder address encoded as a PDF hyperlink: "
+            + ", ".join(sorted(set(misleading_example_links)))
+        )
 
     if failures:
         print("PDF verification failed:")

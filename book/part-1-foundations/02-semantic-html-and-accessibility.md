@@ -58,18 +58,13 @@ result of interpreting those instructions.
 
 ### Find the correct Campus Hub file
 
-The repository contains several Campus Hub files because each has a different
-teaching purpose:
-
-- `labs/solutions/week-01/index.html` is the completed, unstyled page used in the
-  workstation orientation. It proves that the local server and browser work.
-- `labs/starters/week-02/index.html` is the file students edit during Session 2.
-  It already contains the outer document and the heading **Submit a campus
-  event**, but its comments mark work that has not yet been completed.
-- `labs/solutions/week-02/index.html` is the completed reference answer. Read it
-  after attempting the laboratory or when an instructor asks you to compare a
-  particular decision. Do not accidentally edit it while believing that you are
-  changing the starter.
+Your personal repository, created from the
+[Fall 2026 coursework template](https://github.com/Mahyar2020/web-programming-coursework-2026_Fall),
+contains one student working file for each laboratory. In Session 2, edit
+`labs/week-02/index.html`. It already contains the outer document and the heading
+**Submit a campus event**, but its comments mark work that has not yet been
+completed. The complete reference answer appears in Appendix A of this book; it
+is intentionally absent from the private student repository.
 
 The repeated filename `index.html` is intentional. Web servers commonly treat
 `index.html` as the default document for a directory. The folders distinguish
@@ -80,11 +75,10 @@ The PDF you are reading is not the website source. Editing the PDF cannot change
 the Campus Hub page. The source to edit in this session is:
 
 ```text
-web-programming-course-book
+web-programming-coursework-2026_Fall-YOUR_STUDENT_NUMBER
   labs
-    starters
-      week-02
-        index.html       <- edit this file
+    week-02
+      index.html       <- edit this file
 ```
 
 ### Use a plain-text code editor
@@ -108,11 +102,11 @@ Open the project and the correct file step by step:
 
 1. Start VS Code.
 2. Choose **File > Open Folder**.
-3. Select the outer `web-programming-course-book` folder, the one containing
-   `package.json`, `book`, `labs`, and `scripts`.
-4. In the Explorer panel, expand `labs`, then `starters`, then `week-02`.
+3. Select your outer `web-programming-coursework-2026_Fall-...` folder, the one
+   containing `package.json`, `labs`, and `scripts`.
+4. In the Explorer panel, expand `labs`, then `week-02`.
 5. Select `index.html`. Confirm that the breadcrumb or path includes
-   `labs > starters > week-02 > index.html`.
+   `labs > week-02 > index.html`.
 6. If the editor shows a preview rather than editable text, right-click the file,
    choose **Open With**, and select **Text Editor**.
 
@@ -146,7 +140,7 @@ root. On Windows Command Prompt, verify the location with:
 
 ```text
 dir package.json
-npm run serve:week02:starter
+npm run serve:week02
 ```
 
 On PowerShell, `Get-Item package.json` provides the same proof. On macOS or Linux,
@@ -154,7 +148,7 @@ use `ls -l package.json` before the npm command. A successful server prints line
 with this meaning:
 
 ```text
-Serving ...\labs\starters\week-02
+Serving ...\labs\week-02
 Open http://localhost:8000/
 Press Ctrl+C to stop.
 ```
@@ -175,7 +169,7 @@ styling is introduced.
 
 Each time you change the source, repeat this short cycle:
 
-1. edit `labs/starters/week-02/index.html` in VS Code;
+1. edit `labs/week-02/index.html` in VS Code;
 2. save the file;
 3. return to the browser; and
 4. reload with `Ctrl+R`, `F5`, or the browser's reload button.
@@ -190,7 +184,7 @@ response.
 The supplied server does not provide automatic live reload. If the old page
 remains visible, first confirm that the editor tab is saved, then reload the
 browser. Also confirm that the server's `Serving` line ends in
-`labs\starters\week-02`. If you edit a different copy of `index.html`, reloading
+`labs\week-02`. If you edit a different copy of `index.html`, reloading
 this address cannot display that other file.
 
 A real browser screenshot later in this session shows the completed Week 2
@@ -382,7 +376,7 @@ contexts, while the `h1` identifies the main subject inside the document. Both
 should be concise and specific, and they need not be character-for-character
 identical.
 
-Use a valid [BCP 47 language tag](https://www.rfc-editor.org/info/bcp47), such as
+Use a valid [BCP 47 language tag](https://www.rfc-editor.org/info/bcp47/), such as
 `en`, `tr`, or `fa`, and mark a passage whose language changes with `lang` on the
 nearest containing element. Writing direction is a separate property. Use
 `dir="rtl"` for a right-to-left passage when its base direction requires it, and
@@ -1041,18 +1035,17 @@ Your result must contain:
 ## Step 1 - Read before editing
 
 From the repository root, open
-`labs/starters/week-02/index.html` in the VS Code text editor. Verify the full
+`labs/week-02/index.html` in the VS Code text editor. Verify the full
 folder path rather than trusting an `index.html` tab name. In the SERVER terminal,
 run `dir package.json` on Windows or `ls -l package.json` on macOS/Linux, followed
-by `npm run serve:week02:starter`. Leave that process running, open
+by `npm run serve:week02`. Leave that process running, open
 `http://localhost:8000/`, and confirm that the baseline page displays **Submit a
 campus event**. Keep a second terminal available for Git and tests.
 
 Now identify every TODO in the source. Sketch the intended heading outline and
 form data names on paper. Decide which information is instruction, which is a
 label, and which is a constraint. Save each meaningful edit and reload the
-browser; the local server displays saved files, not unsaved editor contents. Do
-not edit `labs/solutions/week-02/index.html` as your submission.
+browser; the local server displays saved files, not unsaved editor contents.
 
 ## Step 2 - Establish landmarks and navigation
 
@@ -1101,14 +1094,17 @@ and accepts new commands while the first terminal remains occupied by the
 server. From the repository root, run:
 
 ```text
-npm run test:foundations
+npm test
 ```
 
-The final output should report that the foundations verification passed. If it
-does not, read the first failing check, correct the source, save it, and run the
-command again. Then write a five-sentence rationale explaining one native
-semantic choice, one keyboard observation, one limitation of browser validation,
-one privacy decision, and one improvement you would test with users. Review the
+The final output should report `Coursework setup verification passed.` This
+check proves that the supplied structure and server still operate; it does not
+grade every semantic decision in the completed form. If it fails, read the first
+reported check, correct the source or project location, save, and run the command
+again. Then compare the page with every acceptance criterion and write a
+five-sentence rationale explaining one native semantic choice, one keyboard
+observation, one limitation of browser validation, one privacy decision, and one
+improvement you would test with users. Review the
 staged diff and create the final laboratory commit only after the browser,
 accessibility inspection, validator, and automated check agree with the intended
 source.
@@ -1551,7 +1547,7 @@ avoid correcting the visible markup.
 
 # Session summary
 
-- The Session 2 working source is `labs/starters/week-02/index.html`; VS Code
+- The Session 2 working source is `labs/week-02/index.html`; VS Code
   edits it, the local Node.js server serves it, and the browser renders it.
 - The basic feedback cycle is edit, save, reload, and inspect. An unsaved file or
   a different `index.html` cannot change the page currently being served.

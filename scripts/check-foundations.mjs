@@ -98,7 +98,7 @@ for (const [week, chapter] of [[2, "book/part-1-foundations/02-semantic-html-and
 const chapter2 = await load("book/part-1-foundations/02-semantic-html-and-accessibility.md");
 requirePatterns(chapter2, "book/part-1-foundations/02-semantic-html-and-accessibility.md", [
   [/find, edit, and view Campus Hub/i, "zero-start HTML editing and preview lesson"],
-  [/labs\/starters\/week-02\/index\.html[\s\S]+Visual Studio Code[\s\S]+npm run serve:week02:starter[\s\S]+http:\/\/localhost:8000\//i, "complete Week 2 edit-save-serve-browser path"],
+  [/Fall 2026 coursework template[\s\S]+labs\/week-02\/index\.html[\s\S]+Visual Studio Code[\s\S]+npm run serve:week02[\s\S]+http:\/\/localhost:8000\//i, "complete Week 2 coursework edit-save-serve-browser path"],
   [/figure:html-edit-preview-workflow/i, "HTML edit-to-browser workflow figure"],
   [/unsaved editor contents/i, "saved-file versus editor-buffer distinction"],
   [/Document-wide meaning begins in `html` and `head`/i, "document metadata lesson"],
@@ -119,6 +119,12 @@ requirePatterns(chapter3, "book/part-1-foundations/03-css-cascade-layout-and-res
   [/Build selector literacy/i, "selector-family lesson"],
   [/CSS-wide keywords/i, "inheritance keyword lesson"],
   [/Logical properties follow the writing system/i, "logical-properties lesson"],
+  [/The name `rem` is short for \*\*root em\*\*/i, "root-em definition"],
+  [/computed root font size[\s\S]+not from a memorized assumption/i, "computed-root calculation model"],
+  [/`rem` and `em` answer different questions/i, "rem and em comparison"],
+  [/figure:rem-em-scale/i, "rem and em reference-chain figure"],
+  [/Preserve the user's starting point/i, "root font-size accessibility guidance"],
+  [/Checkpoint - calculate before opening developer tools/i, "font-relative-unit calculation checkpoint"],
   [/Positioned layout changes reference and flow/i, "positioning and stacking lesson"],
   [/Form controls retain platform behavior/i, "form-control styling lesson"],
   [/Container queries make components context-aware/i, "container-query lesson"],
@@ -130,7 +136,19 @@ requirePatterns(chapter3, "book/part-1-foundations/03-css-cascade-layout-and-res
   [/Exercise 16 - Architecture review/i, "architecture transfer exercise"],
   [/Instructor teaching guide/i, "instructor teaching support"],
   [/CSS Snapshot 2026/i, "current CSS snapshot reference"],
+  [/Fall 2026 coursework template[\s\S]+labs\/week-03\/styles\.css[\s\S]+npm test/i, "Week 3 coursework repository path and verification command"],
 ]);
+
+const chapter1 = await load("book/part-1-foundations/01-how-the-web-works.md");
+requirePatterns(chapter1, "book/part-1-foundations/01-how-the-web-works.md", [
+  [/This is a fictional address, not a website to open/i, "explicit fictional-address warning"],
+  [/DNS_PROBE_FINISHED_NXDOMAIN/i, "beginner explanation of the expected DNS failure"],
+  [/hub\.campus\.example/i, "RFC-reserved Campus Hub example hostname"],
+  [/RFC 2606: Reserved Top Level DNS Names/i, "reserved example-domain reference"],
+]);
+if (/\.example\.edu\b/i.test(chapter1)) {
+  failures.push("book/part-1-foundations/01-how-the-web-works.md: contains non-standard example.edu teaching hostnames");
+}
 
 if (failures.length) {
   console.error("Foundation verification failed:\n");

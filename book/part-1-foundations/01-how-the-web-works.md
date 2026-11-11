@@ -327,9 +327,9 @@ security boundaries, routing, caching, and form submission without guesswork.
 Consider the following URL.
 
 ```text
-https://events.example.edu:8443/clubs/robotics?semester=fall&limit=20#schedule
-\___/   \________________/ \__/\______________/ \____________________/ \______/
-scheme          host       port       path                query          fragment
+https://events.campus.example:8443/clubs/robotics?semester=fall&limit=20#schedule
+\___/   \_____________________/ \__/\______________/ \____________________/ \______/
+scheme             host        port       path                query          fragment
 ```
 
 Figure 1.6 turns the same URL into labelled components so that each punctuation
@@ -357,7 +357,7 @@ the port without omitting the concept: the scheme supplies the default.
 
 The colon has no single universal meaning. Its meaning comes from the notation in
 which it appears. In `https://`, the colon ends the URL scheme. In
-`example.edu:8443`, it separates the host from an explicitly written port. In the
+`campus.example:8443`, it separates the host from an explicitly written port. In the
 IPv6 address `2001:db8::10`, colons separate groups of hexadecimal digits, and the
 double colon compresses one run of zero groups. In ordinary prose, a colon may
 simply introduce an explanation or list. Code formatting in this book marks URL
@@ -392,25 +392,135 @@ history, screenshots, extensions, and client-side scripts may expose it.
 
 ### 3.3 Origin and same-origin reasoning
 
-An **origin** is the combination of scheme, host, and port. These URLs share an
-origin:
+Suppose the browser has loaded the Campus Hub events page from the following
+URL.
+
+> **This is a fictional address, not a website to open.** The ending
+> `.example` is reserved for names used in teaching and documentation. Therefore,
+> `hub.campus.example` intentionally has no public Campus Hub server behind it.
+> Some PDF viewers and browsers automatically make printed URL-shaped text look
+> clickable. If you follow this example address, a message such as
+> `DNS_PROBE_FINISHED_NXDOMAIN` is expected: it means the Domain Name System (DNS)
+> could not find that fictional name. When a later activity expects you to open
+> a working page, the book explicitly gives a `localhost` address or a verified
+> public link.
 
 ```text
-https://hub.example.edu/events
-https://hub.example.edu/clubs?active=true
+https://hub.campus.example/events
 ```
 
-These do not share that origin:
+The complete URL identifies a resource, but the browser also needs a stable way
+to answer a security question: *Which other documents and services belong to the
+same source as this page?* The browser answers that question by calculating the
+page's **origin**.
+
+For an ordinary HTTP or HTTPS URL, an origin contains exactly three values:
+
+1. the **scheme**, such as `http` or `https`;
+2. the **hostname**, such as `hub.campus.example`; and
+3. the **effective port**, such as `443` for HTTPS.
+
+The word *effective* matters. A URL does not have to show a port explicitly.
+HTTPS uses port 443 by default, while HTTP uses port 80 by default. Consequently,
+`https://hub.campus.example` and `https://hub.campus.example:443` have the same origin.
+The first URL omits the port from its spelling, but its effective port is still
+443.
+
+For the Campus Hub page, the origin can therefore be written as follows.
 
 ```text
-http://hub.example.edu/events        # different scheme
-https://api.example.edu/events       # different host
-https://hub.example.edu:8443/events  # different port
+https://hub.campus.example
 ```
 
-Browsers use origin boundaries in important security decisions. Later chapters
-will connect this model to cookies, storage, cross-origin requests, iframes, and
-content isolation.
+Notice what disappeared. The path `/events` is not part of the origin. Neither
+is a query nor a fragment. Figure 1.6 labels all of those URL components; when
+you make an origin comparison, use only the scheme, hostname, and effective
+port. Paths still distinguish resources, but they do not create different
+origins.
+
+#### A mechanical way to compare two origins
+
+Do not decide by asking whether two URLs “look related.” Apply the same four
+steps every time:
+
+1. Resolve a relative reference, if necessary, so that both values are complete
+   URLs.
+2. Compare the schemes. If they differ, the origins differ.
+3. Compare the hostnames. If they differ, the origins differ.
+4. Compare the effective ports, inserting the scheme's default when a port is
+   omitted. The URLs are same-origin only if all three comparisons match.
+
+Apply those steps with `https://hub.campus.example/events` as the page URL.
+
+- `https://hub.campus.example/clubs?active=true` is **same-origin**. Only the path
+  and query differ.
+- `https://hub.campus.example:443/help` is **same-origin**. The written port 443 is
+  the default HTTPS port, so both effective ports are 443.
+- `http://hub.campus.example/events` is **cross-origin**. The scheme is `http`
+  instead of `https`; its default port is also 80 instead of 443.
+- `https://api.campus.example/events` is **cross-origin**. `api.campus.example` and
+  `hub.campus.example` are different hostnames. Sharing the ending
+  `campus.example` does not make them the same origin.
+- `https://hub.campus.example:8443/events` is **cross-origin**. The hostname
+  matches, but port 8443 does not match the effective port 443.
+
+This rule often surprises students during local development. A page at
+`http://localhost:8000` and an application programming interface (API) at
+`http://localhost:3000` run on the same computer, but they are cross-origin
+because their ports differ. Similarly, `http://localhost:8000` and
+`http://127.0.0.1:8000` are cross-origin because `localhost` and `127.0.0.1` are
+different host values. “Same machine” and “same origin” answer different
+questions.
+
+#### Why the browser needs this boundary
+
+Imagine that a student is signed in to a private Campus Hub page and then opens
+an unrelated, malicious page in another tab. If any script could freely read
+data from any origin that the browser could reach, the malicious page could try
+to read the student's private timetable, grades, or intranet pages. The
+**same-origin policy** limits how a document or script from one origin can
+interact with resources from another origin. It is one of the browser's central
+isolation mechanisms.
+
+The policy is not a rule that says “no cross-origin traffic is ever allowed.”
+Browsers commonly allow a user to follow a link to another origin, allow a form
+to submit to another origin, and allow a page to display some cross-origin
+resources such as images. The important restrictions depend on the kind of
+interaction. In particular, JavaScript normally cannot read a cross-origin
+`fetch()` response unless the receiving server deliberately permits that access.
+
+**Cross-Origin Resource Sharing (CORS)** is the HTTP mechanism through which a
+server can grant selected cross-origin access. CORS does not turn two origins
+into one origin, and browser code cannot grant itself permission. The server
+states its policy in response headers, and the browser enforces the result.
+Chapter 6 develops that request-and-response process in detail.
+
+Also keep **origin** separate from the looser everyday word *website*. One
+website may deliberately use several origins, such as `www.campus.example` for
+pages and `api.campus.example` for data. Those names may belong to the same
+organization, yet the browser still treats them as different origins. Later
+security chapters will also distinguish *same-origin* from *same-site*; the two
+terms are not interchangeable.
+
+#### Check the rule before moving on
+
+A page is loaded from `http://localhost:8000/week-01/`. Decide whether each
+target is same-origin with the page.
+
+- `/images/campus.svg` is same-origin because a relative URL inherits the
+  page's scheme, hostname, and port.
+- `http://localhost:8000/api/events` is same-origin because all three origin
+  values match.
+- `http://localhost:3000/api/events` is cross-origin because the port differs.
+- `https://localhost:8000/api/events` is cross-origin because the scheme
+  differs, even though the hostname and written port match.
+- `http://127.0.0.1:8000/api/events` is cross-origin because the host differs,
+  even though both names may reach the same computer.
+
+The habit to retain is precise: compare scheme, hostname, and effective port.
+Do not compare the path, do not judge by organizational ownership, and do not
+substitute “same computer” for “same origin.” Later chapters will connect this
+model to cookies, browser storage, iframes, CORS, and content isolation.
 
 ### 3.4 Encoding and normalization
 
@@ -431,7 +541,7 @@ in the hostname.
 Given this base URL:
 
 ```text
-https://hub.example.edu/events/today
+https://hub.campus.example/events/today
 ```
 
 predict the targets of these references:
@@ -445,10 +555,10 @@ predict the targets of these references:
 
 **Answers:**
 
-- `../clubs` → `https://hub.example.edu/clubs`
-- `/help` → `https://hub.example.edu/help`
-- `?format=json` → `https://hub.example.edu/events/today?format=json`
-- `#registration` → `https://hub.example.edu/events/today#registration`
+- `../clubs` → `https://hub.campus.example/clubs`
+- `/help` → `https://hub.campus.example/help`
+- `?format=json` → `https://hub.campus.example/events/today?format=json`
+- `#registration` → `https://hub.campus.example/events/today#registration`
 
 Relative URL resolution follows defined rules; it is not plain string
 concatenation. A relative reference depends on a base URL. In an HTML document,
@@ -608,12 +718,12 @@ A resource record is easier to understand when its fields are visible. Consider
 this teaching example.
 
 ```text
-hub.example.edu.  300  IN  A  192.0.2.40
+hub.campus.example.  300  IN  A  192.0.2.40
 ```
 
 Read the record from left to right.
 
-- `hub.example.edu.` is the **owner name**, meaning the DNS name to which the
+- `hub.campus.example.` is the **owner name**, meaning the DNS name to which the
   record belongs. The final dot explicitly represents the root of the DNS tree,
   so the name is complete rather than relative to a local suffix.
 - `300` is the **time to live (TTL)** in seconds. A cache may normally reuse this
@@ -650,7 +760,7 @@ addresses. The four octets in this example have the following binary forms:
 
 The dots belong to the written notation; they do not divide a packet into four
 separate transmissions. Nor do the four numbers correspond to the four levels in
-`hub.example.edu`. A domain name and an IP address use different structures for
+`hub.campus.example`. A domain name and an IP address use different structures for
 different purposes.
 
 An IPv4 address identifies an IP endpoint or network interface for routing. It
@@ -832,11 +942,11 @@ introductory Web development and deployment.
 The following examples use names and addresses reserved for teaching.
 
 ```text
-hub.example.edu.   300   IN  AAAA   2001:db8::40
-www.example.edu.   300   IN  CNAME  hub.example.edu.
-example.edu.       3600  IN  MX     10 mail.example.edu.
-example.edu.       86400 IN  NS     ns1.example.edu.
-example.edu.       3600  IN  TXT    "course-verification=sample-value"
+hub.campus.example.     300   IN  AAAA   2001:db8::40
+www.campus.example.     300   IN  CNAME  hub.campus.example.
+campus.example.         3600  IN  MX     10 mail.campus.example.
+campus.example.         86400 IN  NS     ns1.campus.example.
+campus.example.         3600  IN  TXT    "course-verification=sample-value"
 ```
 
 The `AAAA` example provides the IPv6 address explained immediately before Table
@@ -844,10 +954,10 @@ The `AAAA` example provides the IPv6 address explained immediately before Table
 does not reduce the address itself. DNS transports address data in its protocol
 representation rather than as a browser copying the displayed punctuation.
 
-The `CNAME` example does not say that `www.example.edu` has the literal address
-`hub.example.edu`. It says that the first name is an alias and the resolver should
+The `CNAME` example does not say that `www.campus.example` has the literal address
+`hub.campus.example`. It says that the first name is an alias and the resolver should
 continue with the canonical target. The `MX` example assigns mail preference 10
-to `mail.example.edu`; it does not provide that server's address. The `NS` example
+to `mail.campus.example`; it does not provide that server's address. The `NS` example
 names an authoritative server, which also requires address records. The `TXT`
 example is merely a string until an application-level convention defines how to
 interpret it.
@@ -946,7 +1056,7 @@ A simplified request might be:
 
 ```http
 GET /events?semester=fall HTTP/1.1
-Host: hub.example.edu
+Host: hub.campus.example
 Accept: text/html
 User-Agent: ExampleBrowser/1.0
 ```
@@ -1082,7 +1192,7 @@ These addresses describe different environments:
 ```text
 file:///C:/course/week-01/index.html
 http://localhost:8000/index.html
-https://student.example.edu/index.html
+https://student.campus.example/index.html
 ```
 
 - A `file:` URL lets the browser read a local file directly. There is no HTTP
@@ -1372,8 +1482,11 @@ commit does not remove it from existing history. Revoke or rotate the credential
 
 ## Goal and acceptance criteria
 
-Starting from [`labs/starters/week-01/index.html`](../../labs/starters/week-01/index.html),
-create a small Campus Hub document and serve it over HTTP.
+In the personal repository created from the
+[Fall 2026 coursework template](https://github.com/Mahyar2020/web-programming-coursework-2026_Fall),
+start from `labs/week-01/index.html`, create a small Campus Hub document, and
+serve it over HTTP. The template repository itself is read-only course material;
+commit and push work only to the private repository that you created from it.
 
 Your result must:
 
@@ -1396,20 +1509,22 @@ secrets in screenshots or submissions.
 
 ## Step 1 — Establish the baseline
 
-Copy the starter to a new working directory, initialize Git, and inspect it:
+Open a terminal at the root of your personal coursework repository. Prove that
+you are in the correct folder, then inspect the existing Git working tree:
 
 ```powershell
-git init
+Get-Item package.json
 git status
 ```
 
-Open `index.html` directly and note the `file:` URL. In developer tools, look for
-an HTTP document request. You should not find one for the local file.
+Open `labs/week-01/index.html` in VS Code. For comparison, you may open that file
+directly in the browser and note the `file:` URL. In developer tools, look for an
+HTTP document request. You should not find one for the direct local-file load.
 
 Complete the first TODOs, then commit:
 
 ```powershell
-git add index.html
+git add labs/week-01/index.html
 git commit -m "Create the Campus Hub document"
 ```
 
@@ -1426,7 +1541,7 @@ Add a footer with a short statement that this is a student learning project.
 Commit again:
 
 ```powershell
-git add index.html
+git add labs/week-01/index.html
 git commit -m "Add Campus Hub navigation and sections"
 ```
 
@@ -1436,22 +1551,14 @@ change a fragment within the loaded document.
 
 ## Step 3 — Serve through HTTP
 
-From the course-book repository, the supplied dependency-free server can serve the
-starter at port 8000:
+From the root of your personal coursework repository, run the supplied
+dependency-free server at port 8000:
 
 ```powershell
-npm run serve:week01:starter
+npm run serve:week01
 ```
 
-If you copied the starter into your own repository, pass that directory to the
-supplied server script, replacing `path/to/your/week-01` with the real path:
-
-```powershell
-node scripts/serve-static.mjs path/to/your/week-01 8000
-```
-
-The second command assumes it is run from the course-book repository so Node can
-find `scripts/serve-static.mjs`. The server binds only to the local loopback
+The npm script serves `labs/week-01`. The server binds only to the local loopback
 address and does not download a package.
 
 Navigate to `http://localhost:8000/`. Keep the server terminal open.
@@ -1499,22 +1606,23 @@ HTTP response arrived.
 Return to the working page, correct any issues, and commit:
 
 ```powershell
-git add index.html
+git add labs/week-01/index.html
 git commit -m "Complete the Week 1 HTTP observation"
 ```
 
 ## Step 5 — Verify
 
-In the course-book repository, run:
+In your personal coursework repository, run:
 
 ```powershell
 npm test
 ```
 
-The automated check tests the reference solution and the book's required files.
-For your own copy, compare your structure with the acceptance criteria. The
-reference solution is available only after you have completed and committed your
-attempt.
+The automated check confirms the supplied project structure, Node.js version,
+starter documents, and local HTTP servers. It does not grade the completed Week 1
+HTML. Compare your document with every acceptance criterion above and with the
+worked solution in Appendix A, but only after you have completed and committed
+your own attempt.
 
 ## Observation record
 
@@ -1557,7 +1665,7 @@ For this URL, identify every component and state which component is not sent in
 the HTTP request:
 
 ```text
-https://library.example.edu:9443/search/books?q=distributed+systems#results
+https://library.campus.example:9443/search/books?q=distributed+systems#results
 ```
 
 ### Exercise 2 — Order the events
@@ -1653,14 +1761,14 @@ implementation.
 
 ### Exercise 11 — Compare origins
 
-For the document at `https://portal.example.edu/index.html`, state whether each
+For the document at `https://portal.campus.example/index.html`, state whether each
 URL has the same origin. Explain every answer using the scheme–host–port tuple.
 
-1. `https://portal.example.edu/help`
-2. `http://portal.example.edu/help`
-3. `https://api.example.edu/help`
-4. `https://portal.example.edu:443/help`
-5. `https://portal.example.edu:8443/help`
+1. `https://portal.campus.example/help`
+2. `http://portal.campus.example/help`
+3. `https://api.campus.example/help`
+4. `https://portal.campus.example:443/help`
+5. `https://portal.campus.example:8443/help`
 
 ### Exercise 12 — Diagnose by layer
 
@@ -1688,7 +1796,7 @@ Answer all parts and explain each transformation.
 ## Answer 1
 
 - Scheme: `https`
-- Host: `library.example.edu`
+- Host: `library.campus.example`
 - Port: `9443`
 - Path: `/search/books`
 - Query: `q=distributed+systems`
@@ -1812,13 +1920,13 @@ describes the intended server-side effect of repeating the request.
 
 ## Answer 11
 
-The reference origin is `(https, portal.example.edu, 443)` because HTTPS uses
+The reference origin is `(https, portal.campus.example, 443)` because HTTPS uses
 port 443 when no port is written.
 
 1. Same origin: all three components match.
 2. Different origin: the scheme is `http`, whose default port is also 80 rather
    than 443.
-3. Different origin: `api.example.edu` is a different host, even though it may
+3. Different origin: `api.campus.example` is a different host, even though it may
    belong to the same organization.
 4. Same origin: explicitly writing the default HTTPS port does not change the
    effective port.
@@ -1969,6 +2077,8 @@ mental model.
 - Clients initiate requests; servers produce responses. One machine can play both
   roles.
 - URLs are structured identifiers, not unstructured strings.
+- An origin combines a URL's scheme, hostname, and effective port; browsers use
+  that combination as a security boundary.
 - IPv4 uses four decimal octets for a 32-bit address. IPv6 uses eight hexadecimal
   groups for a 128-bit address and permits carefully defined compression.
 - DNS resolution, connection setup, HTTP exchange, and browser processing are
@@ -1995,7 +2105,7 @@ classroom retrieval practice.
 | CSS | Cascading Style Sheets, the language used to describe the presentation and layout of structured documents. |
 | DNS | A distributed naming system used, among other purposes, to obtain address information for domain names. |
 | DOM | The Document Object Model: the live tree of nodes that a browser constructs for a document and exposes to scripts. |
-| Domain name | A hierarchical human-readable name, such as `www.example.edu`, whose DNS records can describe addresses and other services. |
+| Domain name | A hierarchical human-readable name, such as the fictional `www.campus.example`, whose DNS records can describe addresses and other services. |
 | Fragment | A client-side secondary reference after `#` in a URL. |
 | HTML | HyperText Markup Language, the language that gives a web document its structure and meaning. |
 | HTTP | A stateless application-level protocol for exchanging messages about resources. |
@@ -2023,25 +2133,35 @@ classroom retrieval practice.
 
 1. WHATWG, [HTML Living Standard — Web developer edition](https://html.spec.whatwg.org/dev/).
 2. WHATWG, [URL Living Standard](https://url.spec.whatwg.org/).
-3. IETF, [RFC 9110: HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110.html).
-4. IETF, [RFC 1034: Domain Names—Concepts and Facilities](https://www.rfc-editor.org/rfc/rfc1034.html).
-5. IETF, [RFC 3596: DNS Extensions to Support IP Version 6](https://www.rfc-editor.org/rfc/rfc3596.html).
-6. IETF, [RFC 8200: Internet Protocol, Version 6 (IPv6) Specification](https://www.rfc-editor.org/rfc/rfc8200.html).
-7. IETF, [RFC 4291: IP Version 6 Addressing Architecture](https://www.rfc-editor.org/rfc/rfc4291.html).
-8. IETF, [RFC 5952: A Recommendation for IPv6 Address Text Representation](https://www.rfc-editor.org/rfc/rfc5952.html).
-9. IETF, [RFC 9846: The Transport Layer Security (TLS) Protocol Version 1.3](https://www.rfc-editor.org/rfc/rfc9846.html). This July 2026 specification obsoletes RFC 8446.
-10. IETF, [RFC 9000: QUIC—A UDP-Based Multiplexed and Secure Transport](https://www.rfc-editor.org/rfc/rfc9000.html).
-11. IETF, [RFC 9114: HTTP/3](https://www.rfc-editor.org/rfc/rfc9114.html).
-12. W3C, [CSS Snapshot 2025](https://www.w3.org/TR/css-2025/).
-13. MDN, [How the web works](https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works).
-14. Chacon and Straub, [Pro Git, 2nd edition](https://git-scm.com/book/en/v2.html).
+3. WHATWG, [Fetch Standard](https://fetch.spec.whatwg.org/). The CORS sections
+   define how HTTP responses may be shared across origins.
+4. MDN, [Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same-origin_policy).
+   This guide gives practical examples of same-origin and cross-origin browser
+   interactions.
+5. IETF, [RFC 9110: HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110.html).
+6. IETF, [RFC 1034: Domain Names—Concepts and Facilities](https://www.rfc-editor.org/rfc/rfc1034.html).
+7. IETF, [RFC 3596: DNS Extensions to Support IP Version 6](https://www.rfc-editor.org/rfc/rfc3596.html).
+8. IETF, [RFC 8200: Internet Protocol, Version 6 (IPv6) Specification](https://www.rfc-editor.org/rfc/rfc8200.html).
+9. IETF, [RFC 4291: IP Version 6 Addressing Architecture](https://www.rfc-editor.org/rfc/rfc4291.html).
+10. IETF, [RFC 5952: A Recommendation for IPv6 Address Text Representation](https://www.rfc-editor.org/rfc/rfc5952.html).
+11. IETF, [RFC 9846: The Transport Layer Security (TLS) Protocol Version 1.3](https://www.rfc-editor.org/rfc/rfc9846.html). This July 2026 specification obsoletes RFC 8446.
+12. IETF, [RFC 9000: QUIC—A UDP-Based Multiplexed and Secure Transport](https://www.rfc-editor.org/rfc/rfc9000.html).
+13. IETF, [RFC 9114: HTTP/3](https://www.rfc-editor.org/rfc/rfc9114.html).
+14. W3C, [CSS Snapshot 2026](https://www.w3.org/TR/css-2026/).
+15. MDN, [How the web works](https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works).
+16. Chacon and Straub, [Pro Git, 2nd edition](https://git-scm.com/book/en/v2.html).
+17. IANA, [Example Domains](https://www.iana.org/help/example-domains). This
+    explains why reserved example names are suitable for documentation but
+    should not be treated as dependable web services.
+18. IETF, [RFC 2606: Reserved Top Level DNS Names](https://www.rfc-editor.org/rfc/rfc2606.html).
+    This standard reserves `.example` for documentation and illustrative examples.
 
 ## What changes often?
 
 The conceptual roles and HTTP semantics in this chapter are stable. Browser
 developer-tool labels, exact timing panels, installation screens, and command
 output change more often. The technical review date for this chapter is
-**1 September 2026**.
+**29 September 2026**.
 
 ## Session reflection
 

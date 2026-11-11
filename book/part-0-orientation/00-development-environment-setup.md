@@ -241,9 +241,10 @@ read, change, create, or remove.
 Every terminal is currently *inside* one folder. A command such as `npm run ...`
 does not search the whole computer for the project you had in mind. npm begins
 from the terminal's current folder and expects the project's `package.json`
-there. In this book, the **repository root** is the outer
-`web-programming-course-book` folder containing `package.json`, `book`, `labs`,
-and `scripts`.
+there. For student work in this course, the **repository root** is the outer
+`web-programming-coursework-2026_Fall-STUDENT_NUMBER` folder containing
+`package.json`, `labs`, and `scripts`. The final part of the folder name contains
+the student's real university number, not the literal text `STUDENT_NUMBER`.
 
 For a hypothetical example, suppose Command Prompt begins like this:
 
@@ -265,14 +266,15 @@ Use this four-part check before every project command:
 **Step 1 - Locate the project folder.** In File Explorer, browse to the folder
 that visibly contains `package.json`. If a student named `Student` cloned the
 repository into the usual GitHub folder, an example location would be
-`C:\Users\Student\Documents\GitHub\web-programming-course-book`. Your Windows
-account name and chosen clone location may be different.
+`C:\Users\Student\Documents\GitHub\web-programming-coursework-2026_Fall-12345678`.
+Here, `12345678` is a fictional student number. Your Windows account name,
+student number, and chosen clone location will be different.
 
 **Step 2 - Enter that folder.** In Command Prompt, type the following command
 exactly. `/d` allows `cd` to change the drive as well as the folder:
 
 ```text
-cd /d "C:\Users\Student\Documents\GitHub\web-programming-course-book"
+cd /d "C:\Users\Student\Documents\GitHub\web-programming-coursework-2026_Fall-12345678"
 ```
 
 **Step 3 - Prove the location.** Run `cd`, followed by `dir package.json`. The
@@ -281,7 +283,7 @@ first command should print the repository path; the second should list
 npm yet.
 
 **Step 4 - Run the project command only after the proof succeeds.** For example,
-run `npm test` or `npm run serve:week01:solution`.
+run `npm test` or `npm run serve:week01`.
 
 There is also a convenient visual route. Open the correct project folder in File
 Explorer, click its address bar, type `cmd`, and press Enter. Windows opens
@@ -529,7 +531,9 @@ students do not edit the instructor's original repository.
 
 #### Information that must come from the instructor
 
-The Fall 2026 class uses this private GitHub template repository:
+The Fall 2026 class uses the following private GitHub template repository. Open
+the [Fall 2026 coursework template](https://github.com/Mahyar2020/web-programming-coursework-2026_Fall)
+while signed in to the authorized GitHub account.
 
 ```text
 https://github.com/Mahyar2020/web-programming-coursework-2026_Fall
@@ -541,9 +545,10 @@ Students should use the LMS copy rather than an address received from an
 unverified account. In this address, `Mahyar2020` is the owner and
 `web-programming-coursework-2026_Fall` is the repository name.
 
-Do not confuse it with the repository containing this book. The address
-`https://github.com/Mahyar2020/web-programming-course-book` identifies the book's
-source repository rather than the student-coursework template.
+Do not confuse it with the repository containing this book. The
+[course-book source repository](https://github.com/Mahyar2020/web-programming-course-book)
+is used to produce the book and instructor resources; it is not the repository
+in which students complete laboratory work.
 
 If the LMS contains no assignment link, or the link opens a `404` page, stop and
 ask the instructor for the semester's GitHub template or invitation. Do not guess
@@ -664,7 +669,7 @@ then **HTTPS**, and use the copy button beside the displayed address. It should
 resemble the following example, with your real owner and repository name:
 
 ```text
-https://github.com/your-account/web-programming-coursework-2026_Fall-STUDENT_NUMBER.git
+https://github.com/YOUR_GITHUB_USERNAME/web-programming-coursework-2026_Fall-YOUR_STUDENT_NUMBER.git
 ```
 
 Secure Shell (SSH) is another valid connection method, but use it only after the
@@ -688,22 +693,23 @@ At the terminal prompt, type `git clone`, add one space, paste the HTTPS address
 copied in Step 6, and press Enter. A representative command is:
 
 ```text
-git clone https://github.com/your-account/web-programming-coursework-2026_Fall-STUDENT_NUMBER.git
+git clone https://github.com/YOUR_GITHUB_USERNAME/web-programming-coursework-2026_Fall-YOUR_STUDENT_NUMBER.git
 ```
 
-Replace the entire example URL with the copied address. Do not type the words
-`your-account`. Git creates a new subfolder, downloads the project files and Git
-history, and normally names the remote connection `origin`. During the first
-private-repository operation, Git Credential Manager may open a browser and ask
-you to authorize Git. Complete that browser sign-in; do not put the GitHub
-password into the command itself.
+Replace the entire example URL with the address copied from your repository. Do
+not type the placeholder words `YOUR_GITHUB_USERNAME` or
+`YOUR_STUDENT_NUMBER`. Git creates a new subfolder, downloads the project files
+and Git history, and normally names the remote connection `origin`. During the
+first private-repository operation, Git Credential Manager may open a browser
+and ask you to authorize Git. Complete that browser sign-in; do not put the
+GitHub password into the command itself.
 
 #### Step 9 - Enter the project and prove that the two locations are connected
 
 In Windows Command Prompt, use the actual folder name created by `git clone`:
 
 ```text
-cd /d "C:\Users\YourName\Documents\GitHub\web-programming-coursework-2026_Fall-STUDENT_NUMBER"
+cd /d "C:\Users\YourName\Documents\GitHub\web-programming-coursework-2026_Fall-YOUR_STUDENT_NUMBER"
 dir package.json
 git status
 git remote -v
@@ -740,7 +746,7 @@ existing outer project folder in File Explorer. For the hypothetical Windows
 location used in this orientation, the Command Prompt sequence is:
 
 ```text
-cd /d "C:\Users\Student\Documents\GitHub\web-programming-course-book"
+cd /d "C:\Users\Student\Documents\GitHub\web-programming-coursework-2026_Fall-12345678"
 dir package.json
 git status
 ```
@@ -771,8 +777,8 @@ code .
 ```
 
 The dot means **this current folder**. In VS Code, the Explorer should show
-`book`, `labs`, `scripts`, `package.json`, and `.nvmrc`. The bottom terminal prompt
-should end with the project-folder name. If Explorer shows only one HTML file,
+`labs`, `scripts`, `package.json`, and `.nvmrc`. The bottom terminal prompt should
+end with the project-folder name. If Explorer shows only one HTML file,
 use **File > Open Folder**, select the outer repository folder, and choose
 **Select Folder**. When VS Code asks whether you trust the authors, first verify
 that the repository came from the authorized course source.
@@ -820,10 +826,11 @@ npm test
 ```
 
 `npm test` does not mean “test npm.” npm reads `package.json` and runs this
-project's named `test` script. The script checks local links, the Week 1 server and
-HTML artifact, and the foundation laboratory assets. A passing result demonstrates
-that the runtime can read the project and execute the published checks. It does
-not prove that every future program is correct.
+project's named `test` script. In the student coursework repository, the script
+checks the required project files, the starter HTML documents, the Node.js major
+version, and an HTTP response from each Week 1-3 server. A passing result
+demonstrates that the runtime can read the project and execute the supplied setup
+checks. It does not prove that every future program is correct.
 
 Record the complete first failure, not only its final line. Common distinctions
 include:
@@ -875,30 +882,30 @@ directory.
 ### 10.2 Start the server and read its output
 
 In the terminal designated **SERVER**, prove that `package.json` is present and
-then start the server with the completed Week 1 page:
+then start the server with the Week 1 page from the student coursework
+repository:
 
 ```text
 dir package.json
-npm run serve:week01:solution
+npm run serve:week01
 ```
 
-This orientation exercise uses the **solution** deliberately. At this point you
-are checking whether Node.js, the local server, and the browser cooperate; you
-are not yet expected to write the Campus Hub document. The **starter** file is a
-later laboratory scaffold. Its body initially contains only invisible HTML
-comments, so serving it correctly produces an almost completely white page.
+At this point you are checking whether Node.js, the local server, and the browser
+cooperate; you are not yet expected to complete the Campus Hub document. The
+starter includes a visible setup message as well as comments marking the work
+for Session 1, so a successful server does not produce an unexplained white page.
 
 On macOS or Linux, replace `dir package.json` with `ls -l package.json`. The
 expected final three server lines are:
 
 ```text
-Serving ...\labs\solutions\week-01
+Serving ...\labs\week-01
 Open http://localhost:8000/
 Press Ctrl+C to stop.
 ```
 
 The beginning of the first path depends on your computer. The important ending
-is `labs\solutions\week-01` on Windows or `labs/solutions/week-01` on macOS and
+is `labs\week-01` on Windows or `labs/week-01` on macOS and
 Linux. Leave this terminal running. Figure 0.7 pairs the expected terminal state
 with the expected browser result.
 
@@ -914,16 +921,17 @@ plain address.
 
 `localhost` is a special host name for the current computer. `8000` is the port
 on which this course server is listening. This step does not publish anything to
-the Internet. The page should show the unstyled Campus Hub reference page, with
-the heading **Campus Hub**, navigation links, an upcoming event, and a student
-communities section.
+the Internet. The page should show the heading **Campus Hub setup check** and a
+message stating that the browser received the Week 1 starter through the local
+server. In Session 1, you will replace that setup content with the complete
+Campus Hub structure.
 
-If the address loads but the page is white, first read the `Serving ...` line in
-the SERVER terminal. An ending of `labs\starters\week-01` means that the server is
-working but is serving the intentionally empty starter scaffold. Press `Ctrl+C`
-once, run `npm run serve:week01:solution`, wait for the new `Open` line, and then
-reload the browser. This is different from **This site can't be reached**, which
-means the browser could not connect to a listening server.
+If the address loads but the page is white, first confirm that the terminal's
+`Serving ...` line ends with `labs\week-01`, then open
+`labs/week-01/index.html` in VS Code and confirm that it contains the setup-check
+heading. Save the file and reload the browser. This is different from **This site
+can't be reached**, which means the browser could not connect to a listening
+server.
 
 ### 10.4 Find Network in developer tools
 
@@ -1000,9 +1008,9 @@ the diagnostic sequence for that hypothetical case.
 For the example path used in this chapter, the repair would be:
 
 ```text
-cd /d "C:\Users\Student\Documents\GitHub\web-programming-course-book"
+cd /d "C:\Users\Student\Documents\GitHub\web-programming-coursework-2026_Fall-12345678"
 dir package.json
-npm run serve:week01:solution
+npm run serve:week01
 ```
 
 Do not open the browser until the terminal prints `Open
@@ -1192,7 +1200,7 @@ do not change files. Reinstalling Node.js would not correct the current director
 
 For the hypothetical Windows path used in the chapter, the complete
 non-destructive recovery begins with `cd`, then `dir`, then
-`cd /d "C:\Users\Student\Documents\GitHub\web-programming-course-book"`, and
+`cd /d "C:\Users\Student\Documents\GitHub\web-programming-coursework-2026_Fall-12345678"`, and
 finally `dir package.json`. A learner must substitute the actual repository path.
 Only after the last command displays the file should the student rerun npm. If an
 ENOENT message exists, its path is evidence of the folder npm searched; when no
@@ -1201,7 +1209,7 @@ such message exists, this diagnosis does not apply.
 ## Answer 3
 
 A `file:` URL lets the browser read a local file without an HTTP server. Start
-`npm run serve:week01:solution`, visit `http://localhost:8000/`, open the Network
+`npm run serve:week01`, visit `http://localhost:8000/`, open the Network
 panel, reload, and select the document request. A recorded HTTP method, status,
 and response `Content-Type`, together with the running server process, demonstrate
 the exchange. Stop the server and observe that the URL no longer responds to

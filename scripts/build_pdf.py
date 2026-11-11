@@ -42,7 +42,7 @@ from reportlab.platypus.tableofcontents import TableOfContents
 
 
 ROOT = Path(__file__).resolve().parent.parent
-OUTPUT = ROOT / "output" / "pdf" / "web-programming-from-platform-to-production-foundations-edition-revised-v15.pdf"
+OUTPUT = ROOT / "output" / "pdf" / "web-programming-from-platform-to-production-foundations-edition-revised-v21.pdf"
 CHAPTERS = sorted((ROOT / "book").glob("part-*/*.md"))
 SOLUTION_FILES = sorted(path for path in (ROOT / "labs" / "solutions").glob("week-*/*") if path.is_file())
 COVER_ART = ROOT / "assets" / "images" / "cover-web-programming.png"
@@ -107,15 +107,19 @@ MEDIA_FIGURES = {
     ),
     "responsive-layout": (
         ROOT / "assets" / "images" / "responsive-layout-illustration.png",
-        "Figure 3.8. Responsive design preserves content and reading order while the layout adapts to the available viewport.",
+        "Figure 3.9. Responsive design preserves content and reading order while the layout adapts to the available viewport.",
     ),
     "week-03-output-desktop": (
         ROOT / "assets" / "images" / "week-03-responsive-output-desktop.png",
-        "Figure 3.9. At a wide viewport, the completed CSS example presents the filter and event cards with space for enhanced component layout.",
+        "Figure 3.10. At a wide viewport, the completed CSS example presents the filter and event cards with space for enhanced component layout.",
     ),
     "week-03-output-narrow": (
         ROOT / "assets" / "images" / "week-03-responsive-output-narrow.png",
-        "Figure 3.10. At a narrow viewport, the same HTML and CSS reflow the filter and event cards into one readable column.",
+        "Figure 3.11. At a narrow viewport, the same HTML and CSS reflow the filter and event cards into one readable column.",
+    ),
+    "week-04-browser-output": (
+        ROOT / "assets" / "images" / "week-04-browser-output.png",
+        "Figure 4.10. The tested JavaScript module transforms three event objects into visible availability summaries in the browser.",
     ),
 }
 MEDIA_MAX_HEIGHT_MM = {
@@ -521,10 +525,20 @@ class ConceptFigure(Flowable):
         "css-cascade": "Figure 3.3. The cascade resolves relevant declarations through an ordered decision process.",
         "box-model": "Figure 3.4. Padding, border, and margin surround an element's content box.",
         "logical-axes": "Figure 3.5. Logical inline and block axes follow writing mode and direction instead of assuming physical sides.",
-        "layout-systems": "Figure 3.6. Flexbox coordinates one primary axis; Grid coordinates rows and columns.",
-        "responsive-reflow": "Figure 3.7. Responsive constraints reflow the same content without changing its meaning.",
-        "container-query": "Figure 3.11. One component can adapt to the inline size of its own container at a single viewport width.",
-        "css-devtools-evidence": "Figure 3.12. CSS debugging traces evidence from resource loading through matching, cascade, computed values, and layout.",
+        "rem-em-scale": "Figure 3.6. Every rem length uses one root reference, while em can follow a component's local font-size chain.",
+        "layout-systems": "Figure 3.7. Flexbox coordinates one primary axis; Grid coordinates rows and columns.",
+        "responsive-reflow": "Figure 3.8. Responsive constraints reflow the same content without changing its meaning.",
+        "container-query": "Figure 3.12. One component can adapt to the inline size of its own container at a single viewport width.",
+        "css-devtools-evidence": "Figure 3.13. CSS debugging traces evidence from resource loading through matching, cascade, computed values, and layout.",
+        "javascript-first-run-workflow": "Figure 4.1. A first program moves through an observable edit-save-run-check-record cycle.",
+        "javascript-source-command-output": "Figure 4.2. The saved source file, shell command, runtime process, and terminal output are related but distinct.",
+        "browser-javascript-load-path": "Figure 4.3. The browser requests HTML, discovers and requests JavaScript, executes it, and exposes Console evidence.",
+        "javascript-host-boundary": "Figure 4.4. The ECMAScript language runs inside a host; browsers and Node.js add different environment APIs.",
+        "javascript-evaluation": "Figure 4.5. Evaluation produces a value, and a declaration connects that value to a binding name.",
+        "javascript-control-flow": "Figure 4.6. An if-else chain tests conditions in order and executes only the first matching branch.",
+        "function-call-boundary": "Figure 4.7. A function call connects arguments to local parameters and returns one result to the call site.",
+        "value-reference-identity": "Figure 4.8. Primitive assignment copies a value, while object assignment can give two bindings the same object identity.",
+        "javascript-debugging": "Figure 4.9. JavaScript debugging follows evidence from the observed failure to the violated contract and verified repair.",
     }
 
     def __init__(self, kind: str, width: float):
@@ -543,8 +557,17 @@ class ConceptFigure(Flowable):
             "css-rule-anatomy": 70,
             "selector-matching": 72,
             "logical-axes": 72,
+            "rem-em-scale": 78,
             "container-query": 74,
             "css-devtools-evidence": 70,
+            "javascript-host-boundary": 72,
+            "javascript-first-run-workflow": 70,
+            "javascript-source-command-output": 78,
+            "browser-javascript-load-path": 76,
+            "javascript-control-flow": 76,
+            "function-call-boundary": 72,
+            "value-reference-identity": 76,
+            "javascript-debugging": 72,
         }
         self.height = heights_mm.get(kind, 62) * mm
 
@@ -621,7 +644,7 @@ class ConceptFigure(Flowable):
         self._terminal_window(
             c, 5 * mm, 20 * mm, panel_w, 47 * mm, "EXAMPLE WRONG DIRECTORY - npm FAILS",
             [
-                r"C:\Users\Student>npm run serve:week01:starter",
+                r"C:\Users\Student>npm run serve:week01",
                 "npm error code ENOENT",
                 r"npm error path C:\Users\Student\package.json",
                 "Meaning: npm looked here; package.json is absent.",
@@ -633,10 +656,10 @@ class ConceptFigure(Flowable):
             c, right_x, 20 * mm, panel_w, 47 * mm, "CORRECT ROOT - VERIFY BEFORE RUNNING",
             [
                 "> cd /d C:\\Users\\Student\\Documents\\GitHub\\",
-                r"  web-programming-course-book",
+                r"  web-programming-coursework-2026_Fall-12345678",
                 r"> dir package.json",
                 "  package.json",
-                r"> npm run serve:week01:starter",
+                r"> npm run serve:week01",
             ],
             accent=HexColor("#23866B"),
         )
@@ -676,13 +699,84 @@ class ConceptFigure(Flowable):
         c.setFillColor(INK); c.setFont("BookSans-Bold", 6.1)
         c.drawCentredString(self.width / 2, 14.5 * mm, "Shared language: values, variables, functions, arrays, objects, promises, and modules")
 
+    def _draw_javascript_first_run_workflow(self, c):
+        labels = [
+            ("1  EDIT", "hello.js"),
+            ("2  SAVE", "write to disk"),
+            ("3  RUN", "node hello.js"),
+            ("4  CHECK", "read output"),
+            ("5  RECORD", "Git commit"),
+        ]
+        positions, widths = self._horizontal_layout([27, 27, 31, 27, 29], left_mm=5, right_mm=5)
+        y = 32 * mm
+        for index, ((title, detail), x, w) in enumerate(zip(labels, positions, widths)):
+            fill = PALE_GOLD if index == 2 else (PALE_TEAL if index == 4 else PALE_BLUE)
+            stroke = HexColor("#B06A2F") if index == 2 else (TEAL if index == 4 else BLUE)
+            self._box(c, x, y, w, 18 * mm, title, fill=fill, stroke=stroke, size=6.7)
+            c.setFillColor(MUTED); c.setFont("BookSans", 5.3)
+            c.drawCentredString(x + w / 2, y + 4.1 * mm, detail)
+            if index < len(labels) - 1:
+                self._arrow(c, x + w + 1 * mm, y + 9 * mm, positions[index + 1] - 1 * mm, y + 9 * mm)
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 7)
+        c.drawCentredString(self.width / 2, 58 * mm, "One repeatable feedback loop")
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.8)
+        c.drawCentredString(self.width / 2, 20 * mm, "A changed prediction begins another cycle; saving and observing are separate actions.")
+
+    def _draw_javascript_source_command_output(self, c):
+        positions, widths = self._horizontal_layout([48, 51, 49], left_mm=6, right_mm=6)
+        y = 25 * mm
+        panels = [
+            ("SAVED SOURCE FILE", ["hello.js", "const sum = 2 + 3;", "console.log(sum);"]),
+            ("SHELL + NODE.JS", ["> node labs/week-04/hello.js", "Node.js reads the named file", "and evaluates its statements"]),
+            ("TERMINAL OUTPUT", ["5", "observable runtime evidence", "not another source line"]),
+        ]
+        for index, ((title, lines), x, w) in enumerate(zip(panels, positions, widths)):
+            c.setFillColor(WHITE); c.setStrokeColor(TEAL if index == 2 else BLUE)
+            c.roundRect(x, y, w, 34 * mm, 2 * mm, fill=1, stroke=1)
+            c.setFillColor(PALE_TEAL if index == 2 else PALE_BLUE)
+            c.rect(x, y + 26 * mm, w, 8 * mm, fill=1, stroke=0)
+            c.setFillColor(NAVY); c.setFont("BookSans-Bold", 6.2)
+            c.drawCentredString(x + w / 2, y + 29 * mm, title)
+            c.setFillColor(INK); c.setFont("BookMono" if index != 1 or lines[0].startswith(">") else "BookSans", 5.1)
+            line_y = y + 19 * mm
+            for line in lines:
+                c.drawCentredString(x + w / 2, line_y, line)
+                line_y -= 5.5 * mm
+            if index < 2:
+                self._arrow(c, x + w + 1 * mm, y + 17 * mm, positions[index + 1] - 1 * mm, y + 17 * mm)
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.8)
+        c.drawCentredString(self.width / 2, 15 * mm, "Edit and save the file first; typing a command asks a runtime to read that saved version.")
+
+    def _draw_browser_javascript_load_path(self, c):
+        labels = [
+            ("1  REQUEST", "hello-browser.html"),
+            ("2  PARSE", "find <script src>"),
+            ("3  REQUEST", "hello-browser.js"),
+            ("4  EXECUTE", "JavaScript engine"),
+            ("5  OBSERVE", "Console messages"),
+        ]
+        positions, widths = self._horizontal_layout([30, 30, 31, 30, 31], left_mm=4, right_mm=4)
+        y = 31 * mm
+        for index, ((title, detail), x, w) in enumerate(zip(labels, positions, widths)):
+            fill = PALE_TEAL if index == 4 else (PALE_GOLD if index == 3 else PALE_BLUE)
+            stroke = TEAL if index == 4 else (HexColor("#B06A2F") if index == 3 else BLUE)
+            self._box(c, x, y, w, 18 * mm, title, fill=fill, stroke=stroke, size=6.2)
+            c.setFillColor(MUTED); c.setFont("BookSans", 4.8)
+            c.drawCentredString(x + w / 2, y + 4.1 * mm, detail)
+            if index < len(labels) - 1:
+                self._arrow(c, x + w + 0.7 * mm, y + 9 * mm, positions[index + 1] - 0.7 * mm, y + 9 * mm)
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 7)
+        c.drawCentredString(self.width / 2, 58 * mm, "The browser performs two file requests before output exists")
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.7)
+        c.drawCentredString(self.width / 2, 19 * mm, "A 404 at step 3 prevents steps 4 and 5; inspect Network before changing JavaScript logic.")
+
     def _draw_two_terminal_model(self, c):
         panel_w = (self.width - 18 * mm) / 2
         self._terminal_window(
             c, 5 * mm, 22 * mm, panel_w, 49 * mm, "TERMINAL A - SERVER (LEAVE RUNNING)",
             [
-                "> npm run serve:week01:solution",
-                "Serving ...\\labs\\solutions\\week-01",
+                "> npm run serve:week01",
+                "Serving ...\\labs\\week-01",
                 "Open http://localhost:8000/",
                 "Press Ctrl+C to stop.",
                 "[No prompt: the server owns this terminal]",
@@ -693,11 +787,11 @@ class ConceptFigure(Flowable):
         self._terminal_window(
             c, right_x, 22 * mm, panel_w, 49 * mm, "TERMINAL B - COMMANDS (AVAILABLE)",
             [
-                r"> cd /d C:\...\web-programming-course-book",
+                r"> cd /d C:\...\coursework-Fall-12345678",
                 "> git status",
                 "On branch main",
                 "> npm test",
-                "Foundation verification passed.",
+                "Coursework setup verification passed.",
             ],
             accent=BLUE,
         )
@@ -709,8 +803,8 @@ class ConceptFigure(Flowable):
         self._terminal_window(
             c, 5 * mm, 19 * mm, terminal_w, 48 * mm, "SERVER TERMINAL - EXPECTED OUTPUT",
             [
-                "> npm run serve:week01:solution",
-                "Serving C:\\...\\labs\\solutions\\week-01",
+                "> npm run serve:week01",
+                "Serving C:\\...\\labs\\week-01",
                 "Open http://localhost:8000/",
                 "Press Ctrl+C to stop.",
             ],
@@ -721,10 +815,10 @@ class ConceptFigure(Flowable):
         c.setFillColor(HexColor("#DFE8EF")); c.roundRect(bx, 57 * mm, bw, 10 * mm, 2 * mm, fill=1, stroke=0)
         c.setFillColor(WHITE); c.roundRect(bx + 5 * mm, 59.5 * mm, bw - 10 * mm, 5 * mm, 1 * mm, fill=1, stroke=0)
         c.setFillColor(INK); c.setFont("BookMono", 5.5); c.drawString(bx + 8 * mm, 61 * mm, "http://localhost:8000/")
-        c.setFont("BookSans-Bold", 12); c.setFillColor(NAVY); c.drawString(bx + 8 * mm, 46 * mm, "Campus Hub")
+        c.setFont("BookSans-Bold", 10); c.setFillColor(NAVY); c.drawString(bx + 8 * mm, 46 * mm, "Campus Hub setup check")
         c.setFont("BookSans", 7); c.setFillColor(INK)
-        c.drawString(bx + 8 * mm, 38 * mm, "Robotics workshop")
-        c.drawString(bx + 8 * mm, 32 * mm, "Accessible web event form")
+        c.drawString(bx + 8 * mm, 38 * mm, "Week 1 starter received")
+        c.drawString(bx + 8 * mm, 32 * mm, "through the local server")
         c.setFillColor(PALE_TEAL); c.setStrokeColor(TEAL); c.roundRect(bx + 8 * mm, 22 * mm, 36 * mm, 6 * mm, 1 * mm, fill=1, stroke=1)
         c.setFillColor(INK); c.setFont("BookSans-Bold", 6); c.drawCentredString(bx + 26 * mm, 24 * mm, "PAGE RESPONDED")
         self._arrow(c, 82 * mm, 43 * mm, bx - 1 * mm, 43 * mm)
@@ -793,7 +887,7 @@ class ConceptFigure(Flowable):
 
     def _draw_url_anatomy(self, c):
         segments = [
-            ("https://", "scheme", 22, NAVY), ("hub.example.edu", "host", 39, BLUE),
+            ("https://", "scheme", 22, NAVY), ("hub.campus.example", "host", 39, BLUE),
             (":8443", "port", 17, TEAL), ("/events", "path", 23, HexColor("#6B5CA5")),
             ("?limit=5", "query", 26, HexColor("#B06A2F")), ("#today", "fragment", 21, HexColor("#8C4663")),
         ]
@@ -1087,6 +1181,45 @@ class ConceptFigure(Flowable):
         c.setFillColor(MUTED); c.setFont("BookSans", 6.0)
         c.drawCentredString(self.width / 2, 12.5 * mm, "padding-inline and margin-inline adapt when the document direction changes.")
 
+    def _draw_rem_em_scale(self, c):
+        left_x, panel_y = 5 * mm, 14 * mm
+        panel_w, panel_h = 79 * mm, 50 * mm
+        right_x = self.width - 5 * mm - panel_w
+
+        for x in (left_x, right_x):
+            c.setFillColor(WHITE)
+            c.setStrokeColor(RULE)
+            c.setLineWidth(0.8)
+            c.roundRect(x, panel_y, panel_w, panel_h, 2 * mm, fill=1, stroke=1)
+
+        c.setFillColor(INK)
+        c.setFont("BookSans-Bold", 6.8)
+        c.drawCentredString(left_x + panel_w / 2, 59 * mm, "rem: one document-wide reference")
+        c.drawCentredString(right_x + panel_w / 2, 59 * mm, "em: a component-local chain")
+
+        self._box(c, left_x + 10 * mm, 45 * mm, 59 * mm, 9 * mm, "html computed font-size = 16px", fill=PALE_BLUE, stroke=BLUE, size=5.9)
+        child_width = 20 * mm
+        child_x = [left_x + 5 * mm, left_x + 29.5 * mm, left_x + 54 * mm]
+        child_labels = ["0.5rem = 8px", "1rem = 16px", "2rem = 32px"]
+        for x, label in zip(child_x, child_labels):
+            self._box(c, x, 27 * mm, child_width, 9 * mm, label, fill=PALE_TEAL, stroke=TEAL, size=5.2)
+            self._arrow(c, left_x + panel_w / 2, 45 * mm, x + child_width / 2, 36 * mm, color=BLUE)
+        c.setFillColor(MUTED)
+        c.setFont("BookSans", 5.4)
+        c.drawCentredString(left_x + panel_w / 2, 19 * mm, "Root 20px -> 10px, 20px, and 40px")
+
+        self._box(c, right_x + 7 * mm, 45 * mm, 65 * mm, 9 * mm, "Parent font-size = 16px", fill=PALE_BLUE, stroke=BLUE, size=5.9)
+        self._box(c, right_x + 7 * mm, 32 * mm, 65 * mm, 9 * mm, "Card font-size: 1.25em -> 20px", fill=PALE_TEAL, stroke=TEAL, size=5.6)
+        self._arrow(c, right_x + panel_w / 2, 45 * mm, right_x + panel_w / 2, 41 * mm, color=BLUE)
+        self._box(c, right_x + 4 * mm, 19 * mm, 34 * mm, 9 * mm, "padding: 1em -> 20px", fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=5.0)
+        self._box(c, right_x + 41 * mm, 19 * mm, 34 * mm, 9 * mm, "tag: 0.8em -> 16px", fill=WHITE, stroke=NAVY, size=5.0)
+        self._arrow(c, right_x + panel_w / 2, 32 * mm, right_x + 21 * mm, 28 * mm, color=TEAL)
+        self._arrow(c, right_x + panel_w / 2, 32 * mm, right_x + 58 * mm, 28 * mm, color=TEAL)
+
+        c.setFillColor(MUTED)
+        c.setFont("BookSans", 6.0)
+        c.drawCentredString(self.width / 2, 8 * mm, "The arrows identify the font size used as the reference for each calculation.")
+
     def _draw_layout_systems(self, c):
         c.setFillColor(INK); c.setFont("BookSans-Bold", 7)
         c.drawString(12 * mm, 46 * mm, "Flexbox")
@@ -1141,6 +1274,75 @@ class ConceptFigure(Flowable):
                 self._arrow(c, x + width, 37 * mm, positions[index + 1], 37 * mm, color=stroke)
         c.setFillColor(MUTED); c.setFont("BookSans", 6.0)
         c.drawCentredString(self.width / 2, 14.5 * mm, "Stop at the first failed link in the evidence chain; do not compensate downstream.")
+
+    def _draw_javascript_host_boundary(self, c):
+        self._box(c, 59 * mm, 31 * mm, 52 * mm, 18 * mm, "ECMAScript language", fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=7.0)
+        self._box(c, 8 * mm, 19 * mm, 42 * mm, 16 * mm, "Browser host", fill=PALE_BLUE, stroke=BLUE, size=6.8)
+        self._box(c, 120 * mm, 19 * mm, 42 * mm, 16 * mm, "Node.js host", fill=PALE_TEAL, stroke=TEAL, size=6.8)
+        self._arrow(c, 59 * mm, 37 * mm, 50 * mm, 29 * mm, color=BLUE)
+        self._arrow(c, 111 * mm, 37 * mm, 120 * mm, 29 * mm, color=TEAL)
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.8)
+        c.drawCentredString(29 * mm, 13 * mm, "document, events, storage")
+        c.drawCentredString(141 * mm, 13 * mm, "process, files, server APIs")
+        c.drawCentredString(self.width / 2, 57 * mm, "values - operators - control flow - functions - arrays - objects")
+
+    def _draw_javascript_evaluation(self, c):
+        labels = ["capacity", "-", "registered", "18", "remaining"]
+        widths_mm = [31, 14, 34, 20, 31]
+        positions, widths = self._horizontal_layout(widths_mm, left_mm=8, right_mm=8)
+        for i, (label, x, w) in enumerate(zip(labels, positions, widths)):
+            fill = PALE_BLUE if i in (0, 2) else PALE_GOLD if i == 3 else PALE_TEAL
+            self._box(c, x, 31 * mm, w, 12 * mm, label, fill=fill, stroke=BLUE if i < 3 else TEAL, size=6.2)
+            if i < len(labels) - 1: self._arrow(c, x + w, 37 * mm, positions[i + 1], 37 * mm)
+        c.setFillColor(MUTED); c.setFont("BookSans", 6.0)
+        c.drawCentredString(self.width / 2, 21 * mm, "Evaluate the expression -> produce 18 -> bind the name remaining")
+
+    def _draw_javascript_control_flow(self, c):
+        self._box(c, 63 * mm, 55 * mm, 44 * mm, 10 * mm, "remaining === 0?", fill=PALE_BLUE, stroke=BLUE, size=6.1)
+        self._box(c, 20 * mm, 34 * mm, 31 * mm, 10 * mm, 'return "full"', fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=5.8)
+        self._box(c, 63 * mm, 34 * mm, 44 * mm, 10 * mm, "remaining <= 10?", fill=PALE_BLUE, stroke=BLUE, size=6.1)
+        self._box(c, 117 * mm, 34 * mm, 42 * mm, 10 * mm, 'return "almost full"', fill=PALE_TEAL, stroke=TEAL, size=5.5)
+        self._box(c, 63 * mm, 15 * mm, 44 * mm, 10 * mm, 'return "open"', fill=WHITE, stroke=NAVY, size=5.9)
+        self._arrow(c, 73 * mm, 55 * mm, 45 * mm, 44 * mm, color=HexColor("#B06A2F"))
+        self._arrow(c, 85 * mm, 55 * mm, 85 * mm, 44 * mm, color=BLUE)
+        self._arrow(c, 107 * mm, 39 * mm, 117 * mm, 39 * mm, color=TEAL)
+        self._arrow(c, 85 * mm, 34 * mm, 85 * mm, 25 * mm, color=NAVY)
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.4); c.drawString(49 * mm, 49 * mm, "true"); c.drawString(87 * mm, 49 * mm, "false"); c.drawString(109 * mm, 42 * mm, "true"); c.drawString(87 * mm, 28 * mm, "false")
+
+    def _draw_function_call_boundary(self, c):
+        self._box(c, 7 * mm, 31 * mm, 39 * mm, 14 * mm, "argument: events[0]", fill=PALE_BLUE, stroke=BLUE, size=5.8)
+        self._box(c, 61 * mm, 24 * mm, 50 * mm, 28 * mm, "seatsRemaining(event)", fill=PALE_TEAL, stroke=TEAL, size=6.4)
+        self._box(c, 126 * mm, 31 * mm, 35 * mm, 14 * mm, "return value: 18", fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=5.8)
+        self._arrow(c, 46 * mm, 38 * mm, 61 * mm, 38 * mm, color=BLUE)
+        self._arrow(c, 111 * mm, 38 * mm, 126 * mm, 38 * mm, color=TEAL)
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.8)
+        c.drawCentredString(86 * mm, 18 * mm, "local parameter -> local calculation -> explicit result")
+
+    def _draw_value_reference_identity(self, c):
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 6.6)
+        c.drawString(8 * mm, 61 * mm, "Primitive assignment")
+        c.drawString(91 * mm, 61 * mm, "Object assignment")
+        self._box(c, 8 * mm, 40 * mm, 27 * mm, 11 * mm, "first = 62", fill=PALE_BLUE, stroke=BLUE, size=5.8)
+        self._box(c, 47 * mm, 40 * mm, 27 * mm, 11 * mm, "second = 62", fill=PALE_BLUE, stroke=BLUE, size=5.8)
+        self._arrow(c, 35 * mm, 45.5 * mm, 47 * mm, 45.5 * mm, color=BLUE)
+        self._box(c, 91 * mm, 44 * mm, 27 * mm, 10 * mm, "first", fill=PALE_TEAL, stroke=TEAL, size=6.0)
+        self._box(c, 91 * mm, 24 * mm, 27 * mm, 10 * mm, "second", fill=PALE_TEAL, stroke=TEAL, size=6.0)
+        self._box(c, 135 * mm, 31 * mm, 28 * mm, 16 * mm, "one event object", fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=5.6)
+        self._arrow(c, 118 * mm, 49 * mm, 135 * mm, 42 * mm, color=TEAL)
+        self._arrow(c, 118 * mm, 29 * mm, 135 * mm, 36 * mm, color=TEAL)
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.8)
+        c.drawString(8 * mm, 25 * mm, "Later reassignment does not change the other number.")
+        c.drawString(91 * mm, 16 * mm, "Mutation through either binding is visible through both.")
+
+    def _draw_javascript_debugging(self, c):
+        labels = ["Observe", "Read error", "Locate frame", "Inspect values", "Repair", "Retest"]
+        widths_mm = [23, 27, 29, 29, 22, 22]
+        positions, widths = self._horizontal_layout(widths_mm, left_mm=4, right_mm=4)
+        for i, (label, x, w) in enumerate(zip(labels, positions, widths)):
+            self._box(c, x, 32 * mm, w, 12 * mm, label, fill=PALE_TEAL if i in (0, 5) else WHITE, stroke=TEAL if i in (0, 5) else BLUE, size=5.5)
+            if i < len(labels) - 1: self._arrow(c, x + w, 38 * mm, positions[i + 1], 38 * mm, color=BLUE)
+        c.setFillColor(MUTED); c.setFont("BookSans", 6.0)
+        c.drawCentredString(self.width / 2, 22 * mm, "Stop at the first violated contract; a later symptom may be only a consequence.")
 
 
 class BookDocTemplate(BaseDocTemplate):
@@ -1597,12 +1799,12 @@ def appendix_solution(styles: dict[str, ParagraphStyle]) -> list[Flowable]:
     story.extend([
         PageBreak(),
         paragraph("Appendix B - Quick commands", styles["h1"]),
-        paragraph("Run the complete repository verification:", styles["body"]),
+        paragraph("In the student coursework repository, verify the supplied setup:", styles["body"]),
         Preformatted("npm test", styles["code"]),
-        paragraph("Serve the Week 1 starter at http://localhost:8000/:", styles["body"]),
-        Preformatted("npm run serve:week01:starter", styles["code"]),
-        paragraph("Build and verify this PDF edition:", styles["body"]),
-        Preformatted("npm run pdf\nnpm run pdf:verify", styles["code"]),
+        paragraph("Serve Week 1 at http://localhost:8000/:", styles["body"]),
+        Preformatted("npm run serve:week01", styles["code"]),
+        paragraph("In the course-book source repository, verify, build, and verify this PDF edition:", styles["body"]),
+        Preformatted("npm test\nnpm run pdf\nnpm run pdf:verify", styles["code"]),
     ])
     return story
 

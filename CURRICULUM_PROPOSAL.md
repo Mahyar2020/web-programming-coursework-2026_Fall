@@ -103,7 +103,7 @@ it does not copy their text or exercises.
   CI/CD, containers, relational databases, GraphQL, and Next.js. It assumes prior
   programming, web, database, and Git knowledge, so its sequence is too abrupt
   for a true zero-to-advanced book but excellent for the second half.
-- [MIT web.lab](https://webdevelopment.mit.edu/about/) uses HTML, CSS, JavaScript,
+- [MIT web.lab](https://webdevelopment.mit.edu/) uses HTML, CSS, JavaScript,
   Node, and a database to produce a dynamic server-backed site through an
   intensive build-and-iterate format. MIT's
   [Design for the Web](https://designftw.mit.edu/) reinforces teaching the core

@@ -129,8 +129,8 @@ The audit resulted in the following non-negotiable improvements:
 
 | Area | Current evidence | Required next state |
 |---|---|---|
-| Web/platform foundations | Chapters 1–3, labs, solutions, quizzes, and figures are present | Preserve and periodically validate; add cross-chapter glossary/index later |
-| Browser programming | Not yet published | Chapters on JavaScript, the Document Object Model, events/forms, asynchronous work, APIs, storage, modules, tooling, and TypeScript |
+| Web/platform foundations | Chapters 1-3, labs, solutions, quizzes, and figures are present | Preserve and periodically validate; add cross-chapter glossary/index later |
+| Browser programming | Chapter 4 and its tested JavaScript laboratory are published | Continue with the Document Object Model, events/forms, asynchronous work, APIs, storage, modules, tooling, and TypeScript |
 | Server and APIs | Not yet published | Native Node server concept, Express routing/middleware, validation, error contracts, logs, REST, and OpenAPI |
 | Relational data | Not yet published | Modeling, constraints, SQL, joins, parameterization, migrations, transactions, indexes, concurrency, and query plans |
 | Identity and security | Mentioned in the roadmap only | Password storage, sessions/cookies, Cross-Site Request Forgery, authorization, OAuth/OpenID Connect concepts, threat models, and negative tests |
@@ -158,11 +158,11 @@ contract.
 - [WHATWG HTML Living Standard](https://html.spec.whatwg.org/)
 - [WHATWG URL Living Standard](https://url.spec.whatwg.org/)
 - [IETF HTTP Semantics, RFC 9110](https://www.rfc-editor.org/rfc/rfc9110)
-- [IETF TLS 1.3, RFC 8446](https://www.rfc-editor.org/rfc/rfc8446)
+- [IETF TLS 1.3, RFC 9846](https://www.rfc-editor.org/rfc/rfc9846.html)
 - [IETF DNS concepts and facilities, RFC 1034](https://www.rfc-editor.org/rfc/rfc1034)
 - [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
-- [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/)
+- [OWASP ASVS](https://owasp.org/projects/asvs)
 - [OWASP Web Security Testing Guide](https://wstg.owasp.org/latest/)
 - [Node.js releases](https://nodejs.org/en/about/previous-releases)
 - [Express 5 migration guide](https://expressjs.com/en/guide/migrating-5.html)

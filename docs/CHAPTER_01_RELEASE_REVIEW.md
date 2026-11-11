@@ -1,6 +1,6 @@
 # Chapter 1 Release Review
 
-Review date: **1 September 2026**  
+Review date: **22 September 2026**
 Decision: **PASS — ready as the prerequisite for Chapter 2**
 
 ## Release judgment
@@ -29,7 +29,7 @@ than memorize disconnected vocabulary.
 |---|---|---|
 | Internet and Web | Packet-network infrastructure is distinguished from the Web application layer. | Complete for entry level |
 | Client and server | Roles are explained as exchange-specific; one process may be a server in one exchange and a client in another. | Complete |
-| URL and origin | Scheme, authority, host, port, path, query, fragment, and same-origin reasoning are introduced with examples. | Complete for prerequisites |
+| URL and origin | Scheme, authority, host, port, path, query, and fragment are introduced. Same-origin reasoning includes effective ports, a repeatable comparison method, localhost cases, the security purpose, and the boundary between same-origin policy and CORS. | Complete for prerequisites |
 | Navigation and DNS | The request journey, resolver hierarchy, record types, IPv4 dotted-decimal notation, IPv6 purpose, caching, and diagnostic observations are connected. | Complete for prerequisites |
 | Protocol cooperation | Application, security, transport, network, and link responsibilities are shown as simultaneous layers rather than competing alternatives. | Complete |
 | TLS and HTTP | HTTPS purpose, request methods, response status, headers, content, caching, and safe/idempotent distinctions are introduced. | Complete for prerequisites |

@@ -2,7 +2,7 @@
 
 *Web Programming: From the Platform to Production* is designed as a five-part
 living reference. The checked items below are published in the current
-Foundations Edition. Unchecked items define the reviewed production sequence and
+revised edition. Unchecked items define the reviewed production sequence and
 will not be represented as finished chapters until their prose, lab, complete
 answers, quiz explanations, figures, code tests, and PDF layout all pass the
 chapter release contract.
@@ -25,7 +25,7 @@ reinstalling software.
 
 ## Part II - Programming in the Browser
 
-4. [ ] JavaScript from First Principles
+4. [x] [JavaScript from First Principles](part-2-browser-programming/04-javascript-from-first-principles.md)
 5. [ ] The Document Object Model, Events, and Forms
 6. [ ] Asynchronous JavaScript and Web APIs
 7. [ ] Modules, Tooling, and TypeScript
@@ -55,4 +55,4 @@ chapter descriptions and dependencies.
 
 Each chapter includes learning outcomes, explanations, a guided laboratory,
 exercises, complete worked answers, a quiz with explanations, a summary, and
-primary references..
+primary references.

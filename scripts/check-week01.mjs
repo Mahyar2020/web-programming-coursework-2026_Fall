@@ -33,6 +33,14 @@ for (const requiredFile of requiredFiles) {
 
 const solutionPath = "labs/solutions/week-01/index.html";
 const html = await load(solutionPath);
+const starter = await load("labs/starters/week-01/index.html");
+
+if (!/<h1>Campus Hub setup check<\/h1>/i.test(starter)) {
+  failures.push("labs/starters/week-01/index.html: missing visible setup-check heading");
+}
+if (!/received the Week 1 starter through the local web server/i.test(starter)) {
+  failures.push("labs/starters/week-01/index.html: missing local-server success message");
+}
 
 const requiredPatterns = [
   [/^<!doctype html>/i, "modern HTML doctype"],
@@ -96,9 +104,9 @@ for (const [pattern, description] of [
   [/Add people[\s\S]+Mahyar2020[\s\S]+instructor must accept/i, "instructor collaborator instructions"],
   [/git remote -v[\s\S]+origin[\s\S]+fetch and push/i, "remote verification evidence"],
   [/two-terminal-model/i, "two-terminal explanation"],
-  [/serve:week01:solution[\s\S]+starter[\s\S]+white page/i, "visible orientation page and intentional blank-starter explanation"],
+  [/npm run serve:week01[\s\S]+does not produce an unexplained white page[\s\S]+Campus Hub setup check/i, "student-template server command and visible setup-check explanation"],
   [/network-panel/i, "Network-panel procedure and visual"],
-  [/C:\\Users\\Student\\Documents\\GitHub\\web-programming-course-book/i, "generic Windows-path recovery example"],
+  [/C:\\Users\\Student\\Documents\\GitHub\\web-programming-coursework-2026_Fall-12345678/i, "generic Windows-path recovery example"],
   [/does not explain a white page/i, "separation of ENOENT from the blank starter result"],
   [/git commit[\s\S]+git push/i, "commit-and-push workflow"],
   [/Request method[\s\S]+GET[\s\S]+200 OK[\s\S]+text\/html; charset=utf-8/i, "expected localhost Network evidence"],
@@ -127,6 +135,7 @@ for (const heading of requiredChapterSections) {
 }
 
 for (const [pattern, description] of [
+  [/Fall 2026 coursework template[\s\S]+labs\/week-01\/index\.html[\s\S]+npm run serve:week01/i, "student coursework repository path and Week 1 server command"],
   [/Reading `2001:db8::40` as an IPv6 address/i, "detailed IPv6 section"],
   [/exactly 128 bits/i, "IPv6 bit length"],
   [/eight 16-bit groups/i, "IPv6 group structure"],

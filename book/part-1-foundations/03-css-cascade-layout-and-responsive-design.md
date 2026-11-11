@@ -562,8 +562,8 @@ than treating them as interchangeable ways to write a number.
 | Unit or function | Relationship and useful role |
 |---|---|
 | `px` | A CSS reference pixel, not necessarily one physical screen pixel; useful for fine borders and precise thresholds |
-| `rem` | Relative to the root font size; useful for typography, spacing, and user-scalable design decisions |
-| `em` | Relative to the element's computed font size for most properties; useful for component-local relationships |
+| `rem` | A root-em length: `1rem` equals the computed `font-size` of the root `html` element; useful when many elements should share one scale |
+| `em` | A local font-relative length: for most properties, `1em` equals the element's own computed font size; in a `font-size` declaration, it is resolved from the inherited parent size |
 | `%` | Relative to a property-specific reference; inspect the property's definition instead of assuming it always means parent width |
 | `vw`, `vh` | One percent of the viewport width or height; useful carefully because browser UI and extreme aspect ratios change the result |
 | `svh`, `lvh`, `dvh` | Small, large, and dynamic viewport heights; useful when mobile browser interfaces change the visible viewport |
@@ -571,6 +571,160 @@ than treating them as interchangeable ways to write a number.
 | `fr` | A fraction of remaining space in Grid after non-flexible track sizing is considered |
 | `min()`, `max()` | Choose a boundary from comparable values at used-value time |
 | `clamp(min, preferred, max)` | Bound a preferred fluid value between a minimum and maximum |
+
+#### What `rem` means
+
+The name `rem` is short for **root em**. In an HTML document, the root element is
+`html`. A length written in `rem` therefore asks the browser to begin with the
+computed `font-size` of `html` and multiply it by the number before the unit. If
+the root size is represented by *R*, the calculation is:
+
+```text
+x rem = x × R
+```
+
+Many browsers, with their ordinary settings unchanged, compute the initial root
+font size as `16px`. That is a useful classroom example, not a promise made by
+CSS. A user can select a larger default text size, a browser or operating system
+can use another setting, and an author can change the root size. Always reason
+from the **computed root font size**, not from a memorized assumption that
+`1rem` must equal 16 pixels.
+
+With a computed root size of `16px`, the arithmetic is direct:
+
+```text
+0.5rem = 0.5 × 16px = 8px
+1rem   = 1   × 16px = 16px
+1.5rem = 1.5 × 16px = 24px
+2rem   = 2   × 16px = 32px
+```
+
+If the root size becomes `20px`, the same declarations resolve to `10px`,
+`20px`, `30px`, and `40px`. The stylesheet has not changed; the common reference
+has changed. Figure 3.6 follows that one root reference into several declarations
+and contrasts it with the local chain used by `em`.
+
+<!-- figure:rem-em-scale -->
+
+The most important relationship in Figure 3.6 is not the particular number
+`16px`. It is that every `rem` length points back to the same root. This makes a
+spacing and type scale easier to reason about across nested components.
+
+#### Read a `rem` declaration as a calculation
+
+Consider a small part of the Campus Hub stylesheet.
+
+```css
+body {
+  font-size: 1rem;
+}
+
+.event-card {
+  padding: 1rem;
+  gap: 0.75rem;
+}
+
+.event-card__title {
+  font-size: 1.5rem;
+}
+```
+
+If the computed root font size is `16px`, the body text is `16px`, the card
+padding is `16px`, the gap is `12px`, and the title is `24px`. Nesting the title
+inside the card does not change those calculations because every value still
+uses the root. In developer tools, the rule may remain visible as `1.5rem` in the
+Styles panel while the Computed panel reports the resolved size, such as `24px`.
+The authored value communicates the relationship; the computed value supplies
+evidence of what the browser is using now.
+
+Do not mentally replace every `rem` with pixels while designing. Write the
+relationship first, then use the current root size when a concrete measurement
+is needed for debugging. The conversion changes if the root changes.
+
+#### `rem` and `em` answer different questions
+
+Both units are font-relative, but they do not normally consult the same element.
+`rem` asks, “How large is this compared with the document's root text size?”
+`em` usually asks, “How large is this compared with this component's text?”
+
+One detail deserves careful attention. In a `font-size` declaration, an `em`
+value is resolved from the font size inherited from the parent because the
+element's own new font size has not yet been established. For most other
+properties, such as `padding`, `gap`, or `border-radius`, `em` is resolved from
+the element's computed font size.
+
+```css
+.event-card {
+  font-size: 1.25em;
+  padding: 1em;
+}
+
+.event-card__tag {
+  font-size: 0.8em;
+}
+```
+
+Suppose the card's parent has a computed font size of `16px`. The card's
+`font-size: 1.25em` becomes `20px`. Its `padding: 1em` then becomes `20px`
+because padding uses the card's computed font size. The tag inherits `20px` from
+the card, so `0.8em` becomes `16px`. This local scaling can be exactly what a
+self-contained badge, icon, or button needs. It can also surprise you when
+nested components multiply sizes repeatedly. Using `rem` avoids that accidental
+compounding when the intended reference is the document-wide scale.
+
+A practical starting policy is:
+
+- use `rem` for the main type scale, page and component spacing, and dimensions
+  that should follow the user's root text setting consistently;
+- use `em` when a detail should deliberately scale with the text of its own
+  component, such as an icon, badge padding, or a button's internal spacing;
+- use `px` where a CSS reference pixel expresses the intended relationship well,
+  such as a thin border; and
+- choose percentages, viewport units, container units, `ch`, Grid fractions, or
+  sizing functions when their different reference is the relationship you need.
+
+This is a design policy, not a rule that makes one unit universally superior.
+For example, browser zoom enlarges content written in pixels too. The benefit of
+`rem` is the explicit connection to the root font setting; accessibility still
+requires rendered testing.
+
+#### Preserve the user's starting point
+
+You may encounter the following shortcut in existing stylesheets.
+
+```css
+html {
+  font-size: 62.5%;
+}
+```
+
+When the browser's starting size happens to be `16px`, `62.5%` produces `10px`,
+which makes decimal conversion to pixels look convenient. The result is not
+guaranteed to be `10px`, however, because the user's starting size may differ.
+It also makes the document's normal text smaller unless later rules enlarge it.
+This course does not change the root merely to make mental arithmetic resemble
+decimal notation. Leave the user's root setting intact unless the design has a
+well-tested reason to change it, and never treat `62.5%` as required boilerplate.
+
+Relative units reduce some rigid relationships, but they cannot prevent clipped
+text, fixed-height controls, or layouts that fail under enlargement. Verify the
+rendered page at 200% text enlargement or the applicable browser test, at browser
+zoom, and at narrow reflow widths. The goal is not the presence of `rem`; the
+goal is content and functionality that remain available.
+
+#### Checkpoint - calculate before opening developer tools
+
+The root computed font size is `18px`. A card has `padding: 1.25rem`; its title
+has `font-size: 1.5rem`. The card also has `font-size: 1.1em` inside a parent
+whose computed font size is `20px`, and a local badge uses `padding-inline:
+0.5em`. What values should you predict?
+
+**Answer:** the card padding is `22.5px` because `1.25 × 18 = 22.5`; the title is
+`27px` because `1.5 × 18 = 27`. The card's own font size is `22px` because
+`1.1 × 20 = 22`. If the badge inherits that `22px` font size and does not set a
+different one, each inline padding is `11px` because `0.5 × 22 = 11`. The common
+mistake is to calculate every value from `18px`: only the `rem` values use the
+root; these `em` values follow the local font-size chain.
 
 Physical units such as `cm`, `mm`, `in`, and `pt` are anchored to CSS reference
 units on screens and do not promise an accurate physical ruler. They are most
@@ -586,7 +740,7 @@ h1 {
 }
 ```
 
-This rule contributes to the heading visible in Figures 3.9 and 3.10. The
+This rule contributes to the heading visible in Figures 3.10 and 3.11. The
 minimum and maximum protect extremes; the middle term allows gradual change.
 Always test zoom and user font settings rather than assuming a formula is
 accessible.
@@ -722,7 +876,7 @@ relationship and then selects the smallest model that expresses it.
 | Image with surrounding prose | Float, used narrowly | Float remains appropriate for content wrapping around an item, not for whole-page layout. |
 | Genuine tabular data | Semantic HTML table | Data relationships require table semantics; changing CSS display does not create them. |
 
-Figure 3.6 contrasts Flexbox's primary-axis coordination with Grid's
+Figure 3.7 contrasts Flexbox's primary-axis coordination with Grid's
 row-and-column coordination.
 
 <!-- figure:layout-systems -->
@@ -847,18 +1001,18 @@ enough space to support an enhancement:
 
 The breakpoint is justified by the layout's content, not by a specific device
 model. New devices and split-screen windows need not match a familiar label.
-Figure 3.7 compares the same card content under narrow and wide constraints.
+Figure 3.8 compares the same card content under narrow and wide constraints.
 
 <!-- figure:responsive-reflow -->
 
-Figure 3.8 provides a more concrete view of that principle across a desktop,
+Figure 3.9 provides a more concrete view of that principle across a desktop,
 tablet, and phone. The content remains recognizably the same; only its layout
 adapts to the available space.
 
 <!-- media:responsive-layout -->
 
-The complete example produces the wide browser output in Figure 3.9. When the
-viewport narrows, the same source produces Figure 3.10 without a separate mobile
+The complete example produces the wide browser output in Figure 3.10. When the
+viewport narrows, the same source produces Figure 3.11 without a separate mobile
 document or duplicated content.
 
 <!-- media:week-03-output-desktop -->
@@ -893,7 +1047,7 @@ main region and narrow in a sidebar at the same viewport width.
 
 `container-type: inline-size` establishes size containment needed for inline-size
 queries. The named query applies to descendants of the container, not the
-container box itself. Figure 3.11 shows two instances of one component responding
+container box itself. Figure 3.12 shows two instances of one component responding
 differently because their containers provide different inline sizes.
 
 <!-- figure:container-query -->
@@ -1113,7 +1267,7 @@ When a page looks wrong, separate four possible questions:
 3. Did the declaration win the cascade and compute to a valid value?
 4. Did layout have the space and content assumptions the author expected?
 
-Figure 3.12 maps those questions to browser evidence.
+Figure 3.13 maps those questions to browser evidence.
 
 <!-- figure:css-devtools-evidence -->
 
@@ -1169,19 +1323,23 @@ all content and focus indicators remain reachable.
 
 ## Before you begin
 
-Work from the repository root: the folder that contains `package.json`, `book`,
-`labs`, and `scripts`. In Visual Studio Code, open **Terminal > New Terminal** and
-run the command below in PowerShell to display the current location.
+Work in your personal repository created from the
+[Fall 2026 coursework template](https://github.com/Mahyar2020/web-programming-coursework-2026_Fall).
+Its root is the folder that contains `package.json`, `labs`, and `scripts`. In
+Visual Studio Code, open **Terminal > New Terminal** and run the command below in
+PowerShell to display the current location.
 
 ```powershell
 Get-Location
 ```
 
-If the path is not the cloned `web-programming-course-book` folder, change to the
-repository using its actual path. Do not copy the author's path literally.
+If the path is not your cloned
+`web-programming-coursework-2026_Fall-YOUR_STUDENT_NUMBER` folder, change to the
+repository using its actual path. Replace the placeholder with your own student
+number; do not copy this example literally.
 
 ```powershell
-cd "C:\path\to\web-programming-course-book"
+cd "C:\path\to\web-programming-coursework-2026_Fall-YOUR_STUDENT_NUMBER"
 ```
 
 Confirm that the project manifest is visible before running an npm command.
@@ -1206,7 +1364,7 @@ current jobs are different.
 In the first terminal, run:
 
 ```powershell
-npm run serve:week03:starter
+npm run serve:week03
 ```
 
 Leave that process running. Open the address printed by the command, normally
@@ -1235,12 +1393,12 @@ result must:
 - respect reduced motion;
 - remain understandable with forced colors and without color cues;
 - avoid `!important`, ID selectors, positive `tabindex`, and fixed page heights;
-- pass the Week 3 automated checks; and
+- pass the supplied repository check and every manual acceptance check; and
 - contain at least three meaningful commits.
 
 ## Step 1 - Inspect the unstyled document
 
-Open `labs/starters/week-03/index.html` and read the heading, landmark, event-card,
+Open `labs/week-03/index.html` and read the heading, landmark, event-card,
 and filter-form structure. In the browser, press `Tab` repeatedly and write down
 the focus order. Narrow the viewport to 320 CSS pixels in responsive-design mode.
 Do not change HTML merely to make a selector convenient.
@@ -1251,7 +1409,7 @@ and 3.10 because the starter stylesheet contains only its assignment comment.
 
 ## Step 2 - Establish tokens and global constraints
 
-Open `labs/starters/week-03/styles.css`. Add the layer declaration, purpose-named
+Open `labs/week-03/styles.css`. Add the layer declaration, purpose-named
 custom properties, inherited body typography, the universal `border-box`
 baseline, responsive media sizing, a centered page shell, and a visible
 `:focus-visible` rule. Save the file and reload.
@@ -1261,7 +1419,7 @@ reports `border-box`. Select a link with the keyboard and confirm that the focus
 outline is visible against its actual background. Commit the completed baseline.
 
 ```powershell
-git add labs/starters/week-03
+git add labs/week-03
 git commit -m "Establish CSS tokens and resilient baseline"
 ```
 
@@ -1285,7 +1443,7 @@ card's own content, align its details link beside the metadata while preserving
 the card's logical reading order.
 
 Resize the page until one card crosses the container threshold. Record the card's
-container width before and after the rule activates. Figure 3.11 explains why the
+container width before and after the rule activates. Figure 3.12 explains why the
 component responds to its container rather than a device name.
 
 ## Step 5 - Conduct an overflow audit
@@ -1306,19 +1464,22 @@ the rendered filter targets. Emulate reduced motion and forced colors in browser
 tools, then verify an actual operating-system high-contrast mode if available.
 Check that every state remains understandable without color alone.
 
-In the second terminal, run the automated foundation check from the repository
+In the second terminal, run the supplied coursework check from the repository
 root.
 
 ```powershell
-npm run test:foundations
+npm test
 ```
 
-A passing command reports that the Week 2 semantic form and Week 3 responsive CSS
-artifacts were checked. A failure names the file and missing or forbidden pattern;
-read that evidence before editing.
+A passing command reports `Coursework setup verification passed.` It confirms
+that the repository structure, Node.js version, starter documents, and local
+servers remain usable; it does not grade every CSS decision. If it fails, read
+the reported file or environment problem before editing. Then evaluate every
+acceptance criterion manually and compare your committed attempt with the tested
+reference solution in Appendix A.
 
-Finally, compare the completed page with the wide output in Figure 3.9 and the
-narrow output in Figure 3.10. Differences in exact font rendering are expected
+Finally, compare the completed page with the wide output in Figure 3.10 and the
+narrow output in Figure 3.11. Differences in exact font rendering are expected
 across operating systems; the relationships, states, and responsive behavior must
 agree.
 
@@ -1361,10 +1522,12 @@ Under `content-box`, calculate the outer inline size of an element with
 `width: 240px`, 16px padding on each side, 2px borders, and 12px margins. Repeat
 for `border-box`.
 
-### Exercise 3 - Choose a unit
+### Exercise 3 - Calculate and choose font-relative units
 
-Choose and justify a unit or function for body line length, component padding,
-full-width media, and a fluid but bounded title.
+The root computed font size is `20px`. A card uses `padding: 1.25rem` and its
+heading uses `font-size: 1.6rem`. Calculate both values. Then choose and justify a
+unit or function for body line length, component padding, a badge whose padding
+must scale with its own text, full-width media, and a fluid but bounded title.
 
 ## Application
 
@@ -1478,11 +1641,16 @@ is `240 + 24 = 264px`. Margins never become part of the declared border-box widt
 
 ## Answer 3
 
-Use a `ch`-based maximum such as `max-inline-size: 68ch` for body line length,
-`rem` for component padding that should follow the user's root text size,
-`max-inline-size: 100%` for media containment, and `clamp()` combining `rem` and a
-fluid term for a bounded title. These are starting decisions that require testing
-with actual content and fonts.
+`1.25rem` resolves to `25px` because `1.25 × 20 = 25`; `1.6rem` resolves to
+`32px` because `1.6 × 20 = 32`. Use a `ch`-based maximum such as
+`max-inline-size: 68ch` for body line length and `rem` for component padding that
+should follow the user's root text size consistently. Use `em` for the badge's
+internal padding because that spacing is intentionally local to the badge's own
+computed text size. Use `max-inline-size: 100%` for media containment and
+`clamp()` combining `rem` and a fluid term for a bounded title. These are
+starting decisions that require testing with actual content, fonts, user text
+settings, zoom, and reflow. The common mistake is to call every relative unit
+interchangeable; each unit encodes a different reference relationship.
 
 ## Answer 4
 
@@ -1805,6 +1973,8 @@ not conceal the failure with additional clipping.
   apparent size and spacing surprises.
 - Normal flow should be preserved unless a real relationship requires otherwise.
 - Logical properties follow writing direction and improve international resilience.
+- `rem` lengths share the root element's computed font size, while `em` lengths
+  can express deliberate component-local scaling.
 - Typography, color, controls, backgrounds, and borders must be tested as rendered
   combinations rather than judged from declarations alone.
 - Flexbox coordinates one primary axis; Grid coordinates rows and columns.
@@ -1835,6 +2005,7 @@ decisions during review.
 | Container query | A conditional rule based on a query container, commonly its inline size, rather than the viewport. |
 | Custom property | A cascading author-defined property such as `--color-accent`, commonly used as a design token. |
 | Declaration | A property-and-value proposal such as `padding: 1rem`. |
+| `em` | A font-relative CSS length unit. In a `font-size` declaration it refers to the inherited parent size; for most other properties it refers to the element's computed font size. |
 | Flexbox | A layout model for distributing and aligning items primarily along one axis. |
 | Grid | A layout model that coordinates rows and columns. |
 | Inheritance | Transfer of selected property values from an element to its descendants. |
@@ -1844,6 +2015,7 @@ decisions during review.
 | Normal flow | The default system by which block and inline boxes participate in document layout. |
 | Pseudo-class | A selector component representing a state or structural condition, such as `:focus-visible`. |
 | Pseudo-element | A selector component representing a stylable generated or abstract part, such as `::before`. |
+| `rem` | Root em, a CSS length unit equal to the computed font size of the document's root element. |
 | Selector | A pattern that identifies elements to which a rule may apply. |
 | Stacking context | A local three-dimensional painting context within which `z-index` values are compared. |
 | Specificity | The selector comparison used within the relevant cascade level to resolve conflicts. |
@@ -1864,6 +2036,8 @@ decisions during review.
 12. Stanford University, [CS142 CSS lecture notes](https://web.stanford.edu/class/cs142/lectures/CSS.pdf). Use the rule-anatomy, selector, color, box, positioning, display, and layout outline as a compact university-level review.
 13. Jennifer Niederst Robbins, *Learning Web Design*, 6th edition (O'Reilly, 2025). Use Chapters 11-17 for an extended beginner-to-intermediate treatment of CSS, typography, color, boxes, responsive layout, and transitions.
 14. Keith J. Grant, *CSS in Depth*, 2nd edition (Manning). Use its treatment of the cascade, relative units, flow, boxes, layout, and maintainable component systems for instructor enrichment.
+15. W3C, [CSS Values and Units Module Level 4](https://www.w3.org/TR/css-values/). Use its definitions of root-relative and local font-relative length units to verify `rem` and `em` calculations.
+16. W3C Web Accessibility Initiative, [Understanding Resize Text](https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html). Use it to connect relative sizing decisions with the required rendered outcome: enlarged text without loss of content or functionality.
 
 ## What changes often?
 
@@ -1871,7 +2045,7 @@ Cascade, flow, Flexbox, and Grid principles are stable. Selectors, container
 queries, nesting, color spaces, viewport units, preference media features, and
 browser developer tools continue to evolve. Compatibility decisions must use the
 project's tested browser policy and current support data rather than a remembered
-label such as “CSS3.” Technical review date: **2 September 2026**.
+label such as “CSS3.” Technical review date: **21 October 2026**.
 
 ## Session reflection
 
@@ -1887,8 +2061,9 @@ label such as “CSS3.” Technical review date: **2 September 2026**.
    the completed page. Ask which meaning remains when CSS is disabled.
 2. **Language and cascade, 50 minutes:** annotate Figure 3.1, live-edit selector
    matches, and trace one conflict through Figure 3.3 and developer tools.
-3. **Boxes and values, 45 minutes:** measure one card under both box-sizing models,
-   then demonstrate intrinsic overflow and logical axes.
+3. **Boxes and values, 55 minutes:** measure one card under both box-sizing models,
+   calculate `rem` and `em` from inspected computed font sizes, then demonstrate
+   intrinsic overflow and logical axes.
 4. **Break, 10 minutes.**
 5. **Layout and responsive systems, 55 minutes:** build navigation with Flexbox,
    cards with Grid, and one container-query enhancement. Require students to
@@ -1907,6 +2082,9 @@ label such as “CSS3.” Technical review date: **2 September 2026**.
   layer so students see that specificity is not the first cascade dimension.
 - Put a long unbroken string in a Flex or Grid item and inspect its automatic
   minimum before adding `min-inline-size: 0`.
+- Change the browser's default font size, inspect the computed root size, and ask
+  students to predict which `rem` and `em` measurements will change before
+  reloading the Campus Hub page.
 - Place the same card in wide and narrow containers at one viewport to distinguish
   a container query from a media query.
 - Temporarily remove focus styling and enable forced colors; ask students to
@@ -1921,6 +2099,12 @@ label such as “CSS3.” Technical review date: **2 September 2026**.
   matching are different value paths.
 - “`border-box` prevents overflow.” It changes size accounting but cannot override
   every fixed or intrinsic minimum.
+- “`1rem` always equals `16px`.” Sixteen pixels is a common starting value, but
+  the unit follows the computed root font size, which can reflect user and author
+  settings.
+- “`rem` automatically makes a page accessible.” A relative unit can preserve a
+  useful relationship, but only resizing, zoom, and reflow tests reveal clipping
+  or loss of functionality.
 - “Flexbox is old Grid” or “Grid replaces Flexbox.” They express different
   dimensional relationships and cooperate with normal flow.
 - “Responsive means phone, tablet, desktop.” Content, containers, zoom, input,
