@@ -4,8 +4,10 @@ This course-book source repository contains both student starters and tested
 reference solutions. Students work instead in the personal private repository
 they create from the
 [Fall 2026 coursework template](https://github.com/Mahyar2020/web-programming-coursework-2026_Fall).
-That repository uses `labs/week-01` through `labs/week-04` and does
-not contain solutions or book-production files.
+The directly discoverable student activities use `labs/week-01` through
+`labs/week-05`. The separate `labs/starters/` and `labs/solutions/` trees are
+maintainer resources; instructors should tell students to work in the
+corresponding direct `labs/week-NN` folder.
 
 The solutions are formative learning resources. Instructors should use fresh
 private variants for graded practical assessments.
@@ -20,6 +22,7 @@ npm run serve:week01
 npm run serve:week02
 npm run serve:week03
 npm run serve:week04
+npm run serve:week05
 ```
 
 Run only one server command at a time. Use `Ctrl+C` to stop it before serving a
@@ -75,3 +78,16 @@ The commands below work only in the course-book source repository because its
   validation, errors, and small automated tests.
 - Local preview: run `npm run serve:week04:starter` or
   `npm run serve:week04:solution`.
+
+## Week 5
+
+- [Student laboratory](week-05/index.html)
+- [Maintainer starter](starters/week-05/index.html)
+- [Reference solution](solutions/week-05/index.html)
+- Focus: Document Object Model (DOM) selection and updates, form data,
+  filtering, accessible live status, event listeners, event delegation,
+  immutable state updates, and rendering from application state.
+- Student preview: run `npm run serve:week05`, then visit
+  `http://localhost:8000/`.
+- Maintainer preview: run `npm run serve:week05:starter` or
+  `npm run serve:week05:solution`.

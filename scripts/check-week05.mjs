@@ -2,6 +2,10 @@ import { access, readFile } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 
 const requiredFiles = [
+  "labs/week-05/index.html",
+  "labs/week-05/app.js",
+  "labs/week-05/model.js",
+  "labs/week-05/styles.css",
   "labs/starters/week-05/index.html",
   "labs/starters/week-05/app.js",
   "labs/starters/week-05/model.js",
