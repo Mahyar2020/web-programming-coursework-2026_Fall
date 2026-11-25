@@ -46,8 +46,8 @@ for (const relativePath of forbiddenPaths) {
 }
 
 const majorVersion = Number.parseInt(process.versions.node.split(".")[0], 10);
-if (majorVersion !== 24) {
-  failures.push(`Node.js 24 is required; this terminal is using ${process.version}.`);
+if (majorVersion !== 26) {
+  failures.push(`Node.js 26 is required; this terminal is using ${process.version}.`);
 }
 
 for (const week of ["week-01", "week-02", "week-03", "week-04"]) {

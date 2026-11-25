@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Campus Hub - Interactive event explorer laboratory</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <main id="main-content" class="page-shell">
+      <p class="eyebrow">Week 5 browser programming laboratory</p>
+      <h1>Explore campus events</h1>
+      <p>Complete the JavaScript TODOs to add filtering and saved-event behavior. The event list remains readable before the script runs.</p>
+      <form id="event-filter" class="event-filter" action="" method="get">
+        <div><label for="event-query">Search event titles</label><input id="event-query" name="query" type="search"></div>
+        <div><label for="event-category">Category</label><select id="event-category" name="category"><option value="all">All categories</option><option value="technology">Technology</option><option value="arts">Arts</option><option value="community">Community</option></select></div>
+        <label class="checkbox-row"><input id="available-only" name="availableOnly" type="checkbox"> Show events with available seats only</label>
+        <button type="submit">Apply filters</button>
+      </form>
+      <p id="filter-status" class="status" role="status" aria-live="polite">Showing all events.</p>
+      <section aria-labelledby="event-list-heading"><div class="section-heading"><h2 id="event-list-heading">Upcoming events</h2><p><strong id="saved-count">0</strong> saved</p></div><div id="event-list" class="event-grid">
+        <article class="event-card"><p class="event-card__category">Technology</p><h3 class="event-card__title">Robotics night</h3><p class="event-card__availability">18 seats remaining</p></article>
+        <article class="event-card"><p class="event-card__category">Arts</p><h3 class="event-card__title">Campus orchestra</h3><p class="event-card__availability">Full</p></article>
+        <article class="event-card"><p class="event-card__category">Community</p><h3 class="event-card__title">Sustainable gardens</h3><p class="event-card__availability">22 seats remaining</p></article>
+      </div></section>
+    </main>
+    <noscript><p class="notice">JavaScript is unavailable. The event list remains readable, but search and saved-event controls require JavaScript in this teaching example.</p></noscript>
+    <template id="event-card-template"><article class="event-card"><p class="event-card__category"></p><h3 class="event-card__title"></h3><p class="event-card__availability"></p><button class="event-card__save" type="button" aria-pressed="false"></button></article></template>
+  </body>
+</html>

@@ -4,9 +4,34 @@ const events = [
   { title: "Sustainable gardens", category: "community", capacity: 40, registered: 18, featured: true },
 ];
 
-// TODO 1: write seatsRemaining(event).
-// TODO 2: write eventStatus(event).
-// TODO 3: write filterEvents(allEvents, category).
-// TODO 4: write summarizeEvents(allEvents).
+function seatsRemaining(event) {
+  return event.capacity - event.registered;
+}
 
-console.table(events);
+function eventStatus(event) {
+  const remaining = seatsRemaining(event);
+
+  if (remaining === 0) return "full";
+  if (remaining <= 10) return "almost full";
+  return "open";
+}
+function filterEvents(allEvents, category) {
+  return allEvents.filter((event) => event.category === category);
+}
+function summarizeEvents(allEvents) {
+  return allEvents.map((event) => ({
+    title: event.title,
+    remaining: seatsRemaining(event),
+    status: eventStatus(event),
+  }));
+}
+
+const summary = summarizeEvents(events);
+console.table(summary);
+
+const output = typeof document === "undefined" ? null : document.querySelector("#program-output");
+if (output) {
+  output.textContent = summary
+    .map(({ title, remaining, status }) => `${title}: ${status} (${remaining} seats remaining)`)
+    .join("\n");
+}

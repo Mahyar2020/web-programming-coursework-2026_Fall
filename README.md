@@ -79,7 +79,7 @@ npm --version
 npm test
 ```
 
-The Node.js version must begin with `v24.`. The final command should report
+The Node.js version must begin with `v26.`. The final command should report
 `Coursework setup verification passed.`
 
 ## Repository map
