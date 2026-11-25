@@ -2045,7 +2045,7 @@ Cascade, flow, Flexbox, and Grid principles are stable. Selectors, container
 queries, nesting, color spaces, viewport units, preference media features, and
 browser developer tools continue to evolve. Compatibility decisions must use the
 project's tested browser policy and current support data rather than a remembered
-label such as “CSS3.” Technical review date: **21 October 2026**.
+label such as “CSS3.” Technical review date: **18 November 2026**.
 
 ## Session reflection
 

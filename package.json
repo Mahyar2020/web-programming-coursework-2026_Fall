@@ -4,13 +4,16 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "npm run test:links && npm run test:week01 && npm run test:week04 && npm run test:foundations",
+    "test": "npm run test:links && npm run test:week01 && npm run test:week04 && npm run test:week05 && npm run test:foundations",
     "test:links": "node scripts/check-local-links.mjs",
     "test:week01": "node scripts/check-week01.mjs",
     "test:week04": "node scripts/check-week04.mjs",
+    "test:week05": "node scripts/check-week05.mjs",
     "test:foundations": "node scripts/check-foundations.mjs",
     "pdf": "python scripts/build_pdf.py",
     "pdf:verify": "python scripts/verify_pdf.py",
+    "pdf:tr": "python scripts/build_turkish_pdf.py",
+    "pdf:tr:verify": "python scripts/verify_turkish_pdf.py",
     "serve:week01:starter": "node scripts/serve-static.mjs labs/starters/week-01 8000",
     "serve:week01:solution": "node scripts/serve-static.mjs labs/solutions/week-01 8000",
     "serve:week02:starter": "node scripts/serve-static.mjs labs/starters/week-02 8000",
@@ -19,9 +22,11 @@
     "serve:week03:solution": "node scripts/serve-static.mjs labs/solutions/week-03 8000",
     "serve:week04": "node scripts/serve-static.mjs labs/starters/week-04 8000",
     "serve:week04:starter": "node scripts/serve-static.mjs labs/starters/week-04 8000",
-    "serve:week04:solution": "node scripts/serve-static.mjs labs/solutions/week-04 8000"
+    "serve:week04:solution": "node scripts/serve-static.mjs labs/solutions/week-04 8000",
+    "serve:week05:starter": "node scripts/serve-static.mjs labs/starters/week-05 8000",
+    "serve:week05:solution": "node scripts/serve-static.mjs labs/solutions/week-05 8000"
   },
   "engines": {
-    "node": ">=24 <25"
+    "node": ">=26 <27"
   }
 }

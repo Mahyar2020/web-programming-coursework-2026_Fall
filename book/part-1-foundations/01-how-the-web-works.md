@@ -2161,7 +2161,7 @@ classroom retrieval practice.
 The conceptual roles and HTTP semantics in this chapter are stable. Browser
 developer-tool labels, exact timing panels, installation screens, and command
 output change more often. The technical review date for this chapter is
-**29 September 2026**.
+**18 November 2026**.
 
 ## Session reflection
 

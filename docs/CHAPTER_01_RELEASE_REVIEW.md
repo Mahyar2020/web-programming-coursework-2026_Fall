@@ -1,9 +1,14 @@
 # Chapter 1 Release Review
 
-Review date: **22 September 2026**
+Review date: **18 November 2026**
 Decision: **PASS — ready as the prerequisite for Chapter 2**
 
 ## Release judgment
+
+The November 2026 cross-chapter audit rechecked this chapter against the current
+course architecture and the expanded JavaScript prerequisite chain. No missing
+network, URL, origin, HTTP, browser, server, or developer-tools concept blocked
+Chapters 2-4; the published explanations remain the required platform model.
 
 Chapter 1 now provides the conceptual and practical foundation needed before a
 student writes a substantial page. It begins with the distinction between the

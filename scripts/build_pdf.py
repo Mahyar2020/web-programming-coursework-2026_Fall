@@ -119,7 +119,15 @@ MEDIA_FIGURES = {
     ),
     "week-04-browser-output": (
         ROOT / "assets" / "images" / "week-04-browser-output.png",
-        "Figure 4.10. The tested JavaScript module transforms three event objects into visible availability summaries in the browser.",
+        "Figure 4.17. The tested JavaScript module transforms three event objects into visible availability summaries in the browser.",
+    ),
+    "week-04-language-evidence": (
+        ROOT / "assets" / "images" / "week-04-language-evidence.png",
+        "Figure 4.11. One tested browser page makes loop traces, function return shapes, and array manipulation results visible for comparison.",
+    ),
+    "week-05-browser-output": (
+        ROOT / "assets" / "images" / "week-05-browser-output.png",
+        "Figure 5.8. The completed Campus Hub event explorer exposes labeled filters, a polite result status, rendered event cards, availability, and saved-state controls.",
     ),
 }
 MEDIA_MAX_HEIGHT_MM = {
@@ -131,6 +139,11 @@ MEDIA_MAX_HEIGHT_MM = {
     "accessibility-combined-evidence": 96,
     "week-03-output-desktop": 90,
     "week-03-output-narrow": 105,
+    "week-04-language-evidence": 105,
+}
+
+TURKISH_MEDIA_CAPTIONS = {
+    "week-05-browser-output": "Şekil 5.8. Tamamlanmış Campus Hub etkinlik gezgini etiketli filtreleri, nazik sonuç durumunu, çizilmiş etkinlik kartlarını, uygunluk bilgisini ve kaydetme denetimlerini gösterir.",
 }
 AUTHOR = "Dr. Mahyar Teymournezhad"
 
@@ -244,6 +257,13 @@ def make_styles() -> dict[str, ParagraphStyle]:
             fontSize=7.6,
             leading=10.5,
             textColor=MUTED,
+        ),
+        "table-header": ParagraphStyle(
+            "BookTableHeader",
+            fontName="BookSans-Bold",
+            fontSize=7.4,
+            leading=9.6,
+            textColor=WHITE,
         ),
         "caption": ParagraphStyle(
             "BookCaption",
@@ -533,18 +553,69 @@ class ConceptFigure(Flowable):
         "javascript-first-run-workflow": "Figure 4.1. A first program moves through an observable edit-save-run-check-record cycle.",
         "javascript-source-command-output": "Figure 4.2. The saved source file, shell command, runtime process, and terminal output are related but distinct.",
         "browser-javascript-load-path": "Figure 4.3. The browser requests HTML, discovers and requests JavaScript, executes it, and exposes Console evidence.",
-        "javascript-host-boundary": "Figure 4.4. The ECMAScript language runs inside a host; browsers and Node.js add different environment APIs.",
-        "javascript-evaluation": "Figure 4.5. Evaluation produces a value, and a declaration connects that value to a binding name.",
-        "javascript-control-flow": "Figure 4.6. An if-else chain tests conditions in order and executes only the first matching branch.",
-        "function-call-boundary": "Figure 4.7. A function call connects arguments to local parameters and returns one result to the call site.",
-        "value-reference-identity": "Figure 4.8. Primitive assignment copies a value, while object assignment can give two bindings the same object identity.",
-        "javascript-debugging": "Figure 4.9. JavaScript debugging follows evidence from the observed failure to the violated contract and verified repair.",
+        "javascript-four-file-map": "Figure 4.4. Three JavaScript paths connect source files to their host runtimes and outputs.",
+        "javascript-host-boundary": "Figure 4.5. The ECMAScript language runs inside a host; browsers and Node.js add different environment APIs.",
+        "javascript-evaluation": "Figure 4.6. Evaluation produces a value, and a declaration connects that value to a binding name.",
+        "javascript-control-flow": "Figure 4.7. Branches and loops choose the next step through conditions and progress.",
+        "function-call-boundary": "Figure 4.8. A function receives arguments, works locally, then returns a value or raises an error.",
+        "javascript-array-indexes": "Figure 4.9. Array indexes begin at zero, so a three-element array has length 3 and a final valid index of 2.",
+        "javascript-array-pipeline": "Figure 4.10. Filtering and mapping derive a result without changing the source array.",
+        "value-reference-identity": "Figure 4.12. Primitive assignment copies a value, while object assignment can give two bindings the same object identity.",
+        "javascript-debugging": "Figure 4.13. JavaScript debugging follows evidence from the observed failure to the violated contract and verified repair.",
+        "javascript-call-stack-closure": "Figure 4.14. Calls form a stack; a closure retains its defining lexical binding.",
+        "javascript-prototype-chain": "Figure 4.15. Property lookup follows prototype links until a match or null.",
+        "javascript-module-graph": "Figure 4.16. Browser and test entries import the same domain module.",
+        "dom-source-live-tree": "Figure 5.1. HTML source is parsed into a live DOM tree whose current state contributes to rendered pixels.",
+        "dom-interface-map": "Figure 5.2. DOM interfaces specialize from Node to Element and HTMLElement, while Text remains a different kind of Node.",
+        "safe-dom-content": "Figure 5.3. textContent treats input as text; innerHTML parses markup and requires trusted HTML.",
+        "state-render-loop": "Figure 5.4. User input produces an event, the handler derives new state, and rendering makes the DOM represent that state.",
+        "event-propagation": "Figure 5.5. One click follows a propagation path through capture, target, and bubble phases.",
+        "event-delegation": "Figure 5.6. A stable list handles bubbled clicks from current and future save buttons by matching the target's nearest control.",
+        "form-submit-validation": "Figure 5.7. Form data passes native constraints, optional JavaScript handling, and server validation.",
+        "dom-read-decide-write": "Figure 5.9. Grouping DOM reads, decisions, and writes helps the browser combine visual work.",
+        "mutation-observer-batch": "Figure 5.10. Events report occurrences; a mutation observer later receives a batch of DOM change records.",
+        "shadow-dom-boundary": "Figure 5.11. A shadow host connects light DOM, an encapsulated shadow tree, slots, and a retargeted public event path.",
     }
 
-    def __init__(self, kind: str, width: float):
+    turkish_captions = {
+        "dom-source-live-tree": "Şekil 5.1. HTML kaynağı, geçerli durumu ekrandaki piksellere katkı veren canlı DOM ağacına ayrıştırılır.",
+        "dom-interface-map": "Şekil 5.2. DOM arayüzleri Node'dan Element ve HTMLElement'e özelleşir; Text ise farklı bir Node türüdür.",
+        "safe-dom-content": "Şekil 5.3. textContent girdiyi metin sayar; innerHTML işaretlemeyi ayrıştırır ve güvenilir HTML gerektirir.",
+        "state-render-loop": "Şekil 5.4. Kullanıcı girdisi olay üretir, işleyici yeni durumu türetir ve çizim DOM'u bu duruma uyarlar.",
+        "event-propagation": "Şekil 5.5. Tek tıklama yakalama, hedef ve kabarcıklanma aşamalarından oluşan yayılma yolunu izler.",
+        "event-delegation": "Şekil 5.6. Kararlı liste, hedefin en yakın denetimini eşleştirerek mevcut ve gelecekteki kaydetme düğmelerinden kabarcıklanan tıklamaları işler.",
+        "form-submit-validation": "Şekil 5.7. Form verisi yerel kısıtlardan, isteğe bağlı JavaScript işlemesinden ve sunucu doğrulamasından geçer.",
+        "dom-read-decide-write": "Şekil 5.9. DOM okumalarını, kararları ve yazmaları gruplamak tarayıcının görsel işi birleştirmesine yardım eder.",
+        "mutation-observer-batch": "Şekil 5.10. Olaylar oluşumları bildirir; değişiklik gözlemcisi DOM değişiklik kayıtlarını daha sonra toplu alır.",
+        "shadow-dom-boundary": "Şekil 5.11. Shadow host; light DOM, kapsüllenmiş gölge ağacı, slotlar ve yeniden hedeflenen genel olay yolunu bağlar.",
+    }
+
+    turkish_labels = {
+        "HTML source": "HTML kaynağı", "characters on disk": "diskteki karakterler",
+        "Live DOM tree": "Canlı DOM ağacı", "objects in memory": "bellekteki nesneler",
+        "Rendered page": "Çizilmiş sayfa", "pixels and controls": "pikseller ve denetimler",
+        "A DOM mutation changes memory and rendering, not the saved source file": "DOM değişikliği belleği ve çizimi değiştirir; kayıtlı kaynak dosyayı değiştirmez",
+        "Element": "Element", "Text": "Text", "HTMLElement": "HTMLElement",
+        "Untrusted string": "Güvenilmeyen dize", "Text node": "Metin düğümü", "HTML parser": "HTML ayrıştırıcısı",
+        "requires trusted/sanitized markup": "güvenilir veya arındırılmış işaretleme gerekir",
+        "User input": "Kullanıcı girdisi", "Event handler": "Olay işleyicisi", "New state": "Yeni durum", "render() / DOM": "render() / DOM",
+        "The updated interface enables the next observable interaction": "Güncel arayüz sonraki gözlenebilir etkileşimi mümkün kılar",
+        "window / document": "window / document", "event list": "etkinlik listesi", "button target": "düğme hedefi",
+        "CAPTURE down": "YAKALAMA aşağı", "BUBBLE up": "KABARCIKLANMA yukarı",
+        "Stable #event-list listener": "Kararlı #event-list dinleyicisi", "closest() identifies the matching control after the click bubbles": "Tıklama kabarcıklanınca closest() eşleşen denetimi bulur",
+        "Named controls": "Adlandırılmış denetimler", "Native constraints": "Yerel kısıtlar", "JS enhancement": "JS iyileştirmesi", "Server validation": "Sunucu doğrulaması",
+        "Helpful client feedback": "Yararlı istemci geri bildirimi", "The server still enforces authorization, data rules, and business rules": "Sunucu yetki, veri ve iş kurallarını yine uygular",
+        "READ": "OKU", "geometry and current state": "geometri ve güncel durum", "DECIDE": "KARAR VER", "ordinary JavaScript data": "sıradan JavaScript verisi", "WRITE": "YAZ", "classes, text, and nodes": "sınıflar, metin ve düğümler",
+        "Measure first; optimize only an observed interaction cost": "Önce ölçün; yalnızca gözlenen etkileşim maliyetini iyileştirin",
+        "User event": "Kullanıcı olayı", "State + render": "Durum + çizim", "DOM changes": "DOM değişiklikleri", "One later callback receives the queued record batch": "Daha sonraki tek geri çağrı kuyruktaki kayıtları toplu alır",
+        "Light DOM child": "Light DOM çocuğu", "Internal button": "Dahili düğme", "Shadow tree styles + structure": "Gölge ağacı stilleri + yapı", "SHADOW HOST": "SHADOW HOST", "composed event crosses; target may be retargeted": "composed olay geçer; hedef yeniden ayarlanabilir",
+    }
+
+    def __init__(self, kind: str, width: float, language: str = "en"):
         super().__init__()
         self.kind = kind
         self.width = width
+        self.language = language
         heights_mm = {
             "protocol-stack": 74,
             "terminal-directory-rescue": 82,
@@ -564,10 +635,26 @@ class ConceptFigure(Flowable):
             "javascript-first-run-workflow": 70,
             "javascript-source-command-output": 78,
             "browser-javascript-load-path": 76,
-            "javascript-control-flow": 76,
-            "function-call-boundary": 72,
+            "javascript-four-file-map": 88,
+            "javascript-control-flow": 94,
+            "function-call-boundary": 86,
+            "javascript-array-indexes": 78,
+            "javascript-array-pipeline": 76,
             "value-reference-identity": 76,
             "javascript-debugging": 72,
+            "javascript-call-stack-closure": 78,
+            "javascript-prototype-chain": 74,
+            "javascript-module-graph": 72,
+            "dom-source-live-tree": 74,
+            "dom-interface-map": 72,
+            "safe-dom-content": 72,
+            "state-render-loop": 74,
+            "event-propagation": 76,
+            "event-delegation": 72,
+            "form-submit-validation": 76,
+            "dom-read-decide-write": 72,
+            "mutation-observer-batch": 76,
+            "shadow-dom-boundary": 82,
         }
         self.height = heights_mm.get(kind, 62) * mm
 
@@ -578,7 +665,17 @@ class ConceptFigure(Flowable):
         canvas.roundRect(x, y, w, h, 2.2 * mm, fill=1, stroke=1)
         canvas.setFillColor(INK)
         canvas.setFont("BookSans-Bold", size)
-        canvas.drawCentredString(x + w / 2, y + h / 2 - 2.3, label)
+        canvas.drawCentredString(x + w / 2, y + h / 2 - 2.3, self._t(label))
+
+    def _t(self, label: str) -> str:
+        if self.language == "tr":
+            if label.startswith("Card ") and label.endswith(": Save button"):
+                number = label.split()[1].rstrip(":")
+                return f"Kart {number}: Kaydet düğmesi"
+            if label.startswith("Record "):
+                return "Kayıt " + label.split()[-1]
+            return self.turkish_labels.get(label, label)
+        return label
 
     def _arrow(self, canvas, x1, y1, x2, y2, color=TEAL):
         """Draw a directionally correct arrow, including on diagonal paths."""
@@ -635,9 +732,18 @@ class ConceptFigure(Flowable):
         canvas.setStrokeColor(RULE)
         canvas.roundRect(0, 8 * mm, self.width, self.height - 8 * mm, 3 * mm, fill=1, stroke=1)
         getattr(self, f"_draw_{self.kind.replace('-', '_')}")(canvas)
-        canvas.setFillColor(MUTED)
-        canvas.setFont("BookSans-Italic", 6.8)
-        canvas.drawString(4 * mm, 2.5 * mm, self.captions[self.kind])
+        caption = self.turkish_captions.get(self.kind, self.captions[self.kind]) if self.language == "tr" else self.captions[self.kind]
+        caption_style = ParagraphStyle(
+            "FigureCaptionInside",
+            fontName="BookSans-Italic",
+            fontSize=5.8,
+            leading=6.7,
+            textColor=MUTED,
+        )
+        caption_flowable = Paragraph(html.escape(caption), caption_style)
+        caption_width = self.width - 8 * mm
+        _, caption_height = caption_flowable.wrap(caption_width, 7 * mm)
+        caption_flowable.drawOn(canvas, 4 * mm, max(0.7 * mm, 7.2 * mm - caption_height))
 
     def _draw_terminal_directory_rescue(self, c):
         panel_w = (self.width - 18 * mm) / 2
@@ -769,6 +875,40 @@ class ConceptFigure(Flowable):
         c.drawCentredString(self.width / 2, 58 * mm, "The browser performs two file requests before output exists")
         c.setFillColor(MUTED); c.setFont("BookSans", 5.7)
         c.drawCentredString(self.width / 2, 19 * mm, "A 404 at step 3 prevents steps 4 and 5; inspect Network before changing JavaScript logic.")
+
+    def _draw_javascript_four_file_map(self, c):
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 6.8)
+        c.drawString(7 * mm, 75 * mm, "ORIENTATION PATHS")
+        c.drawString(7 * mm, 38.5 * mm, "CONTINUING CAMPUS HUB PATH")
+
+        self._box(c, 8 * mm, 57 * mm, 33 * mm, 12 * mm, "hello.js", fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=6.0)
+        self._box(c, 55 * mm, 57 * mm, 43 * mm, 12 * mm, "Node.js runtime", fill=PALE_TEAL, stroke=TEAL, size=5.9)
+        self._box(c, 112 * mm, 57 * mm, 48 * mm, 12 * mm, "Terminal output", fill=WHITE, stroke=NAVY, size=5.9)
+        self._arrow(c, 41 * mm, 63 * mm, 55 * mm, 63 * mm, color=HexColor("#B06A2F"))
+        self._arrow(c, 98 * mm, 63 * mm, 112 * mm, 63 * mm, color=TEAL)
+        c.setFillColor(MUTED); c.setFont("BookSans", 4.9)
+        c.drawCentredString(48 * mm, 68.5 * mm, "node command")
+        c.drawCentredString(105 * mm, 68.5 * mm, "console.log")
+
+        self._box(c, 8 * mm, 43 * mm, 42 * mm, 10 * mm, "hello-browser.html", fill=PALE_BLUE, stroke=BLUE, size=5.5)
+        self._box(c, 64 * mm, 43 * mm, 42 * mm, 10 * mm, "hello-browser.js", fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=5.5)
+        self._box(c, 120 * mm, 43 * mm, 40 * mm, 10 * mm, "Browser Console", fill=WHITE, stroke=NAVY, size=5.5)
+        self._arrow(c, 50 * mm, 48 * mm, 64 * mm, 48 * mm, color=BLUE)
+        self._arrow(c, 106 * mm, 48 * mm, 120 * mm, 48 * mm, color=HexColor("#B06A2F"))
+        c.setFillColor(MUTED); c.setFont("BookSans", 4.8)
+        c.drawCentredString(57 * mm, 53 * mm, "script src request")
+        c.drawCentredString(113 * mm, 53 * mm, "executes")
+
+        self._box(c, 8 * mm, 23 * mm, 42 * mm, 12 * mm, "index.html", fill=PALE_BLUE, stroke=BLUE, size=6.0)
+        self._box(c, 64 * mm, 23 * mm, 42 * mm, 12 * mm, "events.js module", fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=5.7)
+        self._box(c, 120 * mm, 23 * mm, 40 * mm, 12 * mm, "Page + tests", fill=PALE_TEAL, stroke=TEAL, size=5.8)
+        self._arrow(c, 50 * mm, 29 * mm, 64 * mm, 29 * mm, color=BLUE)
+        self._arrow(c, 106 * mm, 29 * mm, 120 * mm, 29 * mm, color=HexColor("#B06A2F"))
+        c.setFillColor(MUTED); c.setFont("BookSans", 4.8)
+        c.drawCentredString(57 * mm, 35 * mm, "type=module")
+        c.drawCentredString(113 * mm, 35 * mm, "exports results")
+        c.setFont("BookSans", 5.5)
+        c.drawCentredString(self.width / 2, 15 * mm, "The similar filenames mark learning stages; each arrow labels the dependency that starts the next step.")
 
     def _draw_two_terminal_model(self, c):
         panel_w = (self.width - 18 * mm) / 2
@@ -1298,25 +1438,89 @@ class ConceptFigure(Flowable):
         c.drawCentredString(self.width / 2, 21 * mm, "Evaluate the expression -> produce 18 -> bind the name remaining")
 
     def _draw_javascript_control_flow(self, c):
-        self._box(c, 63 * mm, 55 * mm, 44 * mm, 10 * mm, "remaining === 0?", fill=PALE_BLUE, stroke=BLUE, size=6.1)
-        self._box(c, 20 * mm, 34 * mm, 31 * mm, 10 * mm, 'return "full"', fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=5.8)
-        self._box(c, 63 * mm, 34 * mm, 44 * mm, 10 * mm, "remaining <= 10?", fill=PALE_BLUE, stroke=BLUE, size=6.1)
-        self._box(c, 117 * mm, 34 * mm, 42 * mm, 10 * mm, 'return "almost full"', fill=PALE_TEAL, stroke=TEAL, size=5.5)
-        self._box(c, 63 * mm, 15 * mm, 44 * mm, 10 * mm, 'return "open"', fill=WHITE, stroke=NAVY, size=5.9)
-        self._arrow(c, 73 * mm, 55 * mm, 45 * mm, 44 * mm, color=HexColor("#B06A2F"))
-        self._arrow(c, 85 * mm, 55 * mm, 85 * mm, 44 * mm, color=BLUE)
-        self._arrow(c, 107 * mm, 39 * mm, 117 * mm, 39 * mm, color=TEAL)
-        self._arrow(c, 85 * mm, 34 * mm, 85 * mm, 25 * mm, color=NAVY)
-        c.setFillColor(MUTED); c.setFont("BookSans", 5.4); c.drawString(49 * mm, 49 * mm, "true"); c.drawString(87 * mm, 49 * mm, "false"); c.drawString(109 * mm, 42 * mm, "true"); c.drawString(87 * mm, 28 * mm, "false")
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 6.3)
+        c.drawString(7 * mm, 81 * mm, "BRANCH: test in order; run one path")
+        self._box(c, 8 * mm, 63 * mm, 38 * mm, 11 * mm, "remaining === 0?", fill=PALE_BLUE, stroke=BLUE, size=5.5)
+        self._box(c, 61 * mm, 63 * mm, 34 * mm, 11 * mm, '"full"', fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=5.8)
+        self._box(c, 110 * mm, 63 * mm, 49 * mm, 11 * mm, "test next condition", fill=PALE_TEAL, stroke=TEAL, size=5.5)
+        self._arrow(c, 46 * mm, 68.5 * mm, 61 * mm, 68.5 * mm, color=HexColor("#B06A2F"))
+        self._arrow(c, 95 * mm, 68.5 * mm, 110 * mm, 68.5 * mm, color=TEAL)
+        c.setFillColor(MUTED); c.setFont("BookSans", 4.8)
+        c.drawCentredString(53.5 * mm, 72 * mm, "true")
+        c.drawCentredString(102.5 * mm, 72 * mm, "false")
+
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 6.3)
+        c.drawString(7 * mm, 52 * mm, "LOOP: choose from the controlling information")
+        self._box(c, 7 * mm, 36 * mm, 36 * mm, 10 * mm, "each value?", fill=PALE_BLUE, stroke=BLUE, size=5.5)
+        self._box(c, 48 * mm, 36 * mm, 36 * mm, 10 * mm, "need index?", fill=PALE_BLUE, stroke=BLUE, size=5.5)
+        self._box(c, 89 * mm, 36 * mm, 36 * mm, 10 * mm, "test first?", fill=PALE_BLUE, stroke=BLUE, size=5.5)
+        self._box(c, 130 * mm, 36 * mm, 32 * mm, 10 * mm, "run once?", fill=PALE_BLUE, stroke=BLUE, size=5.5)
+        results = [("for...of", 7), ("for", 48), ("while", 89), ("do...while", 130)]
+        for label, x in results:
+            width = 36 if x < 130 else 32
+            self._box(c, x * mm, 19 * mm, width * mm, 9 * mm, label, fill=PALE_TEAL, stroke=TEAL, size=5.5)
+            self._arrow(c, (x + width / 2) * mm, 36 * mm, (x + width / 2) * mm, 28 * mm, color=TEAL)
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.2)
+        c.drawCentredString(self.width / 2, 12 * mm, "Every loop still needs progress toward an exit; for...in is for enumerable object keys.")
 
     def _draw_function_call_boundary(self, c):
-        self._box(c, 7 * mm, 31 * mm, 39 * mm, 14 * mm, "argument: events[0]", fill=PALE_BLUE, stroke=BLUE, size=5.8)
-        self._box(c, 61 * mm, 24 * mm, 50 * mm, 28 * mm, "seatsRemaining(event)", fill=PALE_TEAL, stroke=TEAL, size=6.4)
-        self._box(c, 126 * mm, 31 * mm, 35 * mm, 14 * mm, "return value: 18", fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=5.8)
-        self._arrow(c, 46 * mm, 38 * mm, 61 * mm, 38 * mm, color=BLUE)
-        self._arrow(c, 111 * mm, 38 * mm, 126 * mm, 38 * mm, color=TEAL)
-        c.setFillColor(MUTED); c.setFont("BookSans", 5.8)
-        c.drawCentredString(86 * mm, 18 * mm, "local parameter -> local calculation -> explicit result")
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 6.5)
+        c.drawString(7 * mm, 72 * mm, "ONE CALL FRAME")
+        self._box(c, 7 * mm, 48 * mm, 42 * mm, 16 * mm, "argument: events[0]", fill=PALE_BLUE, stroke=BLUE, size=5.7)
+        self._box(c, 62 * mm, 43 * mm, 50 * mm, 26 * mm, "parameter event + body", fill=PALE_TEAL, stroke=TEAL, size=5.9)
+        self._box(c, 126 * mm, 56 * mm, 35 * mm, 12 * mm, "return: 18", fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=5.7)
+        self._box(c, 126 * mm, 40 * mm, 35 * mm, 12 * mm, "or throw Error", fill=WHITE, stroke=HexColor("#B85C4A"), size=5.5)
+        self._arrow(c, 49 * mm, 56 * mm, 62 * mm, 56 * mm, color=BLUE)
+        self._arrow(c, 112 * mm, 58 * mm, 126 * mm, 62 * mm, color=TEAL)
+        self._arrow(c, 112 * mm, 52 * mm, 126 * mm, 46 * mm, color=HexColor("#B85C4A"))
+        c.setFillColor(MUTED); c.setFont("BookSans", 4.9)
+        c.drawCentredString(55.5 * mm, 61 * mm, "bind input")
+
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 6.1)
+        c.drawString(7 * mm, 31 * mm, "CALL-SITE FORMS")
+        labels = ["direct fn(x)", "method obj.fn(x)", "callback map(fn)", "construct new C(x)"]
+        positions, widths = self._horizontal_layout([31, 34, 36, 37], left_mm=7, right_mm=7)
+        for label, x, width in zip(labels, positions, widths):
+            self._box(c, x, 16 * mm, width, 10 * mm, label, fill=WHITE, stroke=NAVY, size=5.1)
+
+    def _draw_javascript_array_indexes(self, c):
+        values = [("technology", 0), ("arts", 1), ("community", 2)]
+        cell_w = 47 * mm
+        gap = 5 * mm
+        start_x = (self.width - (3 * cell_w + 2 * gap)) / 2
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 6.8)
+        c.drawCentredString(self.width / 2, 65 * mm, "categories.length = 3")
+        for position, (value, index) in enumerate(values):
+            x = start_x + position * (cell_w + gap)
+            c.setFillColor(MUTED); c.setFont("BookSans-Bold", 5.7)
+            c.drawCentredString(x + cell_w / 2, 55 * mm, f"index {index}")
+            self._box(c, x, 36 * mm, cell_w, 14 * mm, f'"{value}"', fill=PALE_BLUE if index != 1 else PALE_TEAL, stroke=BLUE if index != 1 else TEAL, size=5.8)
+            c.setFillColor(MUTED); c.setFont("BookMono", 5.0)
+            c.drawCentredString(x + cell_w / 2, 29 * mm, f"categories[{index}]")
+        self._arrow(c, start_x + cell_w / 2, 23 * mm, start_x + cell_w / 2, 35 * mm, color=BLUE)
+        self._arrow(c, start_x + 2 * (cell_w + gap) + cell_w / 2, 23 * mm, start_x + 2 * (cell_w + gap) + cell_w / 2, 35 * mm, color=TEAL)
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 5.6)
+        c.drawCentredString(start_x + cell_w / 2, 18 * mm, "first index = 0")
+        c.drawCentredString(start_x + 2 * (cell_w + gap) + cell_w / 2, 18 * mm, "last index = length - 1 = 2")
+
+    def _draw_javascript_array_pipeline(self, c):
+        xs, widths = self._horizontal_layout([48, 42, 46], left_mm=7, right_mm=7)
+        panels = [
+            ("SOURCE ARRAY", "3 event objects", PALE_BLUE, BLUE),
+            ("filter(featured)", "2 event objects", PALE_GOLD, HexColor("#B06A2F")),
+            ("map(title)", "2 strings", PALE_TEAL, TEAL),
+        ]
+        for index, ((title, detail, fill, stroke), x, width) in enumerate(zip(panels, xs, widths)):
+            self._box(c, x, 38 * mm, width, 18 * mm, title, fill=fill, stroke=stroke, size=5.9)
+            c.setFillColor(MUTED); c.setFont("BookSans", 5.2)
+            c.drawCentredString(x + width / 2, 31 * mm, detail)
+            if index < 2:
+                self._arrow(c, x + width, 47 * mm, xs[index + 1], 47 * mm, color=stroke)
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 6.1)
+        c.drawCentredString(self.width / 2, 65 * mm, "Value shape changes at each named stage")
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.7)
+        c.drawCentredString(self.width / 2, 20 * mm, "filter may change count; map preserves count and changes each selected value")
+        c.drawCentredString(self.width / 2, 14 * mm, "Both operations return new arrays; neither deeply copies the event objects.")
 
     def _draw_value_reference_identity(self, c):
         c.setFillColor(INK); c.setFont("BookSans-Bold", 6.6)
@@ -1343,6 +1547,164 @@ class ConceptFigure(Flowable):
             if i < len(labels) - 1: self._arrow(c, x + w, 38 * mm, positions[i + 1], 38 * mm, color=BLUE)
         c.setFillColor(MUTED); c.setFont("BookSans", 6.0)
         c.drawCentredString(self.width / 2, 22 * mm, "Stop at the first violated contract; a later symptom may be only a consequence.")
+
+    def _draw_javascript_call_stack_closure(self, c):
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 6.8)
+        c.drawString(8 * mm, 65 * mm, "ACTIVE CALL STACK")
+        c.drawString(103 * mm, 65 * mm, "RETURNED CLOSURE")
+
+        stack_x = 12 * mm
+        frames = [
+            ("seatsRemaining(event)", 42 * mm, PALE_GOLD, HexColor("#B06A2F")),
+            ("summarizeEvents(events)", 29 * mm, PALE_TEAL, TEAL),
+            ("module body", 16 * mm, PALE_BLUE, BLUE),
+        ]
+        for label, y, fill, stroke in frames:
+            self._box(c, stack_x, y, 66 * mm, 10 * mm, label, fill=fill, stroke=stroke, size=5.8)
+        self._arrow(c, 45 * mm, 29 * mm, 45 * mm, 39 * mm, color=TEAL)
+        self._arrow(c, 45 * mm, 42 * mm, 45 * mm, 52 * mm, color=HexColor("#B06A2F"))
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.2)
+        c.drawCentredString(45 * mm, 11 * mm, "return removes the top frame")
+
+        self._box(c, 108 * mm, 43 * mm, 41 * mm, 12 * mm, "returned function", fill=PALE_BLUE, stroke=BLUE, size=5.8)
+        self._box(c, 108 * mm, 20 * mm, 41 * mm, 12 * mm, "count binding", fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=6.0)
+        self._arrow(c, 128 * mm, 43 * mm, 128 * mm, 32 * mm, color=TEAL)
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.2)
+        c.drawCentredString(128 * mm, 13 * mm, "later calls still reach count")
+
+    def _draw_javascript_prototype_chain(self, c):
+        labels = [
+            ("event object", "own: title, capacity", PALE_BLUE, BLUE),
+            ("eventMethods", "inherited: describe()", PALE_TEAL, TEAL),
+            ("Object.prototype", "shared base methods", PALE_GOLD, HexColor("#B06A2F")),
+            ("null", "lookup ends", WHITE, NAVY),
+        ]
+        positions, widths = self._horizontal_layout([35, 39, 43, 24], left_mm=6, right_mm=6)
+        for index, ((title, detail, fill, stroke), x, width) in enumerate(zip(labels, positions, widths)):
+            self._box(c, x, 35 * mm, width, 15 * mm, title, fill=fill, stroke=stroke, size=5.7)
+            c.setFillColor(MUTED); c.setFont("BookSans", 4.7)
+            c.drawCentredString(x + width / 2, 29 * mm, detail)
+            if index < len(labels) - 1:
+                self._arrow(c, x + width, 42.5 * mm, positions[index + 1], 42.5 * mm, color=stroke)
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 6.5)
+        c.drawCentredString(self.width / 2, 59 * mm, "Lookup for event.describe")
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.7)
+        c.drawCentredString(self.width / 2, 16 * mm, "Stop at the first matching property; an own property can shadow an inherited one.")
+
+    def _draw_javascript_module_graph(self, c):
+        self._box(c, 10 * mm, 40 * mm, 47 * mm, 15 * mm, "index.js", fill=PALE_BLUE, stroke=BLUE, size=6.4)
+        self._box(c, 10 * mm, 18 * mm, 47 * mm, 15 * mm, "events.test.js", fill=PALE_TEAL, stroke=TEAL, size=6.2)
+        self._box(c, 104 * mm, 29 * mm, 55 * mm, 18 * mm, "events.js", fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=6.6)
+        self._arrow(c, 57 * mm, 47 * mm, 104 * mm, 40 * mm, color=BLUE)
+        self._arrow(c, 57 * mm, 25 * mm, 104 * mm, 34 * mm, color=TEAL)
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.3)
+        c.drawCentredString(80 * mm, 49 * mm, "imports")
+        c.drawCentredString(80 * mm, 23 * mm, "imports")
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 6.0)
+        c.drawCentredString(131.5 * mm, 22 * mm, "domain logic has no interface import")
+
+    def _draw_dom_source_live_tree(self, c):
+        xs, ws = self._horizontal_layout([44, 52, 44], left_mm=7, right_mm=7)
+        labels = [("HTML source", "characters on disk"), ("Live DOM tree", "objects in memory"), ("Rendered page", "pixels and controls")]
+        for i, ((title, detail), x, w) in enumerate(zip(labels, xs, ws)):
+            self._box(c, x, 35 * mm, w, 18 * mm, title, fill=[PALE_BLUE, PALE_GOLD, PALE_TEAL][i], stroke=[BLUE, HexColor("#B06A2F"), TEAL][i], size=6.2)
+            c.setFillColor(MUTED); c.setFont("BookSans", 5.0); c.drawCentredString(x + w / 2, 28 * mm, self._t(detail))
+            if i < 2: self._arrow(c, x + w, 44 * mm, xs[i + 1], 44 * mm)
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 5.7)
+        c.drawCentredString(self.width / 2, 15 * mm, self._t("A DOM mutation changes memory and rendering, not the saved source file"))
+
+    def _draw_dom_interface_map(self, c):
+        self._box(c, 67 * mm, 54 * mm, 38 * mm, 12 * mm, "Node", fill=PALE_GOLD, stroke=HexColor("#B06A2F"))
+        self._box(c, 28 * mm, 30 * mm, 45 * mm, 13 * mm, "Element", fill=PALE_BLUE, stroke=BLUE)
+        self._box(c, 99 * mm, 30 * mm, 45 * mm, 13 * mm, "Text", fill=WHITE, stroke=NAVY)
+        self._box(c, 28 * mm, 12 * mm, 45 * mm, 11 * mm, "HTMLElement", fill=PALE_TEAL, stroke=TEAL, size=6.2)
+        self._arrow(c, 86 * mm, 54 * mm, 51 * mm, 43 * mm); self._arrow(c, 86 * mm, 54 * mm, 121 * mm, 43 * mm); self._arrow(c, 51 * mm, 30 * mm, 51 * mm, 23 * mm)
+
+    def _draw_safe_dom_content(self, c):
+        self._box(c, 7 * mm, 42 * mm, 42 * mm, 14 * mm, "Untrusted string", fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=6.0)
+        self._box(c, 66 * mm, 46 * mm, 42 * mm, 14 * mm, "textContent", fill=PALE_TEAL, stroke=TEAL, size=6.2)
+        self._box(c, 66 * mm, 20 * mm, 42 * mm, 14 * mm, "innerHTML", fill=HexColor("#FBE9E7"), stroke=HexColor("#B85C4A"), size=6.2)
+        self._box(c, 125 * mm, 46 * mm, 39 * mm, 14 * mm, "Text node", fill=PALE_TEAL, stroke=TEAL, size=6.2)
+        self._box(c, 125 * mm, 20 * mm, 39 * mm, 14 * mm, "HTML parser", fill=HexColor("#FBE9E7"), stroke=HexColor("#B85C4A"), size=6.2)
+        self._arrow(c, 49 * mm, 49 * mm, 66 * mm, 53 * mm, color=TEAL); self._arrow(c, 49 * mm, 49 * mm, 66 * mm, 27 * mm, color=HexColor("#B85C4A")); self._arrow(c, 108 * mm, 53 * mm, 125 * mm, 53 * mm, color=TEAL); self._arrow(c, 108 * mm, 27 * mm, 125 * mm, 27 * mm, color=HexColor("#B85C4A"))
+        c.setFillColor(MUTED); c.setFont("BookSans", 4.9); c.drawCentredString(144.5 * mm, 13 * mm, self._t("requires trusted/sanitized markup"))
+
+    def _draw_state_render_loop(self, c):
+        xs, ws = self._horizontal_layout([33, 35, 38, 35], left_mm=7, right_mm=7)
+        labels = ["User input", "Event handler", "New state", "render() / DOM"]
+        for i, (x, w, label) in enumerate(zip(xs, ws, labels)):
+            self._box(c, x, 37 * mm, w, 16 * mm, label, fill=[PALE_BLUE, PALE_GOLD, PALE_TEAL, PALE_BLUE][i], stroke=[BLUE, HexColor("#B06A2F"), TEAL, BLUE][i], size=5.8)
+            if i < 3: self._arrow(c, x + w, 45 * mm, xs[i + 1], 45 * mm)
+        self._arrow(c, xs[3] + ws[3] / 2, 34 * mm, xs[0] + ws[0] / 2, 24 * mm, color=NAVY)
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.2); c.drawCentredString(self.width / 2, 15 * mm, self._t("The updated interface enables the next observable interaction"))
+
+    def _draw_event_propagation(self, c):
+        boxes = [("window / document", 15, 60, 142), ("main", 28, 45, 116), ("event list", 42, 30, 88), ("button target", 57, 15, 58)]
+        for label, x, y, w in boxes: self._box(c, x * mm, y * mm, w * mm, 10 * mm, label, fill=WHITE if "target" not in label else PALE_GOLD, stroke=BLUE if "target" not in label else HexColor("#B06A2F"), size=5.7)
+        self._arrow(c, 18 * mm, 58 * mm, 53 * mm, 25 * mm, color=TEAL)
+        self._arrow(c, 119 * mm, 25 * mm, 153 * mm, 58 * mm, color=HexColor("#B06A2F"))
+        c.setFillColor(TEAL); c.setFont("BookSans-Bold", 5.2); c.drawString(20 * mm, 49 * mm, self._t("CAPTURE down"))
+        c.setFillColor(HexColor("#B06A2F")); c.drawRightString(151 * mm, 49 * mm, self._t("BUBBLE up"))
+
+    def _draw_event_delegation(self, c):
+        self._box(c, 53 * mm, 52 * mm, 66 * mm, 13 * mm, "Stable #event-list listener", fill=PALE_BLUE, stroke=BLUE, size=6.0)
+        xs = [10, 64, 118]
+        for i, x in enumerate(xs, 1):
+            self._box(c, x * mm, 22 * mm, 44 * mm, 15 * mm, f"Card {i}: Save button", fill=PALE_TEAL, stroke=TEAL, size=5.4)
+            self._arrow(c, (x + 22) * mm, 37 * mm, 86 * mm, 52 * mm, color=TEAL)
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.2); c.drawCentredString(self.width / 2, 14 * mm, self._t("closest() identifies the matching control after the click bubbles"))
+
+    def _draw_form_submit_validation(self, c):
+        xs, ws = self._horizontal_layout([30, 34, 36, 36], left_mm=7, right_mm=7)
+        labels = ["Named controls", "Native constraints", "JS enhancement", "Server validation"]
+        for i, (x, w, label) in enumerate(zip(xs, ws, labels)):
+            self._box(c, x, 42 * mm, w, 17 * mm, label, fill=[PALE_BLUE, PALE_GOLD, PALE_TEAL, PALE_BLUE][i], stroke=[BLUE, HexColor("#B06A2F"), TEAL, NAVY][i], size=5.2)
+            if i < 3: self._arrow(c, x + w, 50.5 * mm, xs[i + 1], 50.5 * mm)
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 5.5); c.drawCentredString(self.width / 2, 29 * mm, self._t("Helpful client feedback"))
+        c.setFillColor(MUTED); c.setFont("BookSans", 5.1); c.drawCentredString(self.width / 2, 18 * mm, self._t("The server still enforces authorization, data rules, and business rules"))
+
+    def _draw_dom_read_decide_write(self, c):
+        xs, ws = self._horizontal_layout([42, 42, 42], left_mm=9, right_mm=9)
+        labels = [
+            ("READ", "geometry and current state", PALE_BLUE, BLUE),
+            ("DECIDE", "ordinary JavaScript data", PALE_GOLD, HexColor("#B06A2F")),
+            ("WRITE", "classes, text, and nodes", PALE_TEAL, TEAL),
+        ]
+        for index, ((title, detail, fill, stroke), x, width) in enumerate(zip(labels, xs, ws)):
+            self._box(c, x, 38 * mm, width, 16 * mm, title, fill=fill, stroke=stroke, size=6.4)
+            c.setFillColor(MUTED); c.setFont("BookSans", 4.9)
+            c.drawCentredString(x + width / 2, 31 * mm, self._t(detail))
+            if index < 2:
+                self._arrow(c, x + width, 46 * mm, xs[index + 1], 46 * mm, color=stroke)
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 5.6)
+        c.drawCentredString(self.width / 2, 17 * mm, self._t("Measure first; optimize only an observed interaction cost"))
+
+    def _draw_mutation_observer_batch(self, c):
+        self._box(c, 8 * mm, 47 * mm, 40 * mm, 14 * mm, "User event", fill=PALE_BLUE, stroke=BLUE, size=6.0)
+        self._box(c, 66 * mm, 47 * mm, 40 * mm, 14 * mm, "State + render", fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=5.8)
+        self._box(c, 124 * mm, 47 * mm, 40 * mm, 14 * mm, "DOM changes", fill=PALE_TEAL, stroke=TEAL, size=5.8)
+        self._arrow(c, 48 * mm, 54 * mm, 66 * mm, 54 * mm, color=BLUE)
+        self._arrow(c, 106 * mm, 54 * mm, 124 * mm, 54 * mm, color=HexColor("#B06A2F"))
+        record_xs = [27, 67, 107]
+        for index, x in enumerate(record_xs, 1):
+            self._box(c, x * mm, 22 * mm, 31 * mm, 10 * mm, f"Record {index}", fill=WHITE, stroke=TEAL, size=5.3)
+            self._arrow(c, 144 * mm, 47 * mm, (x + 15.5) * mm, 32 * mm, color=TEAL)
+        c.setFillColor(INK); c.setFont("BookSans-Bold", 5.5)
+        c.drawCentredString(self.width / 2, 14 * mm, self._t("One later callback receives the queued record batch"))
+
+    def _draw_shadow_dom_boundary(self, c):
+        c.setStrokeColor(BLUE); c.setLineWidth(0.9)
+        c.roundRect(55 * mm, 15 * mm, 108 * mm, 53 * mm, 3 * mm, fill=0, stroke=1)
+        c.setFillColor(BLUE); c.setFont("BookSans-Bold", 5.8)
+        c.drawString(59 * mm, 62 * mm, self._t("SHADOW HOST"))
+        self._box(c, 8 * mm, 40 * mm, 38 * mm, 16 * mm, "Light DOM child", fill=PALE_BLUE, stroke=BLUE, size=5.6)
+        self._box(c, 68 * mm, 42 * mm, 38 * mm, 14 * mm, "<slot>", fill=PALE_GOLD, stroke=HexColor("#B06A2F"), size=6.2)
+        self._box(c, 118 * mm, 42 * mm, 35 * mm, 14 * mm, "Internal button", fill=PALE_TEAL, stroke=TEAL, size=5.2)
+        self._box(c, 68 * mm, 21 * mm, 85 * mm, 11 * mm, "Shadow tree styles + structure", fill=WHITE, stroke=NAVY, size=5.4)
+        self._arrow(c, 46 * mm, 48 * mm, 68 * mm, 49 * mm, color=HexColor("#B06A2F"))
+        self._arrow(c, 135 * mm, 56 * mm, 39 * mm, 68 * mm, color=TEAL)
+        c.setFillColor(TEAL); c.setFont("BookSans-Bold", 5.0)
+        c.drawCentredString(91 * mm, 73 * mm, self._t("composed event crosses; target may be retargeted"))
 
 
 class BookDocTemplate(BaseDocTemplate):
@@ -1446,7 +1808,8 @@ def table_from_lines(lines: list[str], styles: dict[str, ParagraphStyle]) -> Tab
         if index == 1 and re.fullmatch(r"\s*\|?\s*:?-+.*", line):
             continue
         cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
-        rows.append([Paragraph(inline_markup(cell), styles["small"]) for cell in cells])
+        row_style = styles["table-header"] if index == 0 else styles["small"]
+        rows.append([Paragraph(inline_markup(cell), row_style) for cell in cells])
 
     columns = len(rows[0])
     max_lengths = [
@@ -1507,7 +1870,7 @@ def consume_list(lines: list[str], start: int, styles: dict[str, ParagraphStyle]
     return flowable, index
 
 
-def markdown_to_flowables(markdown: str, styles: dict[str, ParagraphStyle]) -> list[Flowable]:
+def markdown_to_flowables(markdown: str, styles: dict[str, ParagraphStyle], language: str = "en") -> list[Flowable]:
     lines = normalize_text(markdown).splitlines()
     story: list[Flowable] = []
     index = 0
@@ -1524,7 +1887,7 @@ def markdown_to_flowables(markdown: str, styles: dict[str, ParagraphStyle]) -> l
             kind = figure.group(1)
             if kind not in ConceptFigure.captions:
                 raise ValueError(f"Unknown figure kind: {kind}")
-            story.extend([ConceptFigure(kind, CONTENT_WIDTH), Spacer(1, 7)])
+            story.extend([ConceptFigure(kind, CONTENT_WIDTH, language=language), Spacer(1, 7)])
             index += 1
             continue
 
@@ -1534,6 +1897,8 @@ def markdown_to_flowables(markdown: str, styles: dict[str, ParagraphStyle]) -> l
             if key not in MEDIA_FIGURES:
                 raise ValueError(f"Unknown media figure: {key}")
             media_path, media_caption = MEDIA_FIGURES[key]
+            if language == "tr":
+                media_caption = TURKISH_MEDIA_CAPTIONS.get(key, media_caption)
             if not media_path.exists():
                 raise FileNotFoundError(f"Figure artwork not found: {media_path}")
             image_reader = ImageReader(str(media_path))
@@ -1562,14 +1927,14 @@ def markdown_to_flowables(markdown: str, styles: dict[str, ParagraphStyle]) -> l
             continue
 
         if line.startswith("```"):
-            language = line[3:].strip()
+            code_language = line[3:].strip()
             code_lines: list[str] = []
             index += 1
             while index < len(lines) and not lines[index].startswith("```"):
                 code_lines.append(lines[index])
                 index += 1
             index += 1
-            if language == "mermaid":
+            if code_language == "mermaid":
                 story.append(WebSequenceDiagram(CONTENT_WIDTH))
                 story.append(Spacer(1, 5))
             else:
@@ -1712,7 +2077,7 @@ def front_matter(styles: dict[str, ParagraphStyle]) -> list[Flowable]:
         paragraph(
             f"Revised foundations edition, 28 August 2026. Author: {AUTHOR}. Copyright (c) 2026 {AUTHOR}. Distributed under the "
             "Apache License, Version 2.0; see the repository LICENSE file. The current technical baseline targets "
-            "Node.js 24 LTS.",
+            "Node.js 26 LTS.",
             styles["body"],
         ),
         PageBreak(),

@@ -1,9 +1,14 @@
 # Chapter 2 Release Review
 
-Review date: **1 September 2026**  
+Review date: **18 November 2026**  
 Decision: **PASS - ready to support Chapter 3**
 
 ## Release judgment
+
+The November 2026 cross-chapter audit rechecked the HTML, form, and accessibility
+dependencies used by Chapters 3 and 4. The semantic document and browser parsing
+model remains complete for the JavaScript transition; dynamic DOM behavior stays
+in Chapter 5 where it can be taught with events and state.
 
 Chapter 2 now supplies the HTML and accessibility knowledge that Chapter 3 may
 safely assume. A student who completes the reading, laboratory, exercises, and

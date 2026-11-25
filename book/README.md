@@ -26,7 +26,7 @@ reinstalling software.
 ## Part II - Programming in the Browser
 
 4. [x] [JavaScript from First Principles](part-2-browser-programming/04-javascript-from-first-principles.md)
-5. [ ] The Document Object Model, Events, and Forms
+5. [x] [The Document Object Model, Events, and Forms](part-2-browser-programming/05-dom-events-and-forms.md)
 6. [ ] Asynchronous JavaScript and Web APIs
 7. [ ] Modules, Tooling, and TypeScript
 

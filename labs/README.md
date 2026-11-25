@@ -36,7 +36,7 @@ The commands below work only in the course-book source repository because its
 - [Starter](starters/week-01/index.html)
 - [Reference solution](solutions/week-01/index.html)
 - Verification: run `npm test` from the course-book repository root with Node.js
-  24 LTS.
+  26 LTS.
 - Local preview: run `npm run serve:week01:starter` or
   `npm run serve:week01:solution`, then visit `http://localhost:8000/`.
 

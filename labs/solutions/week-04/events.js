@@ -33,6 +33,43 @@ export function summarizeEvents(allEvents) {
   }));
 }
 
+export function groupEventsByCategory(allEvents) {
+  if (!Array.isArray(allEvents)) throw new TypeError("allEvents must be an array.");
+
+  const groups = new Map();
+  for (const event of allEvents) {
+    seatsRemaining(event);
+    const group = groups.get(event.category) ?? [];
+    groups.set(event.category, [...group, event]);
+  }
+  return groups;
+}
+
+export function createEventRegistry(initialEvents = []) {
+  if (!Array.isArray(initialEvents)) throw new TypeError("initialEvents must be an array.");
+  const byTitle = new Map();
+
+  function add(event) {
+    seatsRemaining(event);
+    if (typeof event.title !== "string" || event.title.trim() === "") {
+      throw new TypeError("An event must contain a non-empty title.");
+    }
+    byTitle.set(event.title, event);
+  }
+
+  for (const event of initialEvents) add(event);
+
+  return Object.freeze({
+    add,
+    findByTitle(title) {
+      return byTitle.get(title);
+    },
+    list() {
+      return [...byTitle.values()];
+    },
+  });
+}
+
 const summary = summarizeEvents(events);
 console.table(summary);
 

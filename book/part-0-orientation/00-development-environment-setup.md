@@ -22,7 +22,7 @@ readiness.
 | Time | Approximately 90-150 minutes, depending on download speed and operating system |
 | Required result | One working local course repository opened as a folder in the editor |
 | Primary programming language | Modern JavaScript, first in the browser and later in Node.js on the server |
-| Runtime | Node.js 24 Long-Term Support (LTS), including npm |
+| Runtime | Node.js 26 Long-Term Support (LTS), including npm |
 | Core evidence | Tool versions, passing course tests, a local HTTP response, a Network-panel observation, and a Git commit |
 | Help threshold | Ask for laboratory support after recording the exact command, complete error text, operating system, and attempted remedy |
 
@@ -32,7 +32,7 @@ After completing this orientation, you should be able to:
 
 1. distinguish the editor, terminal, runtime, package manager, server, browser,
    developer tools, test runner, and version-control system;
-2. install and verify a supported browser, Visual Studio Code, Git, Node.js 24
+2. install and verify a supported browser, Visual Studio Code, Git, Node.js 26
    LTS, and npm on Windows, macOS, or Linux;
 3. identify the current directory, move safely through folders, and run a command
    without typing the displayed prompt symbol;
@@ -349,14 +349,14 @@ file. When remote access is introduced, use the hosting service's supported
 credential manager or Secure Shell (SSH) workflow and enable multi-factor
 authentication.
 
-## 7. Install Node.js 24 LTS and npm
+## 7. Install Node.js 26 LTS and npm
 
 Node.js is a JavaScript runtime outside the browser. npm is the package manager
 and project-script runner installed with Node.js. The repository declares
-`>=24 <25` in `package.json`; its `.nvmrc` records the tested v24 release. Do not
+`>=26 <27` in `package.json`; its `.nvmrc` records the tested v26 release. Do not
 substitute an end-of-life Node.js version merely because it was already installed.
 
-At this book's technical review date, Node.js 24 is an LTS release. Always confirm
+At this book's technical review date, Node.js 26 is an LTS release. Always confirm
 the maintained status on the official
 [Node.js releases page](https://nodejs.org/en/about/previous-releases) before a
 new academic year.
@@ -395,7 +395,7 @@ node --version
 npm --version
 ```
 
-The Node.js output must begin with `v24.`. npm should print its own version. The
+The Node.js output must begin with `v26.`. npm should print its own version. The
 two numbers are not expected to match because Node.js and npm are separate
 packages. If `node` works in one terminal but not another, compare the shells,
 restart VS Code, and inspect `PATH` before reinstalling software.
@@ -845,7 +845,7 @@ include:
 When the check finishes successfully, the last lines include messages such as
 `Local Markdown link verification passed`, `Week 1 verification passed`, and
 `Foundation verification passed`. Version numbers may differ in their minor and
-patch parts, but the Node.js line must begin with `v24.` for this edition.
+patch parts, but the Node.js line must begin with `v26.` for this edition.
 
 ## 10. Start and inspect the local server
 
@@ -1083,7 +1083,7 @@ rarely the best first response.
 | Symptom | First checks |
 |---|---|
 | `code` is not recognized | Restart the terminal; verify VS Code's command-line launcher is on `PATH`; use Open Folder temporarily |
-| `node --version` is older than v24 | Check which executable the shell finds; activate the intended version manager or reinstall the supported major |
+| `node --version` is older than v26 | Check which executable the shell finds; activate the intended version manager or reinstall the supported major |
 | `npm` is blocked by PowerShell policy | Confirm the official Node installation; use the appropriate npm command shim or ask institutional support before changing execution policy |
 | `npm test` cannot find `package.json` | Run the current-directory command and move to the repository root |
 | Browser cannot reach localhost | Confirm the server terminal is still running, the URL and port match, and no firewall prompt was denied |
@@ -1110,7 +1110,7 @@ Complete Table 0.6. “Installed” is not adequate evidence.
 | Browser and successful DevTools opening | |
 | VS Code version and repository folder opened | |
 | Git version and configured author identity | |
-| Node.js v24 output | |
+| Node.js v26 output | |
 | npm version output | |
 | Browser Console: `1 + 2` and `typeof document` results | |
 | Node.js: arithmetic and `typeof document` results | |
@@ -1303,7 +1303,7 @@ name is built into JavaScript itself.
 3. It asks VS Code to open the current directory as a project folder.
 4. Relative paths and project discovery begin there; a correct command in the
    wrong directory can read or change the wrong target.
-5. Version 24.x, as constrained by `package.json` and recorded in `.nvmrc`.
+5. Version 26.x, as constrained by `package.json` and recorded in `.nvmrc`.
 6. No. It creates a local snapshot. A separate push operation communicates with
    a remote repository.
 7. An HTTP URL plus a Network-panel document exchange with a method, status, and
@@ -1333,7 +1333,7 @@ name is built into JavaScript itself.
 
 - A workstation is a system of cooperating tools with distinct responsibilities.
 - Installation is complete only when version and workflow evidence both succeed.
-- The course baseline is a current browser, VS Code, Git, Node.js 24 LTS, npm,
+- The course baseline is a current browser, VS Code, Git, Node.js 26 LTS, npm,
   browser developer tools, and the authorized repository.
 - Modern JavaScript is the primary programming language; browser and Node.js
   execute the same core language with different host APIs.
@@ -1366,5 +1366,5 @@ name is built into JavaScript itself.
 
 Installer screens, package versions, operating-system permission prompts, and
 browser panel layouts change frequently. The responsibility of each tool and the
-evidence-led workflow are more stable. Technical review date: **22 September
+evidence-led workflow are more stable. Technical review date: **18 November
 2026**.

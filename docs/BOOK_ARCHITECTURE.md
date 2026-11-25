@@ -22,14 +22,18 @@ structure while keeping the core course teachable in fifteen weeks.
 
 ## Part II — Programming in the Browser
 
-4. **JavaScript from First Principles** — values, types, variables, control flow,
-   functions, scope, arrays, objects, mutation, equality, errors, debugging, and
-   small tests.
+4. **JavaScript from First Principles** — environment setup; values, types,
+   bindings, control flow, functions, lexical scope, execution contexts,
+   closures, `this`, prototypes and classes; arrays, objects, `Map`, `Set`, and
+   iteration; numeric precision, Unicode, dates, internationalization, JSON,
+   regular-expression and module fundamentals; errors, debugging, memory
+   reachability, and small automated tests.
 5. **The Document Object Model, Events, and Forms** — parsing, the document tree,
    selecting and changing nodes, event propagation, default actions, form data,
    client validation, state, rendering, and progressive enhancement.
-6. **Asynchronous JavaScript and Web APIs** — call stack, task and microtask
-   queues, promises, `async`/`await`, `fetch`, JSON, HTTP failures, cancellation,
+6. **Asynchronous JavaScript and Web APIs** — the event loop built on Chapter
+   4's call-stack model, task and microtask queues, promises, `async`/`await`,
+   `fetch`, JSON over network boundaries, HTTP failures, cancellation,
    Cross-Origin Resource Sharing, storage, and resilient loading/empty/error
    states.
 7. **Modules, Tooling, and TypeScript** — ECMAScript modules, npm, dependency

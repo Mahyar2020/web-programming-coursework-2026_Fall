@@ -22,7 +22,7 @@ chapter dependencies, assessment model, and release standard.
 - [Session 4 - JavaScript from First Principles](book/part-2-browser-programming/04-javascript-from-first-principles.md)
 - [Laboratory assets](labs/README.md)
 
-Run `npm test` with Node.js 24 LTS to verify the current book assets.
+Run `npm test` with Node.js 26 LTS to verify the current book assets.
 
 ## Course repositories
 

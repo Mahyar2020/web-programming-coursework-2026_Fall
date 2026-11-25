@@ -1,6 +1,6 @@
 # Curriculum Research Review, 2026
 
-**Review date:** 29 August 2026  
+**Review date:** 18 November 2026  
 **Purpose:** document the evidence behind the course-book architecture  
 **Scope:** official university materials, standards, primary documentation, and
 selected books that offer a useful pedagogical or professional model
@@ -130,7 +130,7 @@ The audit resulted in the following non-negotiable improvements:
 | Area | Current evidence | Required next state |
 |---|---|---|
 | Web/platform foundations | Chapters 1-3, labs, solutions, quizzes, and figures are present | Preserve and periodically validate; add cross-chapter glossary/index later |
-| Browser programming | Chapter 4 and its tested JavaScript laboratory are published | Continue with the Document Object Model, events/forms, asynchronous work, APIs, storage, modules, tooling, and TypeScript |
+| Browser programming | Chapter 4 now covers the complete synchronous language foundation, including closures, prototypes/classes, keyed collections, standard data boundaries, modules, tests, and an extended laboratory | Continue with the Document Object Model, events/forms, asynchronous work, APIs, storage, module architecture, tooling, and TypeScript |
 | Server and APIs | Not yet published | Native Node server concept, Express routing/middleware, validation, error contracts, logs, REST, and OpenAPI |
 | Relational data | Not yet published | Modeling, constraints, SQL, joins, parameterization, migrations, transactions, indexes, concurrency, and query plans |
 | Identity and security | Mentioned in the roadmap only | Password storage, sessions/cookies, Cross-Site Request Forgery, authorization, OAuth/OpenID Connect concepts, threat models, and negative tests |
@@ -153,8 +153,16 @@ contract.
 - [Cornell INFO 2300, Fall 2025](https://classes.cornell.edu/browse/roster/FA25/class/INFO/2300)
 - [University of Washington CSE154](https://courses.cs.washington.edu/courses/cse154/)
 - [University of Helsinki Full Stack Open](https://fullstackopen.com/en/)
+- [University of Helsinki Full Stack Open: JavaScript](https://fullstackopen.com/en/part1/java_script/)
 - [MIT web.lab](https://webdevelopment.mit.edu/schedule/)
 - [MDN Curriculum](https://developer.mozilla.org/en-US/curriculum/)
+- [MDN JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide)
+- [MDN Indexed collections](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Indexed_collections)
+- [MDN Loops and iteration](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration)
+- [MDN Functions reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions)
+- [MDN var statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var)
+- [MDN Array reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)
+- [ECMAScript 2026 Language Specification](https://tc39.es/ecma262/2026/)
 - [WHATWG HTML Living Standard](https://html.spec.whatwg.org/)
 - [WHATWG URL Living Standard](https://url.spec.whatwg.org/)
 - [IETF HTTP Semantics, RFC 9110](https://www.rfc-editor.org/rfc/rfc9110)
@@ -165,15 +173,95 @@ contract.
 - [OWASP ASVS](https://owasp.org/projects/asvs)
 - [OWASP Web Security Testing Guide](https://wstg.owasp.org/latest/)
 - [Node.js releases](https://nodejs.org/en/about/previous-releases)
+- [Node.js downloads and current LTS](https://nodejs.org/en/download)
 - [Express 5 migration guide](https://expressjs.com/en/guide/migrating-5.html)
 - [React versions](https://react.dev/versions)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
 - [PostgreSQL tutorial](https://www.postgresql.org/docs/current/tutorial.html)
 - [PostgreSQL transactions tutorial](https://www.postgresql.org/docs/current/tutorial-transactions.html)
 - [Eloquent JavaScript, 4th edition](https://eloquentjavascript.net/)
+- [Harvard CS50 2026: HTML, CSS, JavaScript](https://cs50.harvard.edu/college/2026/fall/weeks/html/)
+- [Stanford CS142 course information](https://web.stanford.edu/class/cs142/info.html)
+- [Stanford CS142 JavaScript project](https://web.stanford.edu/class/cs142/project2.html)
 - [Kansas State CIS 526 open textbook](https://textbooks.cs.ksu.edu/cis526/index.print.html)
 
-## 8. Editorial conclusion
+## 8. November 2026 JavaScript-depth audit
+
+The second audit compared the published JavaScript chapter with the ECMAScript
+2026 specification, the October 2025 MDN Curriculum, current University of
+Washington CSE 154 materials, Harvard CS50 2026, Stanford CS142, and University
+of Helsinki Full Stack Open. The sources agree on a beginner core of variables,
+values, control flow, functions, arrays, objects, debugging, browser interaction,
+and project practice. Stronger references then diverge according to prerequisites:
+courses that assume prior programming move quickly to the DOM or frameworks,
+while a zero-start reference must explain the language mechanisms those courses
+rely on.
+
+The audit therefore added call-stack reasoning, declaration timing, closures,
+higher-order functions, `this`, prototypes and classes, `Map` and `Set`, iterable
+concepts, numeric precision, Unicode, dates and internationalization, JSON,
+regular expressions, ECMAScript modules, strict mode, reachability, and
+mutation-aware sorting. It also expanded laboratory tests, exercises, answers,
+quiz coverage, and original diagrams. DOM operations, events, promises,
+`fetch`, storage, dependency management, build tools, and TypeScript remain in
+Chapters 5-7 because they introduce new host or project responsibilities.
+
+The runtime baseline changed from Node.js 24 to Node.js 26 LTS after verification
+against the official Node.js download channel. Version-sensitive syntax remains
+constrained by the tested project configuration rather than by proposed
+ECMAScript features.
+
+### 8.1 Follow-up audit: entry points and array literacy
+
+The 20 November follow-up compared the chapter's concrete beginner path with the
+host-independent model in ECMAScript 2026, MDN's indexed-collection guidance,
+the JavaScript-to-browser progression in Harvard CS50 and University of
+Washington CSE 154, the array/function emphasis of Stanford CS142, and the
+Node-first modern-language work in Full Stack Open. The comparison exposed two
+pedagogical gaps rather than missing buzzwords.
+
+First, a novice could see `hello.js`, `hello-browser.html`,
+`hello-browser.js`, `index.html`, and `events.js` without a single architectural
+map explaining which file is an entry point, which is a dependency, which host
+executes it, and where its output appears. Chapter 4 now teaches those files as
+three observable paths: a Node.js terminal program, a minimal browser loading
+exercise, and the integrated Campus Hub module. The lab requires evidence from
+all three paths.
+
+Second, the prior array treatment introduced transformations but did not make
+zero-based indexing, `length`, the final valid index, sparse holes, mutation,
+copying methods, shallow identity, destructuring, or transformation result shapes
+visible enough for a reader with no programming background. The revision adds
+two labeled diagrams, an operation-and-mutation table, trace exercises, full
+answers, and laboratory checkpoints. Advanced host topics remain in later
+chapters; depth was added at the dependency where students actually need it.
+
+### 8.2 Follow-up audit: loops, function contracts, and observable evidence
+
+The 20 November iterative audit returned to the explicit prerequisites hidden by
+many university web courses. University of Washington CSE 154 expects prior
+familiarity with variables, loops, conditions, arrays, and objects; Stanford
+CS142 expects broader programming maturity and moves quickly through functions,
+closures, and array work. Those assumptions are appropriate for their courses
+but cannot remain implicit in a reference that promises a genuine zero-start
+route.
+
+The revision therefore distinguishes every basic loop form by its controlling
+information and test timing, requires an explicit termination argument, and
+contrasts value iteration with property-key enumeration. The function section
+now covers missing, extra, default, rest, and destructured inputs; primitive,
+object, array, function, and future promise result shapes; early return and
+exceptional completion; and direct, method, constructor, callback, indirect,
+bound, recursive, and immediately invoked calls. `var` is taught as required
+legacy literacy, including function scope, early `undefined`, redeclaration, and
+its contrast with block scope and the temporal dead zone.
+
+The examples are not transcript-only. A tested browser evidence page renders
+loop traces, function result shapes, and mutating versus copying array results;
+the same pure functions are verified by Node.js tests. This provides authentic
+output evidence without moving DOM instruction ahead of Chapter 5.
+
+## 9. Editorial conclusion
 
 The promise should not be “complete forever,” because web standards, runtimes,
 security threats, and teaching practice continue to change. The defensible promise

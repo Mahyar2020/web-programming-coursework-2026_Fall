@@ -1,12 +1,26 @@
 # Translation State
 
+## 25 November 2026 Chapter 5 synchronization note
+
+The English source and PDF include the expanded Chapter 5 on the Document Object
+Model, events, forms, DOM performance reasoning, mutation observation, shadow
+DOM, custom elements, event choice, and advanced form boundaries. The complete
+Turkish source is maintained in
+`translations/tr/chapter-05-dom-events-and-forms.md`. The Turkish PDF now keeps
+the 214-page legacy translated checkpoint, adds a linked contents continuation,
+and renders Chapter 5 from that editable source through
+`scripts/build_turkish_pdf.py`.
+
 ## Progress
 - Source: `C:\Users\Mahyar\Documents\GitHub\web-programming-course-book\output\pdf\web-programming-from-platform-to-production-foundations-edition-revised-v21.pdf`
 - Output: `C:\Users\Mahyar\Documents\GitHub\web-programming-course-book\output\pdf\web-programming-from-platform-to-production-foundations-edition-revised-v21-tr.pdf`
-- Page rule: One physical PDF page in source order, including front matter and the cover.
-- Last completed page: 200
-- Total pages: 200
-- Current translated output pages: 202 (Turkish reflow adds physical pages; source-page references remain the authoritative chapter map.)
+- Page rule: Preserve source order, hierarchy, visual language, links, examples, laboratories, and assessments; Turkish text may reflow to additional A4 pages.
+- Last completed English chapter incorporated: Chapter 5
+- Current English source pages: 284
+- Current translated output pages: 247
+- Latest synchronization: 25 November 2026. Chapter 5 mirrors the expanded
+  English chapter through 40 exercises, 40 quiz questions, complete answers,
+  eleven figures, six tables, and the Week 5 laboratory.
 
 ## Style Decisions
 - Formality: `siz`; imperative teaching instructions use the respectful plural form.
@@ -119,6 +133,21 @@
 | array | dizi | 14 |
 | object | nesne | 14 |
 | object identity | nesne kimliği | 14 |
+| call stack | çağrı yığını | 183 |
+| execution context | yürütme bağlamı | 183 |
+| temporal dead zone | zamansal ölü bölge | 183 |
+| closure | closure | 184 |
+| higher-order function | üst düzey fonksiyon | 184 |
+| prototype chain | prototype zinciri | 185 |
+| class | sınıf | 186 |
+| Map | Map | 186 |
+| Set | Set | 186 |
+| iterable | yinelenebilir | 186 |
+| Unicode code point | Unicode kod noktası | 187 |
+| grapheme cluster | grafem kümesi | 187 |
+| regular expression | düzenli ifade | 188 |
+| strict mode | katı kip | 189 |
+| garbage collector | çöp toplayıcı | 189 |
 | runtime | çalışma zamanı | 17 |
 | package manager | paket yöneticisi | 17 |
 | test runner | test çalıştırıcısı | 17 |

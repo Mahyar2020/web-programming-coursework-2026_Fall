@@ -24,7 +24,7 @@ The recommended application stack is:
 | Web platform | Semantic HTML, modern CSS, browser JavaScript | Standards outlive frameworks and make framework behavior understandable. |
 | Language progression | JavaScript first, then TypeScript in strict mode | One language spans browser and server; delaying types avoids teaching syntax, the DOM, and a type system simultaneously. |
 | Front end | React with Vite, after vanilla DOM programming | React is useful and widely taught, but it should be presented as one UI model rather than “the web.” |
-| Server | Node.js 24 LTS and Express 5 | A single-language full stack reduces accidental complexity; use an LTS runtime rather than the current non-LTS release. |
+| Server | Node.js 26 LTS and Express 5 | A single-language full stack reduces accidental complexity; use an LTS runtime rather than a short-lived release. |
 | Data | PostgreSQL and SQL | Relational modeling, constraints, joins, indexes, and transactions are core computer-engineering knowledge. |
 | API | HTTP/JSON REST as the core; GraphQL as an extension | REST exposes the Web's native semantics and is easier to reason about, test, and secure in a first course. |
 | Authentication | Server-side sessions first; token and OAuth/OIDC concepts second | Sessions make cookies, state, CSRF, and revocation concrete before more complex distributed identity. |
@@ -127,7 +127,7 @@ it does not copy their text or exercises.
 - [ACM/IEEE-CS/AAAI CS2023](https://csed.acm.org/) supports a competency-based
   design that integrates software development, security, ethics, and professional
   practice rather than treating the course as a tour of syntax.
-- As of the research date, [Node.js 24 is LTS while Node.js 26 is Current](https://nodejs.org/en/about/previous-releases),
+- As of the November 2026 technical review, [Node.js 26 is LTS](https://nodejs.org/en/download),
   [Express 5 is released](https://expressjs.com/en/guide/migrating-5.html),
   and [React documentation targets 19.2](https://react.dev/versions). The book
   should pin tested versions in a machine-readable file and keep prose

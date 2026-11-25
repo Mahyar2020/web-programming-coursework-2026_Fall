@@ -8,5 +8,7 @@ const events = [
 // TODO 2: write eventStatus(event).
 // TODO 3: write filterEvents(allEvents, category).
 // TODO 4: write summarizeEvents(allEvents).
+// TODO 5: write groupEventsByCategory(allEvents) using Map.
+// TODO 6: write createEventRegistry(initialEvents) using a closure and private Map.
 
 console.table(events);

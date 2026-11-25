@@ -5,3 +5,10 @@ main { inline-size: min(44rem, calc(100% - 2rem)); padding: 2rem; border: 1px so
 .eyebrow { color: #0b7f82; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
 h1 { margin-block: .25rem 1rem; }
 pre { padding: 1rem; overflow: auto; border-inline-start: .35rem solid #0b7f82; background: #f4f8fb; color: #172033; font: 1rem/1.7 ui-monospace, monospace; white-space: pre-wrap; }
+.evidence-page { display: block; padding: 2rem; }
+.evidence-shell { inline-size: min(82rem, 100%); margin-inline: auto; }
+.evidence-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; align-items: start; }
+.evidence-grid section { min-inline-size: 0; padding: 1rem; border: 1px solid #a9c7d8; border-radius: .75rem; background: #f8fbfc; }
+.evidence-grid h2 { margin-block-start: 0; }
+.evidence-grid pre { min-block-size: 31rem; font-size: .78rem; line-height: 1.45; }
+@media (max-width: 56rem) { .evidence-grid { grid-template-columns: 1fr; } .evidence-grid pre { min-block-size: auto; } }

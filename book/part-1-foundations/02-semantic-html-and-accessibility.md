@@ -1625,7 +1625,7 @@ and that students can revisit while explaining their laboratory evidence.
 
 HTML's central semantics and WCAG 2.2 requirements are stable. Browser validation
 messages, accessibility-tree inspection panels, and assistive-technology details
-vary by platform and version. Technical review date: **22 September 2026**.
+vary by platform and version. Technical review date: **18 November 2026**.
 
 ## Session reflection
 
