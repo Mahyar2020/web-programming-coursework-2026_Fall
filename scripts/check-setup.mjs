@@ -1,11 +1,11 @@
 import { access, readFile } from "node:fs/promises";
-import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createStaticServer } from "./serve-static.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
+const directWeeks = ["week-01", "week-02", "week-03", "week-04", "week-05"];
 
 const requiredFiles = [
   ".editorconfig",
@@ -14,6 +14,8 @@ const requiredFiles = [
   "README.md",
   "SECURITY.md",
   "package.json",
+  "book/part-2-browser-programming/05-dom-events-and-forms.md",
+  "labs/README.md",
   "labs/week-01/index.html",
   "labs/week-02/index.html",
   "labs/week-03/index.html",
@@ -24,6 +26,12 @@ const requiredFiles = [
   "labs/week-04/hello.js",
   "labs/week-04/hello-browser.html",
   "labs/week-04/hello-browser.js",
+  "labs/week-05/index.html",
+  "labs/week-05/styles.css",
+  "labs/week-05/model.js",
+  "labs/week-05/app.js",
+  "labs/starters/week-05/index.html",
+  "labs/solutions/week-05/index.html",
   "scripts/serve-static.mjs",
 ];
 
@@ -35,22 +43,12 @@ for (const relativePath of requiredFiles) {
   }
 }
 
-const forbiddenPaths = ["labs/solutions", "instructor", "answer-key"];
-for (const relativePath of forbiddenPaths) {
-  try {
-    await access(path.join(root, relativePath));
-    failures.push(`Student template must not contain: ${relativePath}`);
-  } catch {
-    // Absence is the expected result.
-  }
-}
-
 const majorVersion = Number.parseInt(process.versions.node.split(".")[0], 10);
 if (majorVersion !== 26) {
   failures.push(`Node.js 26 is required; this terminal is using ${process.version}.`);
 }
 
-for (const week of ["week-01", "week-02", "week-03", "week-04"]) {
+for (const week of directWeeks) {
   const relativePath = `labs/${week}/index.html`;
   try {
     const source = await readFile(path.join(root, relativePath), "utf8");
@@ -96,15 +94,13 @@ async function verifyServer(week) {
   }
 }
 
-for (const week of ["week-01", "week-02", "week-03", "week-04"]) {
-  await verifyServer(week);
-}
+for (const week of directWeeks) await verifyServer(week);
 
 if (failures.length > 0) {
-  console.error("Coursework setup verification failed:\n");
+  console.error("Canonical course repository verification failed:\n");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exitCode = 1;
 } else {
-  console.log("Coursework setup verification passed.");
-  console.log("Checked required files, starter HTML, and Week 1-4 HTTP responses.");
+  console.log("Canonical course repository verification passed.");
+  console.log("Checked required files, direct laboratory HTML, and Week 1-5 HTTP responses.");
 }
