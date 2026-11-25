@@ -1,0 +1,6 @@
+:root { color-scheme: light; font-family: system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; min-block-size: 100vh; display: grid; place-items: center; background: #eaf5f5; color: #12355b; }
+main { inline-size: min(44rem, calc(100% - 2rem)); padding: 2rem; border: 1px solid #a9c7d8; border-radius: 1rem; background: white; }
+.eyebrow { color: #0b7f82; font-weight: 700; }
+pre { padding: 1rem; border-inline-start: .35rem solid #0b7f82; background: #f4f8fb; white-space: pre-wrap; }
